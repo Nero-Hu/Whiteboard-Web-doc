@@ -143,18 +143,23 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#dispatchmagixevent" class="tsd-kind-icon">dispatch<wbr>Magix<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#duplicate" class="tsd-kind-icon">duplicate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#entirescenes" class="tsd-kind-icon">entire<wbr>Scenes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#exportscene" class="tsd-kind-icon">export<wbr>Scene</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#fillscenesnapshot" class="tsd-kind-icon">fill<wbr>Scene<wbr>Snapshot</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#generatescreenshot" class="tsd-kind-icon">generate<wbr>Screenshot</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-inherited"><a href="room.html#getinvisibleplugin" class="tsd-kind-icon">get<wbr>Invisible<wbr>Plugin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#getpluginattributes" class="tsd-kind-icon">get<wbr>Plugin<wbr>Attributes</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#getpluginrectangle" class="tsd-kind-icon">get<wbr>Plugin<wbr>Rectangle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#importscene" class="tsd-kind-icon">import<wbr>Scene</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#insertimage" class="tsd-kind-icon">insert<wbr>Image</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#insertplugin" class="tsd-kind-icon">insert<wbr>Plugin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#lockimage" class="tsd-kind-icon">lock<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#lockimages" class="tsd-kind-icon">lock<wbr>Images</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#memberstate" class="tsd-kind-icon">member<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#movecamera" class="tsd-kind-icon">move<wbr>Camera</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#movecameratocontain" class="tsd-kind-icon">move<wbr>Camera<wbr>ToContain</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#movescene" class="tsd-kind-icon">move<wbr>Scene</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#moveselectedcomponentstobottom" class="tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToBottom</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#moveselectedcomponentstotop" class="tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToTop</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#paste" class="tsd-kind-icon">paste</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#pptnextstep" class="tsd-kind-icon">ppt<wbr>Next<wbr>Step</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#pptpreviousstep" class="tsd-kind-icon">ppt<wbr>Previous<wbr>Step</a></li>
@@ -177,6 +182,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#syncblocktimestamp" class="tsd-kind-icon">sync<wbr>Block<wbr>Timestamp</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#undo" class="tsd-kind-icon">undo</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#updateplugin" class="tsd-kind-icon">update<wbr>Plugin</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="room.html#updatetextfontsize" class="tsd-kind-icon">update<wbr>Text<wbr>Font<wbr>Size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="room.html#waitmagixevent" class="tsd-kind-icon">wait<wbr>Magix<wbr>Event</a></li>
 							</ul>
 						</section>
@@ -979,6 +985,40 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="exportscene" class="tsd-anchor"></a>
+					<h3>export<wbr>Scene</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">export<wbr>Scene<span class="tsd-signature-symbol">(</span>scenePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Exports a scene.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+										<p>This method can export all contents of a specified scene, including the image or web page displayed on the scene.</p>
+										<p>After a successful method call, the SDK exports the contents of the specified scene and saves them as a binary file (Blob object).</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scenePath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The path of the scene to be exported.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Blob object of the exported scene contents.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 					<a name="fillscenesnapshot" class="tsd-anchor"></a>
 					<h3>fill<wbr>Scene<wbr>Snapshot</h3>
@@ -1164,6 +1204,47 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="importscene" class="tsd-anchor"></a>
+					<h3>import<wbr>Scene</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Scene<span class="tsd-signature-symbol">(</span>dir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#scenedefinition" class="tsd-signature-type">SceneDefinition</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Imports a scene.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+										<p>You can call this method to import the contents of a scene exported by the <a href="room.html#exportscene">exportScene</a> method.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dir: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The scene directory to which the scene contents are imported. Ensure that <a href="../enums/scenepathtype.html">ScenePathType</a> of the scene directory is not
+										<code>conflict</code>；otherwise, the scene cannot be imported. You can use <a href="room.html#scenepathtype">scenePathType</a> to get the path type of the scene directory.</p>
+									</div>
+								</li>
+								<li>
+									<h5>payload: <span class="tsd-signature-type">Blob</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Blob object of the scene contents.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#scenedefinition" class="tsd-signature-type">SceneDefinition</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A <a href="../globals.html#scenedefinition">SceneDefinition</a> object, if the method call succeeds. The returned <a href="../globals.html#scenedefinition">SceneDefinition</a> object includes <code>name</code> of the imported scene.
+							The path of the imported scene is <code>dir</code>+ <code>name</code>. You can call <a href="room.html#movescene">moveScene</a> to change the scene path if needed.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="insertimage" class="tsd-anchor"></a>
 					<h3>insert<wbr>Image</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -1255,6 +1336,43 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 										<ul>
 											<li><code>true</code>: Lock the image.</li>
 											<li><code>false</code>: Do not lock the image.</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="lockimages" class="tsd-anchor"></a>
+					<h3>lock<wbr>Images</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">lock<wbr>Images<span class="tsd-signature-symbol">(</span>locked<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Locks selected images.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+										<p>This method can modify the locking state of selected images.
+										When an image is locked, users cannot move, zoom, or delete the image.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>locked: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Whether to lock selected images:</p>
+										<ul>
+											<li>true: Lock the images.</li>
+											<li>false: Unlock the images.</li>
 										</ul>
 									</div>
 								</li>
@@ -1379,6 +1497,50 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 									</div>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="moveselectedcomponentstobottom" class="tsd-anchor"></a>
+					<h3>move<wbr>Selected<wbr>Components<wbr>ToBottom</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToBottom<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the selected components to the bottom layer.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="moveselectedcomponentstotop" class="tsd-anchor"></a>
+					<h3>move<wbr>Selected<wbr>Components<wbr>ToTop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToTop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the selected components to the top layer.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -2089,6 +2251,38 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="updatetextfontsize" class="tsd-anchor"></a>
+					<h3>update<wbr>Text<wbr>Font<wbr>Size</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Text<wbr>Font<wbr>Size<span class="tsd-signature-symbol">(</span>fontSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adjusts font size.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>v2.14.5</p>
+										<p>This method adjusts the size of the text entered with the <code>text</code> tool.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fontSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The target font size.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 					<a name="waitmagixevent" class="tsd-anchor"></a>
 					<h3>wait<wbr>Magix<wbr>Event</h3>
@@ -2241,6 +2435,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="room.html#entirescenes" class="tsd-kind-icon">entire<wbr>Scenes</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#exportscene" class="tsd-kind-icon">export<wbr>Scene</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="room.html#fillscenesnapshot" class="tsd-kind-icon">fill<wbr>Scene<wbr>Snapshot</a>
 							</li>
@@ -2257,6 +2454,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 								<a href="room.html#getpluginrectangle" class="tsd-kind-icon">get<wbr>Plugin<wbr>Rectangle</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#importscene" class="tsd-kind-icon">import<wbr>Scene</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="room.html#insertimage" class="tsd-kind-icon">insert<wbr>Image</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -2264,6 +2464,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="room.html#lockimage" class="tsd-kind-icon">lock<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#lockimages" class="tsd-kind-icon">lock<wbr>Images</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="room.html#memberstate" class="tsd-kind-icon">member<wbr>State</a>
@@ -2276,6 +2479,12 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="room.html#movescene" class="tsd-kind-icon">move<wbr>Scene</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#moveselectedcomponentstobottom" class="tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToBottom</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#moveselectedcomponentstotop" class="tsd-kind-icon">move<wbr>Selected<wbr>Components<wbr>ToTop</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="room.html#paste" class="tsd-kind-icon">paste</a>
@@ -2342,6 +2551,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="room.html#updateplugin" class="tsd-kind-icon">update<wbr>Plugin</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="room.html#updatetextfontsize" class="tsd-kind-icon">update<wbr>Text<wbr>Font<wbr>Size</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="room.html#waitmagixevent" class="tsd-kind-icon">wait<wbr>Magix<wbr>Event</a>

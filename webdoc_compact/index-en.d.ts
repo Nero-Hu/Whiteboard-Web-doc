@@ -1336,18 +1336,24 @@ export declare type ContentMode = (screenSize: Size, boundSize: Size)=>number;
  * The scene path types.
  */
 export declare enum ScenePathType {
-    /**
-     * The queried path does not exist.
-     */
-    None = "none",
-    /**
-     * The queried path is the path of a scene directory.
-     */
-    Dir = "dir",
-    /**
-     * The queried path is the path of a scene.
-     */
-    Page = "page",
+  /**
+   * The queried path does not exist.
+   */
+  None = "none",
+  /**
+   * The queried path is the path of a scene directory.
+   */
+  Dir = "dir",
+  /**
+   * The queried path is the path of a scene.
+   */
+  Page = "page",
+  /**
+   * The path cannot exist because it contains the path of an existing scene.
+   *
+   * @since 2.14.5
+   */
+  Conflict = "conflict",
 }
 
 /**
@@ -1799,441 +1805,485 @@ export declare type DisplayerCallbacks = {
  * for operating a live Interactive Whiteboard room.
  */
 export declare interface Room extends Displayer {
-    /**
-     * Room UUID, the unique identifier of a room.
-     */
-    readonly uuid: string;
+  /**
+   * Room UUID, the unique identifier of a room.
+   */
+  readonly uuid: string;
 
-    /**
-     * The unique identifier (UUID) of the current session in the room. If you
-     * enable the SDK to report logs all the time, this parameter is reported in the logs.
-     * If the SDK has not connected to the server when reporting logs, this parameter is shown as `undefined`.
-     */
-    readonly session: string;
+  /**
+   * The unique identifier (UUID) of the current session in the room. If you
+   * enable the SDK to report logs all the time, this parameter is reported in the logs.
+   * If the SDK has not connected to the server when reporting logs, this parameter is shown as `undefined`.
+   */
+  readonly session: string;
 
-    /**
-     * The Room Token for user authentication.
-     */
-    readonly roomToken: string;
+  /**
+   * The Room Token for user authentication.
+   */
+  readonly roomToken: string;
 
-    /**
-     * The connection state of the room. See {@link RoomPhase}.
-     */
-    readonly phase: RoomPhase;
+  /**
+   * The connection state of the room. See {@link RoomPhase}.
+   */
+  readonly phase: RoomPhase;
 
-    /**
-     * The business status of the room.
-     */
-    readonly state: RoomState;
+  /**
+   * The business status of the room.
+   */
+  readonly state: RoomState;
 
-    /**
-     * Custom inputs.
-     *
-     * @since 2.12.11
-     */
-    readonly customInput: CustomInput;
+  /**
+   * Custom inputs.
+   *
+   * @since 2.12.11
+   */
+  readonly customInput: CustomInput;
 
-    /**
-     * Whether the user is in interactive mode in the room:
-     * - `true`:  In interactive mode, where the user has read and write permissions on the whiteboard.
-     * - `false`: In subscription mode, where the user has read-only access to the whiteboard.
-     */
-    readonly isWritable: boolean;
+  /**
+   * Whether the user is in interactive mode in the room:
+   * - `true`:  In interactive mode, where the user has read and write permissions on the whiteboard.
+   * - `false`: In subscription mode, where the user has read-only access to the whiteboard.
+   */
+  readonly isWritable: boolean;
 
-    /**
-     * The number of remaining undoable actions (the number of times {@link undo} can be called).
-     */
-    readonly canUndoSteps: number;
+  /**
+   * The number of remaining undoable actions (the number of times {@link undo} can be called).
+   */
+  readonly canUndoSteps: number;
 
-    /**
-     * The number of remaining redoable actions (the number of times {@link redo} can be called).
-     */
-    readonly canRedoSteps: number;
+  /**
+   * The number of remaining redoable actions (the number of times {@link redo} can be called).
+   */
+  readonly canRedoSteps: number;
 
-    /**
-     * Whether to disable the user from operating the whiteboard tools through the mouse, keyboard, or touchscreen:
-     * - `true`: Disable the user from operating the whiteboard tools.
-     * - `false`: Enable the user to operate the whiteboard tools.
-     *
-     * This method is different from `isWritable`. See [Prohibited operation](https://developer.netless.link/javascript-en/home/disable#Prohibit-device-operation).
-     */
-    disableDeviceInputs: boolean;
+  /**
+   * Whether to disable the user from operating the whiteboard tools through the mouse, keyboard, or touchscreen:
+   * - `true`: Disable the user from operating the whiteboard tools.
+   * - `false`: Enable the user to operate the whiteboard tools.
+   *
+   * This method is different from `isWritable`. See [Prohibited operation](https://developer.netless.link/javascript-en/home/disable#Prohibit-device-operation).
+   */
+  disableDeviceInputs: boolean;
 
-    /**
-     * Whether to disable the eraser from erasing images on the whiteboard:
-     * - `true`:  Disable the eraser from erasing images.
-     * - `false`: Enable the eraser to erase images.
-     *
-     * @since 2.3.12
-     */
-    disableEraseImage: boolean;
+  /**
+   * Whether to disable the eraser from erasing images on the whiteboard:
+   * - `true`:  Disable the eraser from erasing images.
+   * - `false`: Enable the eraser to erase images.
+   *
+   * @since 2.3.12
+   */
+  disableEraseImage: boolean;
 
-    /**
-     * Whether to disable the local serialization:
-     * - `true`:  Disable the local serialization.
-     * - `false`: Enable the local serialization.
-     *
-     * The following methods cannot take effect after the setting of `disableSerialization(true)`:
-     * - `redo`
-     * - `undo`
-     * - `duplicate`
-     * - `copy`
-     * - `paste`
-     *
-     * @warning To set `disableSerialization` as `false`, ensure that every user
-     * in the room uses one of the following SDKs; otherwise, the application may crash:
-     * - Web SDK v2.9.3 or later
-     * - Android SDK v2.9.3 or later
-     * - iOS SDK v2.9.3 or later
-     *
-     */
-    disableSerialization: boolean;
+  /**
+   * Whether to disable the local serialization:
+   * - `true`:  Disable the local serialization.
+   * - `false`: Enable the local serialization.
+   *
+   * The following methods cannot take effect after the setting of `disableSerialization(true)`:
+   * - `redo`
+   * - `undo`
+   * - `duplicate`
+   * - `copy`
+   * - `paste`
+   *
+   * @warning To set `disableSerialization` as `false`, ensure that every user
+   * in the room uses one of the following SDKs; otherwise, the application may crash:
+   * - Web SDK v2.9.3 or later
+   * - Android SDK v2.9.3 or later
+   * - iOS SDK v2.9.3 or later
+   *
+   */
+  disableSerialization: boolean;
 
-    /**
-     * Sets the delay (ms) for displaying remote whiteboard contents on the local
-     * client. The value of `timeDelay` must be equal to or greater than 0. The
-     * default value is 0.
-     *
-     * After you set this parameter, when the local user receives the remote
-     * whiteboard contents, the SDK delays displaying the contents based on the
-     * value of `timeDelay`.
-     *
-     * In scenarios with significant audio and video transmission delays, for
-     * example, when using a CDN to distribute audio and video streams, you can
-     * use this parameter to delay displaying the received remote whiteboard
-     * contents, so as to ensure that the whiteboard contents and the audio and
-     * video streams are synchronized.
-     */
-    timeDelay: number;
+  /**
+   * Sets the delay (ms) for displaying remote whiteboard contents on the local
+   * client. The value of `timeDelay` must be equal to or greater than 0. The
+   * default value is 0.
+   *
+   * After you set this parameter, when the local user receives the remote
+   * whiteboard contents, the SDK delays displaying the contents based on the
+   * value of `timeDelay`.
+   *
+   * In scenarios with significant audio and video transmission delays, for
+   * example, when using a CDN to distribute audio and video streams, you can
+   * use this parameter to delay displaying the received remote whiteboard
+   * contents, so as to ensure that the whiteboard contents and the audio and
+   * video streams are synchronized.
+   */
+  timeDelay: number;
 
-    /**
-     * Sets whether a user is in interactive mode in the room.
-     *
-     * @param isWritable Whether the user is in interactive mode:
-     * - `true`: The user is in interactive mode (has read and write permissions on the whiteboard).
-     * - `false`: The user is in subscription mode (has read-only access to the whiteboard).
-     */
-    setWritable(isWritable: boolean): Promise<void>;
+  /**
+   * Sets whether a user is in interactive mode in the room.
+   *
+   * @param isWritable Whether the user is in interactive mode:
+   * - `true`: The user is in interactive mode (has read and write permissions on the whiteboard).
+   * - `false`: The user is in subscription mode (has read-only access to the whiteboard).
+   */
+  setWritable(isWritable: boolean): Promise<void>;
 
-    /**
-     * Modifies the `globalState` of the live Interactive Whiteboard room.
-     *
-     * The `globalState` property of the live Interactive Whiteboard room is a public global variable.
-     * All users in the room can read the `globalState` property, while users in interactive mode can modify the `globalState` property.
-     * The modified `globalState` will be updated to all users in the room immediately.
-     *
-     * Refer to the following example to modify the `globalState` property:
-     *
-     * @example
-     * ```typescript
-     * room.setGlobalState({
-     *     foobar: "hello world",
-     * });
-     * ```
-     *
-     * Set `globalState` to `undefined` to delete it:
-     *
-     * @example
-     * ```typescript
-     * room.setGlobalState({
-     *     foobar: undefined,
-     * });
-     * ```
-     *
-     * @param modifyState The `globalState` property.
-     * @returns The modified `globalState`.
-     */
-    setGlobalState(modifyState: Partial<GlobalState>): GlobalState;
+  /**
+   * Modifies the `globalState` of the live Interactive Whiteboard room.
+   *
+   * The `globalState` property of the live Interactive Whiteboard room is a public global variable.
+   * All users in the room can read the `globalState` property, while users in interactive mode can modify the `globalState` property.
+   * The modified `globalState` will be updated to all users in the room immediately.
+   *
+   * Refer to the following example to modify the `globalState` property:
+   *
+   * @example
+   * ```typescript
+   * room.setGlobalState({
+   *     foobar: "hello world",
+   * });
+   * ```
+   *
+   * Set `globalState` to `undefined` to delete it:
+   *
+   * @example
+   * ```typescript
+   * room.setGlobalState({
+   *     foobar: undefined,
+   * });
+   * ```
+   *
+   * @param modifyState The `globalState` property.
+   * @returns The modified `globalState`.
+   */
+  setGlobalState(modifyState: Partial<GlobalState>): GlobalState;
 
-    /**
-     * Modifies the state of the whiteboard tool.
-     *
-     * A successful call of this method updates the {@link MemberState} of the room immediately.
-     *
-     * Refer to the following example to modify `MemberState`:
-     *
-     * @example
-     * ```typescript
-     * room.setMemberState({
-     *     foobar: "hello world",
-     * });
-     * ```
-     *
-     * Set `MemberState` to `undefined` to delete it:
-     * @example
-     *
-     * ```typescript
-     * room.setMemberState({
-     *     foobar: undefined,
-     * });
-     * ```
-     *
-     * @param modifyState The state of the whiteboard tool. See {@link MemberState}.
-     * @returns The modified state.
-     */
-    setMemberState(modifyState: Partial<MemberState>): MemberState;
+  /**
+   * Modifies the state of the whiteboard tool.
+   *
+   * A successful call of this method updates the {@link MemberState} of the room immediately.
+   *
+   * Refer to the following example to modify `MemberState`:
+   *
+   * @example
+   * ```typescript
+   * room.setMemberState({
+   *     foobar: "hello world",
+   * });
+   * ```
+   *
+   * Set `MemberState` to `undefined` to delete it:
+   * @example
+   *
+   * ```typescript
+   * room.setMemberState({
+   *     foobar: undefined,
+   * });
+   * ```
+   *
+   * @param modifyState The state of the whiteboard tool. See {@link MemberState}.
+   * @returns The modified state.
+   */
+  setMemberState(modifyState: Partial<MemberState>): MemberState;
 
-    /**
-     * Sets the view mode of the user.
-     *
-     * In the live Interactive Whiteboard room, you can set one of the following view modes for a user:
-     * - `Broadcaster`: Host mode.
-     * - `Follower`: Follower mode.
-     * - `Freedom`: (Default) Freedom mode.
-     *
-     * **Note**
-     *
-     * The view mode setting of a user is affected by the view mode setting of other users in the room as follows:
-     * - When there is no host in the room, all users are in `Freedom` view mode by default.
-     * - When a user’s view mode is set as `Broadcaster`, the view mode of every other user in the room (including users that join subsequently) is automatically set as 'Follower'.
-     * - When a user in `Follower` view mode operates the whiteboard, their view mode automatically switches to `Freedom` mode.
-     *
-     * @param viewMode The view mode of the user. See {@link ViewMode}.
-     */
-    setViewMode(viewMode: ViewMode): void;
+  /**
+   * Sets the view mode of the user.
+   *
+   * In the live Interactive Whiteboard room, you can set one of the following view modes for a user:
+   * - `Broadcaster`: Host mode.
+   * - `Follower`: Follower mode.
+   * - `Freedom`: (Default) Freedom mode.
+   *
+   * **Note**
+   *
+   * The view mode setting of a user is affected by the view mode setting of other users in the room as follows:
+   * - When there is no host in the room, all users are in `Freedom` view mode by default.
+   * - When a user’s view mode is set as `Broadcaster`, the view mode of every other user in the room (including users that join subsequently) is automatically set as 'Follower'.
+   * - When a user in `Follower` view mode operates the whiteboard, their view mode automatically switches to `Freedom` mode.
+   *
+   * @param viewMode The view mode of the user. See {@link ViewMode}.
+   */
+  setViewMode(viewMode: ViewMode): void;
 
-    /**
-     * Switches to the specified scene.
-     *
-     * A successful call of this method switches the whiteboard scene to the specified scene.
-     *
-     * **Note**
-     *
-     * This method call is synchronous.
-     *
-     * The scene switch may fail due to the following reasons:
-     * - The specified scene path is invalid. Ensure the scene path stars with `/`
-     * and consists of the scene directory and scene name.
-     * - The specified scene does not exist.
-     * - The path passed in is the path of the scene directory, not the path of the scene.
-     *
-     * @param scenePath The path of the scene that you want to switch to. Ensure
-     * the scene path stars with `/` and consists of the scene directory and scene name. For example, `/math/classA`.
-     */
-    setScenePath(scenePath: string): void;
+  /**
+   * Switches to the specified scene.
+   *
+   * A successful call of this method switches the whiteboard scene to the specified scene.
+   *
+   * **Note**
+   *
+   * This method call is synchronous.
+   *
+   * The scene switch may fail due to the following reasons:
+   * - The specified scene path is invalid. Ensure the scene path stars with `/`
+   * and consists of the scene directory and scene name.
+   * - The specified scene does not exist.
+   * - The path passed in is the path of the scene directory, not the path of the scene.
+   *
+   * @param scenePath The path of the scene that you want to switch to. Ensure
+   * the scene path stars with `/` and consists of the scene directory and scene name. For example, `/math/classA`.
+   */
+  setScenePath(scenePath: string): void;
 
-    /**
-     * Switches to the specified scene under the current scene directory.
-     *
-     * A successful call of this method switches the whiteboard scene to the specified scene.
-     *
-     * **Note**
-     *
-     * The specified scene must exist in the current scene directory; otherwise, the method call fails.
-     *
-     * @param index The index of the target scene in the current scene directory.
-     */
-    setSceneIndex(index: number): void;
+  /**
+   * Switches to the specified scene under the current scene directory.
+   *
+   * A successful call of this method switches the whiteboard scene to the specified scene.
+   *
+   * **Note**
+   *
+   * The specified scene must exist in the current scene directory; otherwise, the method call fails.
+   *
+   * @param index The index of the target scene in the current scene directory.
+   */
+  setSceneIndex(index: number): void;
 
-    /**
-     * Sets the Unix timestamp (ms) for displaying remote whiteboard contents on the local client.
-     *
-     * @since 2.12.11
-     *
-     * After you call this method, the SDK displays the received remote whiteboard
-     * contents based on the value of `timestamp` you set in this method.
-     *
-     * In scenarios where users subscribe to audio and video streams and whiteboard
-     * contents at the same time, you can obtain time information from the SEI frame
-     * attached to the audio and video streams, and call this method to set the local
-     * display time for the remote whiteboard contents, so as to ensure audio and
-     * video streams and the whiteboard contents are synchronized in real time.
-     *
-     * @param timestamp The Unix timestamp (ms) for displaying remote whiteboard
-     * contents on the local client.
-     */
-    syncBlockTimestamp(timestamp: number): void;
+  /**
+   * Sets the Unix timestamp (ms) for displaying remote whiteboard contents on the local client.
+   *
+   * @since 2.12.11
+   *
+   * After you call this method, the SDK displays the received remote whiteboard
+   * contents based on the value of `timestamp` you set in this method.
+   *
+   * In scenarios where users subscribe to audio and video streams and whiteboard
+   * contents at the same time, you can obtain time information from the SEI frame
+   * attached to the audio and video streams, and call this method to set the local
+   * display time for the remote whiteboard contents, so as to ensure audio and
+   * video streams and the whiteboard contents are synchronized in real time.
+   *
+   * @param timestamp The Unix timestamp (ms) for displaying remote whiteboard
+   * contents on the local client.
+   */
+  syncBlockTimestamp(timestamp: number): void;
 
-    /**
-     * Sends a custom event.
-     *
-     * **Note**
-     *
-     * All users that listen for this event receive the notification.
-     *
-     * @param event The custom event.
-     * @param payload The content of the custom event.
-     */
-    dispatchMagixEvent(event: string, payload: any): void;
+  /**
+   * Sends a custom event.
+   *
+   * **Note**
+   *
+   * All users that listen for this event receive the notification.
+   *
+   * @param event The custom event.
+   * @param payload The content of the custom event.
+   */
+  dispatchMagixEvent(event: string, payload: any): void;
 
-    /**
-     * Inserts multiples scenes under the specified scene directory.
-     *
-     * **Note**
-     *
-     * This method does not switch the whiteboard scene to any of the newly inserted scenes.
-     * You need to call {@link setScenePath} to switch to one of the newly inserted scenes.
-     *
-     * @param path The path of the scene directory, which must starts with `/`
-     * and cannot be the path of a scene. For example, `"/math"`.
-     * @param scenes An array of scenes. For the files of a single scene, see {@link SceneDefinition}.
-     * @param index The index of the first scene to be inserted. The index of a
-     * scene under a scene directory starts from 0. If the index is greater than
-     * the total number of existing scenes under the scene directory, the new
-     * scene is put after the last scene.
-     */
-    putScenes(path: string, scenes: ReadonlyArray<SceneDefinition>, index?: number): void;
+  /**
+   * Inserts multiples scenes under the specified scene directory.
+   *
+   * **Note**
+   *
+   * This method does not switch the whiteboard scene to any of the newly inserted scenes.
+   * You need to call {@link setScenePath} to switch to one of the newly inserted scenes.
+   *
+   * @param path The path of the scene directory, which must starts with `/`
+   * and cannot be the path of a scene. For example, `"/math"`.
+   * @param scenes An array of scenes. For the files of a single scene, see {@link SceneDefinition}.
+   * @param index The index of the first scene to be inserted. The index of a
+   * scene under a scene directory starts from 0. If the index is greater than
+   * the total number of existing scenes under the scene directory, the new
+   * scene is put after the last scene.
+   */
+  putScenes(
+    path: string,
+    scenes: ReadonlyArray<SceneDefinition>,
+    index?: number
+  ): void;
 
-    /**
-     * Clears all contents on the current scene.
-     *
-     * @param retainPpt Whether to retain the PPT slide:
-     *  - `true`: (Default) Leave the PPT slide on the scene.
-     *  - `false`: Clear the PPT slide together with all other contents.
-     */
-    cleanCurrentScene(retainPpt?: boolean): void;
+  /**
+   * Clears all contents on the current scene.
+   *
+   * @param retainPpt Whether to retain the PPT slide:
+   *  - `true`: (Default) Leave the PPT slide on the scene.
+   *  - `false`: Clear the PPT slide together with all other contents.
+   */
+  cleanCurrentScene(retainPpt?: boolean): void;
 
-    /**
-     * Deletes a scene or a scene directory.
-     *
-     * **Note**
-     *
-     * - There must be at least one scene in the live Interactive Whiteboard room.
-     * If you delete all scenes, the SDK automatically creates an initial scene with the path of `/init`.
-     * - If you delete the current whiteboard scene, the whiteboard displays the
-     * last scene under the current scene directory.
-     * - If you delete a scene directory, all scenes under the directory will be deleted.
-     * - If you delete the current scene directory, for example, `dirA`, the SDK
-     * executes upward recursive logic to locate the new scene:
-     *    1. If there is a scene directory after the deleted scene directory
-     * under the same directory, for example, `dirB`，the SDK switches the
-     * whiteboard scene to the first scene under `dirB` (with the index of 0).
-     *    2. If there is no scene directory after the deleted scene directory
-     * under the same directory, then the SDK looks for scenes under the directory.
-     * If there are scenes under the directory, the SDK switches the whiteboard
-     * scene to the first scene (with the index of 0).
-     *    3. If there is neither a scene directory after the deleted scene directory
-     * nor scenes under the same directory, then the SDK looks for scene directories
-     * before the deleted scene directory. If there is a scene directory, for example,
-     * `dirC`， before the deleted `dirA`, then the SDK switches the whiteboard
-     * scene to the first scene under `dirC` (with the index of 0).
-     *
-     *  The SDK continues executing upward recursive logic until a new scene is found.
-     *
-     * @param path The path of a scene or a scene directory. If you pass in the
-     * path of a scene directory, this method deletes all scenes under the directory.
-     */
-    removeScenes(path: string): void;
+  /**
+   * Deletes a scene or a scene directory.
+   *
+   * **Note**
+   *
+   * - There must be at least one scene in the live Interactive Whiteboard room.
+   * If you delete all scenes, the SDK automatically creates an initial scene with the path of `/init`.
+   * - If you delete the current whiteboard scene, the whiteboard displays the
+   * last scene under the current scene directory.
+   * - If you delete a scene directory, all scenes under the directory will be deleted.
+   * - If you delete the current scene directory, for example, `dirA`, the SDK
+   * executes upward recursive logic to locate the new scene:
+   *    1. If there is a scene directory after the deleted scene directory
+   * under the same directory, for example, `dirB`，the SDK switches the
+   * whiteboard scene to the first scene under `dirB` (with the index of 0).
+   *    2. If there is no scene directory after the deleted scene directory
+   * under the same directory, then the SDK looks for scenes under the directory.
+   * If there are scenes under the directory, the SDK switches the whiteboard
+   * scene to the first scene (with the index of 0).
+   *    3. If there is neither a scene directory after the deleted scene directory
+   * nor scenes under the same directory, then the SDK looks for scene directories
+   * before the deleted scene directory. If there is a scene directory, for example,
+   * `dirC`， before the deleted `dirA`, then the SDK switches the whiteboard
+   * scene to the first scene under `dirC` (with the index of 0).
+   *
+   *  The SDK continues executing upward recursive logic until a new scene is found.
+   *
+   * @param path The path of a scene or a scene directory. If you pass in the
+   * path of a scene directory, this method deletes all scenes under the directory.
+   */
+  removeScenes(path: string): void;
 
-    /**
-     * Moves a scene.
-     *
-     * After a scene is moved, the path of the scene changes.
-     *
-     * @param originalPath The original path of the scene to be moved. It cannot
-     * be the path of a scene directory.
-     * @param targetPath The path of the target scene directory or the target
-     * path of the scene under the current directory:
-     * - If you pass in the path of the target scene directory, the path of the
-     * scene changes, but the name of the scene does not change.
-     * - If you pass in the target path of the scene under the current directory,
-     * both the path of the scene and the name of the scene change.
-     */
-    moveScene(originalPath: string, targetPath: string): void;
+  /**
+   * Moves a scene.
+   *
+   * After a scene is moved, the path of the scene changes.
+   *
+   * @param originalPath The original path of the scene to be moved. It cannot
+   * be the path of a scene directory.
+   * @param targetPath The path of the target scene directory or the target
+   * path of the scene under the current directory:
+   * - If you pass in the path of the target scene directory, the path of the
+   * scene changes, but the name of the scene does not change.
+   * - If you pass in the target path of the scene under the current directory,
+   * both the path of the scene and the name of the scene change.
+   */
+  moveScene(originalPath: string, targetPath: string): void;
 
-    /**
-     * Inserts an image placeholder on the whiteboard.
-     *
-     * The method sets up and inserts an image placeholder on the whiteboard
-     * per `imageInfo` you pass in.
-     *
-     * You also need to call {@link completeImageUpload} to pass in the URL address
-     * of the image to insert and display the image in the placeholder.
-     *
-     * @param imageInfo The image information. See {@link ImageInformation}.
-     */
-    insertImage(imageInfo: ImageInformation): void;
+  /**
+   * Exports a scene.
+   *
+   * @since v2.14.5
+   *
+   * This method can export all contents of a specified scene, including the image or web page displayed on the scene.
+   *
+   * After a successful method call, the SDK exports the contents of the specified scene and saves them as a binary file (Blob object).
+   *
+   * @param scenePath The path of the scene to be exported.
+   *
+   * @returns The Blob object of the exported scene contents.
+   */
+  exportScene(scenePath: string): Promise<Blob>;
 
-    /**
-     * Locks an image.
-     *
-     * When an image is locked, users cannot move or zoom the image.
-     *
-     * @param uuid The unique identifier (UUID) of the image.
-     * @param locked Whether to lock the image:
-     * - `true`: Lock the image.
-     * - `false`: Do not lock the image.
-     */
-    lockImage(uuid: string, locked: boolean): void;
+  /**
+   * Imports a scene.
+   *
+   * @since v2.14.5
+   *
+   * You can call this method to import the contents of a scene exported by the {@link exportScene} method.
+   *
+   * @param dir The scene directory to which the scene contents are imported. Ensure that {@link ScenePathType} of the scene directory is not
+   * `conflict`；otherwise, the scene cannot be imported. You can use {@link scenePathType} to get the path type of the scene directory.
+   *
+   * @param payload The Blob object of the scene contents.
+   *
+   * @returns A {@link SceneDefinition} object, if the method call succeeds. The returned {@link SceneDefinition} object includes `name` of the imported scene.
+   * The path of the imported scene is `dir`+ `name`. You can call {@link moveScene} to change the scene path if needed.
+   *
+   */
+  importScene(dir: string, payload: Blob): Promise<SceneDefinition>;
 
-    /**
-     * Displays an image in the specified image placeholder.
-     *
-     * The method inserts and displays an online image in the specified image placeholder.
-     *
-     * **Note**
-     *
-     * Ensure that you have called {@link insertImage} to insert an image placeholder on the whiteboard.
-     *
-     * @param uuid The unique identifier of the image, which is the image UUID
-     * that you pass in {@link ImageInformation ImageInformation} of the {@link insertImage} method.
-     * @param src The URL address of the image. Ensure the application client can
-     * access the URL; otherwise, the image cannot be displayed.
-     */
-    completeImageUpload(uuid: string, src: string): void;
+  /**
+   * Inserts an image placeholder on the whiteboard.
+   *
+   * The method sets up and inserts an image placeholder on the whiteboard
+   * per `imageInfo` you pass in.
+   *
+   * You also need to call {@link completeImageUpload} to pass in the URL address
+   * of the image to insert and display the image in the placeholder.
+   *
+   * @param imageInfo The image information. See {@link ImageInformation}.
+   */
+  insertImage(imageInfo: ImageInformation): void;
 
-    /**
-     * Creates an invisible plugin object.
-     *
-     * @param pluginClass The class of the invisible plugin.
-     * @param attributes The attributes of the invisible plugin.
-     * @returns The created invisible plugin object.
-     */
-    createInvisiblePlugin<K extends string, A extends Object, P extends InvisiblePlugin<A>>(pluginClass: InvisiblePluginClass<K, A, P>, attributes: A): Promise<InvisiblePlugin<A>>;
+  /**
+   * Locks an image.
+   *
+   * When an image is locked, users cannot move or zoom the image.
+   *
+   * @param uuid The unique identifier (UUID) of the image.
+   * @param locked Whether to lock the image:
+   * - `true`: Lock the image.
+   * - `false`: Do not lock the image.
+   */
+  lockImage(uuid: string, locked: boolean): void;
 
-    /**
-     * Inserts a component plugin object to the whiteboard.
-     *
-     * @param kind The type of the component plugin, which is the unique identifier of the plugin.
-     * @param description Description of the component plugin.
-     *
-     * @returns The unique identifier of the plugin in the room.
-     */
-    insertPlugin(kind: string, description?: PluginDescription): Identifier;
+  /**
+   * Displays an image in the specified image placeholder.
+   *
+   * The method inserts and displays an online image in the specified image placeholder.
+   *
+   * **Note**
+   *
+   * Ensure that you have called {@link insertImage} to insert an image placeholder on the whiteboard.
+   *
+   * @param uuid The unique identifier of the image, which is the image UUID
+   * that you pass in {@link ImageInformation ImageInformation} of the {@link insertImage} method.
+   * @param src The URL address of the image. Ensure the application client can
+   * access the URL; otherwise, the image cannot be displayed.
+   */
+  completeImageUpload(uuid: string, src: string): void;
 
-    /**
-     * Deletes a component plugin object.
-     *
-     * @param identifier The unique identifier of the plugin in the room.
-     */
-    removePlugin(identifier: Identifier): boolean;
+  /**
+   * Creates an invisible plugin object.
+   *
+   * @param pluginClass The class of the invisible plugin.
+   * @param attributes The attributes of the invisible plugin.
+   * @returns The created invisible plugin object.
+   */
+  createInvisiblePlugin<
+    K extends string,
+    A extends Object,
+    P extends InvisiblePlugin<A>
+  >(
+    pluginClass: InvisiblePluginClass<K, A, P>,
+    attributes: A
+  ): Promise<InvisiblePlugin<A>>;
 
-    /**
-     * Updates the description of the component plugin object.
-     *
-     * @param identifier The unique identifier of the plugin in the room.
-     * @param description The updated description.
-     */
-    updatePlugin(identifier: Identifier, description: PluginDescription): boolean;
+  /**
+   * Inserts a component plugin object to the whiteboard.
+   *
+   * @param kind The type of the component plugin, which is the unique identifier of the plugin.
+   * @param description Description of the component plugin.
+   *
+   * @returns The unique identifier of the plugin in the room.
+   */
+  insertPlugin(kind: string, description?: PluginDescription): Identifier;
 
-    /**
-     * Gets the attributes of the component plugin object.
-     *
-     * @param identifier The unique identifier of the plugin in the room.
-     */
-    getPluginAttributes(identifier: Identifier): any | undefined;
+  /**
+   * Deletes a component plugin object.
+   *
+   * @param identifier The unique identifier of the plugin in the room.
+   */
+  removePlugin(identifier: Identifier): boolean;
 
-    /**
-     * Gets the position of the component plugin object on the whiteboard.
-     *
-     * @param identifier The unique identifier of the plugin in the room.
-     * @returns The rectangle for the component plugin object.
-     */
-    getPluginRectangle(identifier: string): Rectangle | undefined;
+  /**
+   * Updates the description of the component plugin object.
+   *
+   * @param identifier The unique identifier of the plugin in the room.
+   * @param description The updated description.
+   */
+  updatePlugin(identifier: Identifier, description: PluginDescription): boolean;
 
-    /**
-     * Copies and pastes the selected content into the center of the user view
-     * on the whiteboard.
-     *
-     * **Note**
-     * - This method takes effect only when you set {@link disableSerialization} as`false`.
-     * - If you call this method multiple times, random offset may occur, which
-     * causes the pasted content not to center the user view.
-     * @since 2.9.0
-    */
-    duplicate(): void;
+  /**
+   * Gets the attributes of the component plugin object.
+   *
+   * @param identifier The unique identifier of the plugin in the room.
+   */
+  getPluginAttributes(identifier: Identifier): any | undefined;
 
-    /**
+  /**
+   * Gets the position of the component plugin object on the whiteboard.
+   *
+   * @param identifier The unique identifier of the plugin in the room.
+   * @returns The rectangle for the component plugin object.
+   */
+  getPluginRectangle(identifier: string): Rectangle | undefined;
+
+  /**
+   * Copies and pastes the selected content into the center of the user view
+   * on the whiteboard.
+   *
+   * **Note**
+   * - This method takes effect only when you set {@link disableSerialization} as`false`.
+   * - If you call this method multiple times, random offset may occur, which
+   * causes the pasted content not to center the user view.
+   * @since 2.9.0
+   */
+  duplicate(): void;
+
+  /**
      * Copies the selected content.
      *
 
@@ -2243,74 +2293,112 @@ export declare interface Room extends Displayer {
      * - This method takes effect only when you set {@link disableSerialization} as `false`.
      * @since 2.9.0
      */
-    copy(): void;
+  copy(): void;
 
-    /**
-     * Pastes the copied content.
-     *
-     * **Note**
-     * - This method pastes the content copied by the {@link copy} method into the center of the user view on the whiteboard.
-     * - This method takes effect only when you set {@link disableSerialization} as `false`.
-     * - If you call this method multiple times, random offset may occur, which causes the pasted content not to center the user view.
-    * @since 2.9.0
-    */
-    paste(): void;
+  /**
+   * Pastes the copied content.
+   *
+   * **Note**
+   * - This method pastes the content copied by the {@link copy} method into the center of the user view on the whiteboard.
+   * - This method takes effect only when you set {@link disableSerialization} as `false`.
+   * - If you call this method multiple times, random offset may occur, which causes the pasted content not to center the user view.
+   * @since 2.9.0
+   */
+  paste(): void;
 
-    /**
-     * Undoes an action.
-     *
-     * **Note**
-     *
-     * This method takes effect only when you set {@link disableSerialization} as `false`.
-     * @returns The number of remaining undoable actions.
-     */
-    undo(): number;
+  /**
+   * Undoes an action.
+   *
+   * **Note**
+   *
+   * This method takes effect only when you set {@link disableSerialization} as `false`.
+   * @returns The number of remaining undoable actions.
+   */
+  undo(): number;
 
-    /**
-     * Redoes an undone action.
-     *
-     * **Note**
-     *
-     * This method takes effect only when you set {@link disableSerialization} as `false`.
-     *
-     * @returns The number of remaining redoable actions.
-     */
-    redo(): number;
+  /**
+   * Redoes an undone action.
+   *
+   * **Note**
+   *
+   * This method takes effect only when you set {@link disableSerialization} as `false`.
+   *
+   * @returns The number of remaining redoable actions.
+   */
+  redo(): number;
 
-    /**
-     * Deletes the selected content.
-     */
-    delete(): void;
+  /**
+   * Deletes the selected content.
+   */
+  delete(): void;
 
-    /**
-     * Plays the next slide of the dynamic PPT file.
-     *
-     * When the current PPT slide finishes playing, the SDK switches to the next
-     * scene to play the next PPT slide.
-     */
-    pptNextStep(): void;
+  /**
+   * Locks selected images.
+   *
+   * @since v2.14.5
+   *
+   * This method can modify the locking state of selected images.
+   * When an image is locked, users cannot move, zoom, or delete the image.
+   *
+   * @param locked Whether to lock selected images:
+   * - true: Lock the images.
+   * - false: Unlock the images.
+   */
+  lockImages(locked: boolean): void;
 
-    /**
-     * Returns to the previous slide of the dynamic PPT file.
-     *
-     * When the current PPT slide is rolled back, the SDK switches back to the
-     * previous scene to play the previous PPT slide.
-     */
-    pptPreviousStep(): void;
+  /**
+   * Moves the selected components to the top layer.
+   *
+   * @since v2.14.5
+   */
+  moveSelectedComponentsToTop(): void;
 
-    /**
-     * Disconnects from the live Interactive Whiteboard room.
-     *
-     * This method allows the user to leave the room and releases all resources
-     * related to the room.
-     * The user that has left the room must call {@link joinRoom} again to join the room.
-     *
-     * @returns
-     * - The global state of the room, if the method call succeeds.
-     * - An error message, if the method call fails.
-     */
-    disconnect(): Promise<void>;
+  /**
+   * Moves the selected components to the bottom layer.
+   *
+   * @since v2.14.5
+   */
+  moveSelectedComponentsToBottom(): void;
 
+  /**
+   * Adjusts font size.
+   *
+   * @since v2.14.5
+   *
+   * This method adjusts the size of the text entered with the `text` tool.
+   *
+   * @param fontSize The target font size.
+   */
+  updateTextFontSize(fontSize: number): void;
+
+  /**
+   * Plays the next slide of the dynamic PPT file.
+   *
+   * When the current PPT slide finishes playing, the SDK switches to the next
+   * scene to play the next PPT slide.
+   */
+  pptNextStep(): void;
+
+  /**
+   * Returns to the previous slide of the dynamic PPT file.
+   *
+   * When the current PPT slide is rolled back, the SDK switches back to the
+   * previous scene to play the previous PPT slide.
+   */
+  pptPreviousStep(): void;
+
+  /**
+   * Disconnects from the live Interactive Whiteboard room.
+   *
+   * This method allows the user to leave the room and releases all resources
+   * related to the room.
+   * The user that has left the room must call {@link joinRoom} again to join the room.
+   *
+   * @returns
+   * - The global state of the room, if the method call succeeds.
+   * - An error message, if the method call fails.
+   */
+  disconnect(): Promise<void>;
 }
 
 /**

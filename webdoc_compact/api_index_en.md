@@ -185,6 +185,15 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>Moves a scene.</td>
 </tr>
 <tr>
+<td>{@link exportScene exportScene}</td>
+<td>Exports a scene.</td>
+</tr>
+<tr>
+<td>{@link importScene importScene}</td>
+<td>Imports a scene.</td>
+</tr>
+<tr>
+<tr>
 <td>{@link removeScenes removeScenes}</td>
 <td>Deletes a scene or a scene directory.</td>
 </tr>
@@ -192,6 +201,15 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>{@link cleanCurrentScene cleanCurrentScene}</td>
 <td>Clears all contents on the current scene.</td>
 </tr>
+<tr>
+<td>{@link lockImages lockImages}</td>
+<td>Locks selected images.</td>
+</tr>
+<tr>
+<td>{@link updateTextFontSize updateTextFontSize}</td>
+<td>Adjusts font size.</td>
+</tr>
+<tr>
 <tr>
 <td>{@link pptNextStep pptNextStep}</td>
 <td>Plays the next slide of the PPT file.</td>
@@ -201,7 +219,7 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>Returns to the previous slide of the PPT file.</td>
 </tr>
 <tr>
-<td>{@link Displayer.scenePathType ScenePathType}</td>
+<td>{@link Displayer.scenePathType scenePathType}</td>
 <td>Gets the type of the scene path.</td>
 </tr>
 <tr>
