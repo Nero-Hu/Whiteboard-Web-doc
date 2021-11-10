@@ -1559,7 +1559,6 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
 
     /**
-     * @ignore
      * 注册自定义事件监听。
      *
      * 成功注册后，你可以接收到对应的自定义事件通知。
@@ -1570,8 +1569,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      *
      * @param event 想要监听的自定义事件名称。
      * @param listener 自定义事件回调，详见 {@link EventListener}。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。
+     * @param options 自从 v2.15.2。 自定义事件监听选项。详见 {@link MagixEventListenerOptions}。// TODO review
      */
-     addMagixEventListener(event: string, listener: EventListener): void;
+     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
     /**
      * 注册自定义事件监听。
@@ -1754,6 +1754,11 @@ export declare interface Room extends Displayer {
      * 房间的 UUID，即房间的唯一标识符。
      */
     readonly uuid: string;
+
+    /**
+     * 加入该房间的用户的唯一标识符
+     */
+     readonly uid: string;
 
     /**
      * 房间当前 session 的 UUID。如果开启了自动日志上报功能，日志中会上报该参数。如果上报时尚未与服务器建立连接，则为 `undefined`。
@@ -2486,11 +2491,6 @@ export declare interface Player extends Displayer {
     playbackSpeed: number;
 
     /**
-     * @deprecated 请改用 {@link progressTime}。
-     */
-    readonly scheduleTime: number;
-
-    /**
      * 开始白板回放。
      *
      * 暂停回放后，可以调用该方法继续回放。
@@ -2509,14 +2509,19 @@ export declare interface Player extends Displayer {
      */
     stop(): void;
 
-    /**
-     * 设置白板回放的播放位置。
+    /** // TODO review
+     * 跳转到指定位置开始白板回放。
      *
-     * 白板回放的起始时间点为 0，成功调用该方法后，白板回放会在指定位置开始播放。
+     * @since v2.15.2
      *
-     * @param progressTime 回放的进度，单位为毫秒。
+     * 白板回放的起始时间点为 0，你可以调用该方法，跳转到指定的回放位置。
+     *
+     * 成功调用该方法后，SDK 会返回 `PlayerSeekingResult`，报告定位回放的结果。
+     *
+     * @param progressTime 指定的回放位置，单位为毫秒。
+     * @returns 定位回放的结果。详见 {@link PlayerSeekingResult}。
      */
-    seekToProgressTime(progressTime: number): void;
+    seekToProgressTime(progressTime: number): Promise<PlayerSeekingResult>;
 
     /**
      * 设置白板回放的观看模式。
@@ -2524,12 +2529,6 @@ export declare interface Player extends Displayer {
      * @param observerMode 白板回放的观看模式，详见 {@link ObserverMode}。
      */
     setObserverMode(observerMode: ObserverMode): void;
-
-    /**
-     * @deprecated 请改用 {@link seekToProgressTime}。
-     */
-    seekToScheduleTime(scheduleTime: number): void;
-
 }
 
 /**
@@ -2630,10 +2629,6 @@ export declare type BroadcastState = {
      * 主播模式用户的用户 ID。若没有主播模式的用户，则为 `undefined`。
      */
     broadcasterId?: number;
-    /**
-     * @deprecated 该参数已废弃。
-     */
-    broadcasterInformation?: MemberInformation;
 };
 
 /**
@@ -2679,9 +2674,32 @@ export declare type RoomMember = {
      */
     session: string;
     /**
-     * 自定义用户信息，在用户加入房间时传入。
+     * 自定义用户信息，在用户加入房间时传入。详见 {@link UserPayload}。
+     *
+     * @since v2.15.2 // TODO payload 数据类型由 any 改为 UserPayload。
      */
-    payload: any;
+    payload: UserPayload;
+};
+
+/**
+ * 自定义用户信息。
+ *
+ * @since v2.15.2
+ */
+export declare type UserPayload = {
+    /**
+     * key-value 结构的自定义用户信息，例如，`"avatar", "https://example.com/user.png"`。
+     */
+    [key: string]: any;
+} & {
+    /**
+     * 用户标识，字符串格式，不能超过 1024 字节。
+     *
+     * 该参数为必填。请确保同一房间内每个用户 `uid` 的唯一性。
+     *
+     * // TODO Q：是否有长度限制？支持的字符是否有限制？是否需要确保唯一性？
+     */
+    uid: string;
 };
 
 /**
@@ -2693,15 +2711,10 @@ export declare type RoomMember = {
  * - **broadcastState**: *Readonly<BroadcastState>*
  *
  *   当前的视角状态。
- * - **zoomScale**: *number*
- *
- *   当前的视角缩放比例。
- *   @deprecated 该参数已废弃，请改用 `room.cameraState.scale`。
  */
 export declare type RoomState = DisplayerState & {
     memberState: MemberState;
     broadcastState: Readonly<BroadcastState>;
-    zoomScale: number;
 };
 
 /**
@@ -2805,10 +2818,6 @@ export declare type MemberState = {
      * 绘制图形的类型。
      */
     shapeType?: ShapeType;
-    /**
-     * @deprecated 已废弃。
-     */
-    pencilOptions: PencilOptions;
 };
 
 /**
@@ -3576,11 +3585,27 @@ export declare type ConstructRoomParams = {
  *      - iOS SDK 2.12.3 或更高版本
  *      - Web SDK 2.12.5 或更高版本
  *
+ * - **disableMagixEventDispatchLimit?**: *boolean*
+ *
+ *   **自从：2.15.2**
+ *
+ *   是否关闭发送自定义事件的频率限制：
+ *   - `true`：关闭频率限制。
+ *   - `false`：（默认）开启频率限制。//TODO Q：开启后，频率限制是多少？开启后，有什么好处？
+ *
  * - **disableEraseImage?**: *boolean*
  *
  *    是否禁止橡皮擦除白板上的图片：
  *    - `true`： 禁止擦除。
  *    - `false`：（默认）允许擦除。
+ *
+ * - **disablePencilWrittingLimitFrequency**?: *boolean*
+ *
+ *   **自从：2.15.2**
+ *
+ *   是否关闭使用 `pencil` 工具书写的频率限制：// TODO Q：是否只对 pencil 工具有效？
+ *   - `true`：关闭频率限制。
+ *   - `false`：（默认）开启频率限制。//TODO Q：开启后，频率限制是多少？开启后，有什么好处？
  *
  * - **floatBar?**: *boolean | Partial<FloatBarOptions>*
  *
@@ -3616,6 +3641,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
     disableDeviceInputs?: boolean;
     enableDrawPoint?: boolean;
     disableNewPencil?: boolean;
+    disableMagixEventDispatchLimit?: boolean;
     disableEraseImage?: boolean;
     floatBar?: boolean | Partial<FloatBarOptions>;
     hotKeys?: Partial<HotKeys>;
@@ -3829,7 +3855,7 @@ export declare class WhiteWebSdk {
 
     /**
      * @ignore
-     * @deprecated 已废弃。
+     * @deprecated 已废弃。d
      */
     pptConverter(roomToken: string): LegacyPPTConverter;
 
@@ -3908,27 +3934,16 @@ export declare enum Scope {
     Magix = "magix",
 }
 
+
+// TODO Q: 这个是不是可以直接删掉了？或直接在文档里隐藏？
 /**
  * 自定义用户信息。
- * @deprecated 请改用 {@link JoinRoomParams} 中的 `userPayload`。
+ * @deprecated 已废弃。请改用 {@link JoinRoomParams} 中的 `userPayload`。
  */
 export declare type MemberInformation = {
-    /**
-     * 用户 ID。
-     */
     id: number;
-    /**
-     * 用户昵称。
-     */
-    nickName: string;
-    /**
-     * @ignore
-     */
-    isOwner: boolean;
-    /**
-     * 用户头像。
-     */
-    avatar?: string;
+    session: string;
+    payload: any;
 };
 
 /**
@@ -4006,6 +4021,28 @@ export declare type WhiteScene = {
  */
 export declare type EventListener = (event: Event)=>void;
 
+/** // TODO review
+ * 自定义事件监听选项。
+ */
+export declare type MagixEventListenerOptions = {
+    /**
+     * SDK 触发回调的间隔，单位为毫秒，默认值为 500，取值必须大于等于 500。
+     *
+     * SDK 会根据该参数的值周期性触发自定义事件回调。
+     *
+     * // TODO Q：默认值？取值范围？
+     */
+    fireInterval?: number;
+    /**
+     * 调用 {@link dispatchMagixEvent} 后是否立即触发事件回调：
+     * - true：调用 {@link dispatchMagixEvent} 后立即触发事件回调。
+     * - false：（默认）待服务器确认事件发送成功后再发送事件回调。
+     *
+     * 对于自己发出的事件，是否在服务器确认后回调，否则将会在发出的一瞬间就回调。默认是 ``false``。 // TODO Q：这里的服务器是指白板服务器吗？确认什么？
+     */
+    fireSelfEventAfterCommit?: boolean;
+};
+
 /**
  * 事件组监听器。
  */
@@ -4041,37 +4078,31 @@ export declare type CameraState = Camera & {
 export declare type MediaType = "video" | "audio";
 
 /**
+ * 调用 {@link seekToProgressTime} 定位回放的结果。
+ */
+export declare enum PlayerSeekingResult {
+    /**
+     * 跳转进度条成功，并修改了进度 // TODO Q 跳转进度条和修改进度条的区别是什么？
+     */
+    Success = "success",
+    /**
+     * 跳转进度条成功，但并未更新进度 // TODO Q 为什么会出现这种情况？
+     */
+    SuccessButUnnecessary = "successButUnnecessary",
+    /**
+     * 跳转事件被另一个跳转操作覆盖，因此被取消。
+     */
+    Override = "override",
+    /**
+     * 播放器停止，因而终止跳转定位。
+     */
+    Stopped = "stopped",
+}
+
+/**
  * 组件插件的唯一标识符。
  */
 export declare type Identifier = string;
-
-export declare type PencilOptions = {
-    /**
-     * 是否允许使用画笔工具（`pencil`）画点。
-     * - `true`： 允许。
-     * - `false`：（默认）不允许。此时使用画笔工具单击白板绘制的点不会保留在屏幕上。
-     *
-     * **Note**
-     *
-     * 该属性只有在 `disableNewPencil` 设为 `false` 时生效。
-     */
-    enableDrawPoint: boolean;
-    /**
-     * @deprecated
-     * 设置是否关闭贝塞尔曲线优化：
-     * - `true`: 关闭贝塞尔曲线优化。
-     * - `false`: （默认）开启贝塞尔曲线优化。
-     */
-    disableBezier: boolean;
-    /**
-     * @deprecated 已废弃。
-     */
-    sparseWidth: number;
-    /**
-     * @deprecated 已废弃。
-     */
-    sparseHump: number;
-};
 
 /**
  * 空白区域的设置。
