@@ -1,0 +1,843 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Agora 互动白板 Web SDK API 参考</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">Agora 互动白板 Web SDK API 参考</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>Agora 互动白板 Web SDK API 参考</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-9 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p>声网通过全球部署的虚拟网络，提供可以灵活搭配的 API 组合，提供稳定可靠、功能丰富的实时互动白板。</p>
+				<ul>
+					<li><a href="classes/whitewebsdk.html">WhiteWebSdk</a> 类提供初始化互动白板 SDK、加入互动白板实时房间、创建白板回放的主要方法。</li>
+					<li><a href="interfaces/room.html">Room</a> 接口提供管理互动白板实时房间的方法。</li>
+					<li><a href="interfaces/player.html">Player</a> 接口提供控制白板回放的方法。</li>
+					<li><a href="interfaces/displayer.html">Displayer</a> 接口为 <a href="interfaces/room.html">Room</a> 接口和 <a href="interfaces/player.html">Player</a> 接口的父接口。<a href="interfaces/room.html">Room</a> 和 <a href="interfaces/player.html">Player</a> 对象都可以调用该接口中的方法。</li>
+				</ul>
+				<a href="#sdk-初始化" id="sdk-初始化" style="color: inherit; text-decoration: none;">
+					<h3>SDK 初始化</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="classes/whitewebsdk.html">WhiteWebSdk</a></td>
+						<td>初始化 <a href="classes/whitewebsdk.html">WhiteWebSdk</a> 实例</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/callbacks.html">Callbacks</a></td>
+						<td>设置事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="classes/whitewebsdk.html#joinroom">joinRoom</a></td>
+						<td>加入互动白板实时房间并设置房间事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="classes/whitewebsdk.html#replayroom">replayRoom</a></td>
+						<td>创建互动白板回放房间并设置回放事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="classes/whitewebsdk.html#isplayable">isPlayable</a></td>
+						<td>查看房间是否有回放数据</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#whiteversion">WhiteVersion</a></td>
+						<td>查询 SDK 版本号</td>
+					</tr>
+				</table>
+				<a href="#实时房间管理" id="实时房间管理" style="color: inherit; text-decoration: none;">
+					<h3>实时房间管理</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setwritable">setWritable</a></td>
+						<td>设置用户是否为互动模式</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#disconnect">disconnect</a></td>
+						<td>断开用户与实时房间的连接</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setglobalstate">setGlobalState</a></td>
+						<td>修改房间的全局状态</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#iswritable">isWritable</a></td>
+						<td>获取用户是否为互动模式</td>
+					</tr>
+				</table>
+				<a href="#白板工具设置" id="白板工具设置" style="color: inherit; text-decoration: none;">
+					<h3>白板工具设置</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setmemberstate">setMemberState</a></td>
+						<td>修改房间的白板工具状态</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#memberstate">MemberState</a></td>
+						<td>获取白板工具状态</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#copy">copy</a></td>
+						<td>复制选中内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#paste">paste</a></td>
+						<td>粘贴复制的内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#duplicate">duplicate</a></td>
+						<td>复制并粘贴选中的内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#delete">delete</a></td>
+						<td>删除选中的内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#disableserialization">disableSerialization</a></td>
+						<td>开启/禁止本地序列化</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#redo">redo</a></td>
+						<td>重做</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#undo">undo</a></td>
+						<td>撤销上一步操作</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#disableeraseimage">disableEraseImage</a></td>
+						<td>关闭/开启橡皮擦擦除图片功能</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#disabledeviceinputs">disableDeviceInputs</a></td>
+						<td>禁止/允许用户操作白板工具</td>
+					</tr>
+				</table>
+				<a href="#视角操作" id="视角操作" style="color: inherit; text-decoration: none;">
+					<h3>视角操作</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setviewmode">setViewMode</a></td>
+						<td>切换视角模式</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#setcamerabound">setCameraBound</a></td>
+						<td>设置视角边界</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#disablecameratransform">disableCameraTransform</a></td>
+						<td>禁止/允许用户调整（移动或缩放）视角</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#movecamera">moveCamera</a></td>
+						<td>调整视角</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#movecameratocontain">moveCameraToContain</a></td>
+						<td>调整视角以完整显示视觉矩形中的内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#scaleppttofit">scalePptToFit</a></td>
+						<td>调整视角以完整显示 PPT 的内容（指定动画模式）</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#broadcaststate">BroadcastState</td> <td>获取用户的视角状态</td>
+					</tr>
+				</table>
+				<a href="#场景管理" id="场景管理" style="color: inherit; text-decoration: none;">
+					<h3>场景管理</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td>{</a><a href="interfaces/room.html#insertimage">insertImage</a></td>
+						<td>插入图片占位符</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#completeimageupload">completeImageUpload</a></td>
+						<td>展示图片</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#scenestate">SceneState</a></td>
+						<td>获取当前场景组下的场景状态</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#scenemap">SceneMap</a></td>
+						<td>获取当前场景组下的场景列表</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setscenepath">setScenePath</a></td>
+						<td>切换至指定的场景</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#setsceneindex">setSceneIndex</a></td>
+						<td>切换至当前场景组下的指定场景</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#putscenes">putScenes</a></td>
+						<td>在指定场景组下插入多个场景</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#movescene">moveScene</a></td>
+						<td>移动场景</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#removescenes">removeScenes</a></td>
+						<td>删除场景或者场景组</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#cleancurrentscene">cleanCurrentScene</a></td>
+						<td>清除当前场景的所有内容</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#pptnextstep">pptNextStep</a></td>
+						<td>播放动态 PPT 下一页</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#pptpreviousstep">pptPreviousStep</a></td>
+						<td>返回动态 PPT 上一页</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#scenepathtype">ScenePathType</a></td>
+						<td>查询场景路径类型</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#entirescenes">entireScenes</a></td>
+						<td>获取当前房间内所有场景的信息</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#scenepreview">scenePreview</a></td>
+						<td>获取指定场景的预览图</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#generatescreenshot">generateScreenshot</a></td>
+						<td>获取指定场景的截图</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#fillscenesnapshot">fillSceneSnapshot</a></td>
+						<td>获取指定场景的屏幕快照</td>
+					</tr>
+				</table>
+				<a href="#回放管理" id="回放管理" style="color: inherit; text-decoration: none;">
+					<h3>回放管理</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#playbackspeed">playbackSpeed</a></td>
+						<td>设置白板回放的倍速</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#play">play</a></td>
+						<td>开始白板回放</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#pause">pause</a></td>
+						<td>暂停白板回放</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#stop">stop</a></td>
+						<td>停止白板回放</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#seektoprogresstime">seekToProgressTime</a></td>
+						<td>设置白板回放的播放位置</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/player.html#setobservermode">setObserverMode</a></td>
+						<td>设置白板回放的查看模式</td>
+					</tr>
+				</table>
+				<a href="#自定义事件" id="自定义事件" style="color: inherit; text-decoration: none;">
+					<h3>自定义事件</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#dispatchmagixevent">dispatchMagixEvent</a></td>
+						<td>发送自定义事件</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#addmagixeventlistener">addMagixEventListener</a></td>
+						<td>注册自定义事件监听</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#removemagixeventlistener">removeMagixEventListener</a></td>
+						<td>移除自定义事件监听</td>
+					</tr>
+				</table>
+				<a href="#其他方法" id="其他方法" style="color: inherit; text-decoration: none;">
+					<h3>其他方法</h3>
+				</a>
+				<table>
+					<tr>
+						<th>方法</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="interfaces/room.html#timedelay">timeDelay</a></td>
+						<td>设置白板同步延时</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#converttopointinworld">convertToPointInWorld</a></td>
+						<td>转换白板上点的坐标</td>
+					</tr>
+					<tr>
+						<td><a href="interfaces/displayer.html#refreshviewsize">refreshViewSize</a></td>
+						<td>刷新白板的界面</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#createppttask">createPPTTask</a></td>
+						<td>创建 <code>PPTTask</code> 对象</td>
+					</tr>
+				</table>
+				<a href="#事件回调" id="事件回调" style="color: inherit; text-decoration: none;">
+					<h3>事件回调</h3>
+				</a>
+				<table>
+					<tr>
+						<th>事件</th>
+						<th>描述</th>
+					</tr>
+					<tr>
+						<td><a href="globals.html#displayercallbacks">DisplayerCallbacks</a></td>
+						<td><code>Displayer</code> 对象的事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#roomcallbacks">RoomCallbacks</a></td>
+						<td>白板房间的事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#playercallbacks">PlayerCallbacks</a></td>
+						<td>白板回放的事件回调</td>
+					</tr>
+					<tr>
+						<td><a href="globals.html#ppttaskcallbacks">PPTTaskCallbacks</a></td>
+						<td>文档转换任务的进度和结果回调</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/animationmode.html" class="tsd-kind-icon">Animation<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/appliancenames.html" class="tsd-kind-icon">Appliance<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/asyncmoduleloadmode.html" class="tsd-kind-icon">Async<wbr>Module<wbr>Load<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/cursornames.html" class="tsd-kind-icon">Cursor<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/devicetype.html" class="tsd-kind-icon">Device<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/eventphase.html" class="tsd-kind-icon">Event<wbr>Phase</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/eventscope.html" class="tsd-kind-icon">Event<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/keyboardkind.html" class="tsd-kind-icon">Keyboard<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/loggerreportmode.html" class="tsd-kind-icon">Logger<wbr>Report<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/observermode.html" class="tsd-kind-icon">Observer<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/pptkind.html" class="tsd-kind-icon">PPTKind</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/ppttaskstatus.html" class="tsd-kind-icon">PPTTask<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/ppttaskstep.html" class="tsd-kind-icon">PPTTask<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/playerphase.html" class="tsd-kind-icon">Player<wbr>Phase</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/renderengine.html" class="tsd-kind-icon">Render<wbr>Engine</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/roomerrorlevel.html" class="tsd-kind-icon">Room<wbr>Error<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/roomphase.html" class="tsd-kind-icon">Room<wbr>Phase</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/scenepathtype.html" class="tsd-kind-icon">Scene<wbr>Path<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/scope.html" class="tsd-kind-icon">Scope</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/screentype.html" class="tsd-kind-icon">Screen<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/shapetype.html" class="tsd-kind-icon">Shape<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/viewmode.html" class="tsd-kind-icon">View<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/invisibleplugin.html" class="tsd-kind-icon">Invisible<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/whitewebsdk.html" class="tsd-kind-icon">White<wbr>Web<wbr>Sdk</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/callbacks.html" class="tsd-kind-icon">Callbacks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cursor.html" class="tsd-kind-icon">Cursor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cursoradapter.html" class="tsd-kind-icon">Cursor<wbr>Adapter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cursormember.html" class="tsd-kind-icon">Cursor<wbr>Member</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/custominput.html" class="tsd-kind-icon">Custom<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/displayer.html" class="tsd-kind-icon">Displayer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ppttask.html" class="tsd-kind-icon">PPTTask</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/player.html" class="tsd-kind-icon">Player</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/plugininstance.html" class="tsd-kind-icon">Plugin<wbr>Instance</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/plugins.html" class="tsd-kind-icon">Plugins</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/room.html" class="tsd-kind-icon">Room</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#broadcaststate" class="tsd-kind-icon">Broadcast<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#camera" class="tsd-kind-icon">Camera</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#camerabound" class="tsd-kind-icon">Camera<wbr>Bound</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#camerastate" class="tsd-kind-icon">Camera<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#color" class="tsd-kind-icon">Color</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#constructroomparams" class="tsd-kind-icon">Construct<wbr>Room<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentmode" class="tsd-kind-icon">Content<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cursordescription" class="tsd-kind-icon">Cursor<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#displayercallbacks" class="tsd-kind-icon">Displayer<wbr>Callbacks</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#displayerstate" class="tsd-kind-icon">Displayer<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#event" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventfilter" class="tsd-kind-icon">Event<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventlistener" class="tsd-kind-icon">Event<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventslistener" class="tsd-kind-icon">Events<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#floatbaroptions" class="tsd-kind-icon">Float<wbr>Bar<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalstate" class="tsd-kind-icon">Global<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hotkey" class="tsd-kind-icon">Hot<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hotkeychecker" class="tsd-kind-icon">Hot<wbr>Key<wbr>Checker</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hotkeydescription" class="tsd-kind-icon">Hot<wbr>Key<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hotkeyevent" class="tsd-kind-icon">Hot<wbr>Key<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hotkeys" class="tsd-kind-icon">Hot<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#identifier" class="tsd-kind-icon">Identifier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageinformation" class="tsd-kind-icon">Image<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#invisiblecallbacks" class="tsd-kind-icon">Invisible<wbr>Callbacks</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#invisiblepluginclass" class="tsd-kind-icon">Invisible<wbr>Plugin<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#invisibleplugincontext" class="tsd-kind-icon">Invisible<wbr>Plugin<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#joinroomparams" class="tsd-kind-icon">Join<wbr>Room<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#level" class="tsd-kind-icon">Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loggeroptions" class="tsd-kind-icon">Logger<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#margin" class="tsd-kind-icon">Margin</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediatype" class="tsd-kind-icon">Media<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#memberinformation" class="tsd-kind-icon">Member<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#memberstate" class="tsd-kind-icon">Member<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#nativeevent" class="tsd-kind-icon">Native<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ppt" class="tsd-kind-icon">PPT</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ppttaskcallbacks" class="tsd-kind-icon">PPTTask<wbr>Callbacks</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ppttaskparams" class="tsd-kind-icon">PPTTask<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ppttaskprogress" class="tsd-kind-icon">PPTTask<wbr>Progress</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#penciloptions" class="tsd-kind-icon">Pencil<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#playablecheckingparams" class="tsd-kind-icon">Playable<wbr>Checking<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#playercallbacks" class="tsd-kind-icon">Player<wbr>Callbacks</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#playerstate" class="tsd-kind-icon">Player<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#plugin" class="tsd-kind-icon">Plugin</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#plugindescription" class="tsd-kind-icon">Plugin<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#pluginprops" class="tsd-kind-icon">Plugin<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#point" class="tsd-kind-icon">Point</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pptdescription" class="tsd-kind-icon">Ppt<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pptparams" class="tsd-kind-icon">Ppt<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rtcclient" class="tsd-kind-icon">RTCClient</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reconnectionoptions" class="tsd-kind-icon">Reconnection<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rectangle" class="tsd-kind-icon">Rectangle</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#renderplugin" class="tsd-kind-icon">Render<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replayroomparams" class="tsd-kind-icon">Replay<wbr>Room<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#roomcallbacks" class="tsd-kind-icon">Room<wbr>Callbacks</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#roommember" class="tsd-kind-icon">Room<wbr>Member</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#roomstate" class="tsd-kind-icon">Room<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scenedefinition" class="tsd-kind-icon">Scene<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scenemap" class="tsd-kind-icon">Scene<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scenestate" class="tsd-kind-icon">Scene<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#size" class="tsd-kind-icon">Size</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usercursoricons" class="tsd-kind-icon">User<wbr>Cursor<wbr>Icons</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userfonts" class="tsd-kind-icon">User<wbr>Fonts</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#whitescene" class="tsd-kind-icon">White<wbr>Scene</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#whitewebsdkconfiguration" class="tsd-kind-icon">White<wbr>Web<wbr>Sdk<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#worldviewrectangle" class="tsd-kind-icon">World<wbr>View<wbr>Rectangle</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#wrappedcomponents" class="tsd-kind-icon">Wrapped<wbr>Components</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#adminobserverid" class="tsd-kind-icon">Admin<wbr>Observer<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#akkoversion" class="tsd-kind-icon">Akko<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaulthotkeys" class="tsd-kind-icon">Default<wbr>Hot<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#displayerconsumer" class="tsd-kind-icon">Displayer<wbr>Consumer</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#playerconsumer" class="tsd-kind-icon">Player<wbr>Consumer</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#roomconsumer" class="tsd-kind-icon">Room<wbr>Consumer</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#whiteversion" class="tsd-kind-icon">White<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodeaspectfill" class="tsd-kind-icon">content<wbr>Mode<wbr>Aspect<wbr>Fill</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodeaspectfillscale" class="tsd-kind-icon">content<wbr>Mode<wbr>Aspect<wbr>Fill<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodeaspectfit" class="tsd-kind-icon">content<wbr>Mode<wbr>Aspect<wbr>Fit</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodeaspectfitscale" class="tsd-kind-icon">content<wbr>Mode<wbr>Aspect<wbr>Fit<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodeaspectfitspace" class="tsd-kind-icon">content<wbr>Mode<wbr>Aspect<wbr>Fit<wbr>Space</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contentmodescale" class="tsd-kind-icon">content<wbr>Mode<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createppttask" class="tsd-kind-icon">createPPTTask</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#createplugins" class="tsd-kind-icon">create<wbr>Plugins</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#injectcustomstyle" class="tsd-kind-icon">inject<wbr>Custom<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isplayer" class="tsd-kind-icon">is<wbr>Player</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isroom" class="tsd-kind-icon">is<wbr>Room</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setasyncmoduleloadmode" class="tsd-kind-icon">set<wbr>Async<wbr>Module<wbr>Load<wbr>Mode</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
