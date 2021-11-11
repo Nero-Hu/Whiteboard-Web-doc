@@ -1756,9 +1756,9 @@ export declare interface Room extends Displayer {
     readonly uuid: string;
 
     /**
-     * 加入该房间的用户的唯一标识符
+     * 房间内用户的标识，字符串格式。
      */
-     readonly uid: string;
+    readonly uid: string;
 
     /**
      * 房间当前 session 的 UUID。如果开启了自动日志上报功能，日志中会上报该参数。如果上报时尚未与服务器建立连接，则为 `undefined`。
@@ -2696,8 +2696,6 @@ export declare type UserPayload = {
      * 用户标识，字符串格式，不能超过 1024 字节。
      *
      * 该参数为必填。请确保同一房间内每个用户 `uid` 的唯一性。
-     *
-     * // TODO Q：是否有长度限制？支持的字符是否有限制？是否需要确保唯一性？
      */
     uid: string;
 };
@@ -3585,13 +3583,13 @@ export declare type ConstructRoomParams = {
  *      - iOS SDK 2.12.3 或更高版本
  *      - Web SDK 2.12.5 或更高版本
  *
- * - **disableMagixEventDispatchLimit?**: *boolean*
+ * - **disableMagixEventDispatchLimit?**: *boolean* // TODO new
  *
  *   **自从：2.15.2**
  *
  *   是否关闭发送自定义事件的频率限制：
- *   - `true`：关闭频率限制。
- *   - `false`：（默认）开启频率限制。//TODO Q：开启后，频率限制是多少？开启后，有什么好处？
+ *   - `true`：关闭频率限制。可能会出现卡顿。
+ *   - `false`：（默认）开启频率限制。开启后，SDK 每隔 75 ms 发送一个事件。
  *
  * - **disableEraseImage?**: *boolean*
  *
@@ -3599,13 +3597,13 @@ export declare type ConstructRoomParams = {
  *    - `true`： 禁止擦除。
  *    - `false`：（默认）允许擦除。
  *
- * - **disablePencilWrittingLimitFrequency**?: *boolean*
+ * - **disablePencilWrittingLimitFrequency**?: *boolean* // TODO new
  *
  *   **自从：2.15.2**
  *
- *   是否关闭使用 `pencil` 工具书写的频率限制：// TODO Q：是否只对 pencil 工具有效？
- *   - `true`：关闭频率限制。
- *   - `false`：（默认）开启频率限制。//TODO Q：开启后，频率限制是多少？开启后，有什么好处？
+ *   是否关闭使用 `pencil` 工具书写的频率限制：
+ *   - `true`：关闭频率限制。可能会增加 CPU 性能消耗。
+ *   - `false`：（默认）开启频率限制。笔迹同步会有轻微延迟，但是可以降低 CPU 性能消耗。
  *
  * - **floatBar?**: *boolean | Partial<FloatBarOptions>*
  *
@@ -3641,8 +3639,9 @@ export declare type JoinRoomParams = ConstructRoomParams & {
     disableDeviceInputs?: boolean;
     enableDrawPoint?: boolean;
     disableNewPencil?: boolean;
-    disableMagixEventDispatchLimit?: boolean;
+    disableMagixEventDispatchLimit?: boolean; // TODO new
     disableEraseImage?: boolean;
+    disablePencilWrittingLimitFrequency?: boolean; // TODO new
     floatBar?: boolean | Partial<FloatBarOptions>;
     hotKeys?: Partial<HotKeys>;
     rejectWhenReadonlyErrorLevel?: RoomErrorLevel;
@@ -3935,8 +3934,8 @@ export declare enum Scope {
 }
 
 
-// TODO Q: 这个是不是可以直接删掉了？或直接在文档里隐藏？
-/**
+
+/** // TODO new
  * 自定义用户信息。
  * @deprecated 已废弃。请改用 {@link JoinRoomParams} 中的 `userPayload`。
  */
@@ -4029,16 +4028,12 @@ export declare type MagixEventListenerOptions = {
      * SDK 触发回调的间隔，单位为毫秒，默认值为 500，取值必须大于等于 500。
      *
      * SDK 会根据该参数的值周期性触发自定义事件回调。
-     *
-     * // TODO Q：默认值？取值范围？
      */
     fireInterval?: number;
     /**
-     * 调用 {@link dispatchMagixEvent} 后是否立即触发事件回调：
+     * 调用 {@link dispatchMagixEvent} 后是否待服务器确认事件发送成功后再发送事件回调：
      * - true：调用 {@link dispatchMagixEvent} 后立即触发事件回调。
      * - false：（默认）待服务器确认事件发送成功后再发送事件回调。
-     *
-     * 对于自己发出的事件，是否在服务器确认后回调，否则将会在发出的一瞬间就回调。默认是 ``false``。 // TODO Q：这里的服务器是指白板服务器吗？确认什么？
      */
     fireSelfEventAfterCommit?: boolean;
 };
@@ -4078,15 +4073,15 @@ export declare type CameraState = Camera & {
 export declare type MediaType = "video" | "audio";
 
 /**
- * 调用 {@link seekToProgressTime} 定位回放的结果。
+ * 调用 {@link seekToProgressTime} 定位回放的结果。// TODO new
  */
-export declare enum PlayerSeekingResult {
+ export declare enum PlayerSeekingResult {
     /**
-     * 跳转进度条成功，并修改了进度 // TODO Q 跳转进度条和修改进度条的区别是什么？
+     * 成功跳转至指定播放位置。
      */
     Success = "success",
     /**
-     * 跳转进度条成功，但并未更新进度 // TODO Q 为什么会出现这种情况？
+     * 当前播放位置已经是指定播放位置，无需跳转。
      */
     SuccessButUnnecessary = "successButUnnecessary",
     /**
