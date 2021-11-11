@@ -1569,9 +1569,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      *
      * @param event 想要监听的自定义事件名称。
      * @param listener 自定义事件回调，详见 {@link EventListener}。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。
-     * @param options 自从 v2.15.2。 自定义事件监听选项。详见 {@link MagixEventListenerOptions}。// TODO review
+     * @param options 自从 v2.15.2。 自定义事件监听设置选项。详见 {@link MagixEventListenerOptions}。// TODO review
      */
-     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
+    addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
     /**
      * 注册自定义事件监听。
@@ -1756,7 +1756,7 @@ export declare interface Room extends Displayer {
     readonly uuid: string;
 
     /**
-     * 房间内用户的标识，字符串格式。
+     * 房间内用户的唯一标识符，字符串格式。
      */
     readonly uid: string;
 
@@ -2510,7 +2510,7 @@ export declare interface Player extends Displayer {
     stop(): void;
 
     /** // TODO review
-     * 跳转到指定位置开始白板回放。
+     * 跳转到指定回放位置。
      *
      * @since v2.15.2
      *
@@ -2682,7 +2682,7 @@ export declare type RoomMember = {
 };
 
 /**
- * 自定义用户信息。
+ * 自定义用户信息。// TODO review
  *
  * @since v2.15.2
  */
@@ -4022,16 +4022,18 @@ export declare type EventListener = (event: Event)=>void;
 
 /** // TODO review
  * 自定义事件监听选项。
+ *
+ * @since v2.15.2
  */
 export declare type MagixEventListenerOptions = {
     /**
-     * SDK 触发回调的间隔，单位为毫秒，默认值为 500，取值必须大于等于 500。
+     * SDK 触发自定义事件回调的间隔，单位为毫秒，默认值为 500。取值必须 ≥ 500。
      *
      * SDK 会根据该参数的值周期性触发自定义事件回调。
      */
     fireInterval?: number;
     /**
-     * 调用 {@link dispatchMagixEvent} 后是否待服务器确认事件发送成功后再发送事件回调：
+     * 设置是否待服务器确认 {@link dispatchMagixEvent} 方法调用成功后再发送事件回调：
      * - true：调用 {@link dispatchMagixEvent} 后立即触发事件回调。
      * - false：（默认）待服务器确认事件发送成功后再发送事件回调。
      */
@@ -4072,8 +4074,10 @@ export declare type CameraState = Camera & {
  */
 export declare type MediaType = "video" | "audio";
 
-/**
- * 调用 {@link seekToProgressTime} 定位回放的结果。// TODO new
+/** // TODO new
+ * 调用 {@link seekToProgressTime} 定位回放的结果。
+ *
+ * @since v2.15.2
  */
  export declare enum PlayerSeekingResult {
     /**
@@ -4085,11 +4089,11 @@ export declare type MediaType = "video" | "audio";
      */
     SuccessButUnnecessary = "successButUnnecessary",
     /**
-     * 跳转事件被另一个跳转操作覆盖，因此被取消。
+     * 跳转操作被另一个跳转操作覆盖，因此被取消。
      */
     Override = "override",
     /**
-     * 播放器停止，因而终止跳转定位。
+     * 跳转操作因播放器停止而终止。
      */
     Stopped = "stopped",
 }
