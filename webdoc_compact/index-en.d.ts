@@ -1611,7 +1611,6 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
 
     /**
-     * @ignore
      * Adds a listener for a customized event.
      *
      * You can receive the customized event callback after a successful call of this method.
@@ -1623,8 +1622,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param event The name of the customized event to be listened for.
      * @param listener The customized event callback. See {@link EventListener}.
      * If you add multiple callbacks for the same event, the callback added later overrides the one added earlier.
+     * @param options Since v2.15.2. Options for setting a customized event listener. See {@link MagixEventListenerOptions}. // TODO review
      */
-    addMagixEventListener(event: string, listener: EventListener): void;
+    addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
     /**
      * Adds a listener for a customized event.
@@ -1809,6 +1809,11 @@ export declare interface Room extends Displayer {
    * Room UUID, the unique identifier of a room.
    */
   readonly uuid: string;
+
+  /**
+   * The unique identifier of a user in the room, which is in string format.
+   */
+  readonly uid: string;
 
   /**
    * The unique identifier (UUID) of the current session in the room. If you
@@ -2636,14 +2641,21 @@ export declare interface Player extends Displayer {
     stop(): void;
 
     /**
-     * Sets the playback position (ms) of the whiteboard content.
+     * Seeks to a specified playback position (ms).
+     *
+     * @since v2.15.2
      *
      * By default, the playback starts from the beginning of the file. You can
-     * call this method to enable the playback to start from your specified position.
+     * call this method to start the playback from your specified position.
+     *
+     * After a successful method call, the SDK returns `PlayerSeekingResult` to report the result of the seek operation.
      *
      * @param progressTime The playback position (ms).
+     *
+     * @returns The result of the seek operation. See {@link PlayerSeekingResult}.
      */
-    seekToProgressTime(progressTime: number): void;
+    seekToProgressTime(progressTime: number): Promise<PlayerSeekingResult>;
+
 
     /**
      * Sets the mode for watching the whiteboard playback.
@@ -2817,9 +2829,30 @@ export declare type RoomMember = {
      */
     session: string;
     /**
-     * The customized user information, which is passed in when the user joins the room.
+     * The customized user information, which is passed in when the user joins the room. See {@link UserPayload}.
+     *
+     * @since v2.15.2
      */
-    payload: any;
+     payload: UserPayload;
+};
+
+/** // TODO review
+ * Customized user information.
+ *
+ * @since v2.15.2
+ */
+ export declare type UserPayload = {
+    /**
+     * The customized user information in key-value pairs. For example, `"avatar", "https://example.com/user.png"`.
+     */
+    [key: string]: any;
+} & {
+    /**
+     * The unique identifier of a user in a string format. The maximum length is 1024 bytes.
+     *
+     * This parameter is required. Ensure that the `uid` of each user in the same room is unique.
+     */
+    uid: string;
 };
 
 /**
@@ -3783,11 +3816,28 @@ export declare type ConstructRoomParams = {
  *      - iOS SDK 2.12.3 or later
  *      - Web SDK 2.12.5 or later
  *
+ * - **disableMagixEventDispatchLimit?**: *boolean* // TODO new
+ *
+ *   **Since v2.15.2**
+ *
+ *   Whether to disable the frequency limit for sending custom events:
+ *   - `true`: Disable the frequency limit. When the frequency limit is disabled, freezes may occur.
+ *   - `false`: (Default) Enable the frequency limit. When the frequency limit is enabled, the SDK sends an event every 75 ms.
+ *
  * - **disableEraseImage?**: *boolean*
  *
  *    Whether to disable the eraser from erasing images on the whiteboard:
  *    - `true`：Disable the eraser from erasing images.
  *    - `false`：(Default) Enable the eraser to erase images.
+ *
+ * - **disablePencilWrittingLimitFrequency**?: *boolean* // TODO new
+ *
+ *   **Since v2.15.2**
+ *
+ *   Whether to disable the frequency limit for writing using the `pencil` tool:
+ *   - `true`: Disable the frequency limit. When the frequency limit is disabled, CPU consumption may increase.
+ *   - `false`: (Default) Enable the frequency limit. When the frequency limit is enabled, the writing synchronization can
+ *   be slightly delayed, but CPU consumption may decrease.
  *
  * - **floatBar?**: *boolean | Partial<FloatBarOptions>*
  *
@@ -3834,7 +3884,11 @@ export declare type JoinRoomParams = ConstructRoomParams & {
 
     disableNewPencil?: boolean;
 
+    disableMagixEventDispatchLimit?: boolean; // TODO new
+
     disableEraseImage?: boolean;
+
+    disablePencilWrittingLimitFrequency?: boolean; // TODO new
 
     floatBar?: boolean | Partial<FloatBarOptions>;
 
@@ -4152,23 +4206,10 @@ export declare enum Scope {
  * Customized user information.
  * @deprecated Use `userPayload` in {@link JoinRoomParams} instead.
  */
-export declare type MemberInformation = {
-    /**
-     * The user ID.
-     */
+ export declare type MemberInformation = {
     id: number;
-    /**
-     * The user's nickname.
-     */
-    nickName: string;
-    /**
-     * @ignore
-     */
-    isOwner: boolean;
-    /**
-     * The user's avatar.
-     */
-    avatar?: string;
+    session: string;
+    payload: any;
 };
 
 /**
@@ -4250,6 +4291,27 @@ export declare type WhiteScene = {
  */
 export declare type EventListener = (event: Event)=>void;
 
+/** // TODO review
+ * Options for setting a customized event listener.
+ *
+ * @since v2.15.2
+ */
+ export declare type MagixEventListenerOptions = {
+    /**
+     * The interval (ms) of the SDK triggering customized event callbacks. The default value is 500.
+     * The value must be equal to or greater than 500.
+     *
+     * The SDK triggers the customized event callbacks based on the set value of this parameter.
+     */
+    fireInterval?: number;
+    /**
+     * Sets whether to send event callbacks after the Agora server acknowledges the {@link dispatchMagixEvent} method call is successful:
+     * - true: Send the event callbacks immediately after the {@link dispatchMagixEvent} method call.
+     * - false: (Default) Send the event callbacks after the Agora server acknowledges the {@link dispatchMagixEvent} method call is successful.
+     */
+    fireSelfEventAfterCommit?: boolean;
+};
+
 /**
  * The listener for a group of events.
  */
@@ -4283,6 +4345,30 @@ export declare type CameraState = Camera & {
  * - `audio`: An audio file.
  */
 export declare type MediaType = "video" | "audio";
+
+/** // TODO review
+ * The result of the seek operation by calling the {@link seekToProgressTime} method.
+ *
+ * @since v2.15.2
+ */
+ export declare enum PlayerSeekingResult {
+    /**
+     * The SDK successfully seeks to the specified playback position.
+     */
+    Success = "success",
+    /**
+     * The seek operation is not necessary because the current playback position is the specified playback position.
+     */
+    SuccessButUnnecessary = "successButUnnecessary",
+    /**
+     * The seek operation is cancelled because it is overridden by another seek operation.
+     */
+    Override = "override",
+    /**
+     * The seek operation is stopped because the player stops.
+     */
+    Stopped = "stopped",
+}
 
 /**
  * The unique identifier of a component plugin.

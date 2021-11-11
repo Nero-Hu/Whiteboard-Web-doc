@@ -1554,37 +1554,131 @@ export declare interface Displayer<
     rectangle: Rectangle &
       Readonly<{
         animationMode?: AnimationMode;
-      }>
-  ): void;
+    }>): void;
 
-  /**
-   * 将白板绑定到 HTML 元素上。
-   *
-   * @param element 用于容纳白板的 HTML 元素容器。若为 `null`，表示解除对白板的绑定。
-   */
-  bindHtmlElement(element: HTMLDivElement | null): void;
-
-  /**
-   * 获取指定的不可见插件。
-   *
-   * @param kind 不可见插件的类型。
-   * @returns 指定的不可见插件。
-   */
-  getInvisiblePlugin<A extends Object>(kind: string): InvisiblePlugin<A> | null;
-
-  /**
-   * 转换白板上点的坐标。
-   *
-   * 该方法可以将屏幕坐标系（以屏幕左上角为原点，横轴为 X 轴，正方向向右，纵轴为 Y 轴，正方向向下）
-   * 中的坐标转换为世界坐标系（以白板初始化时的中点为原点，横轴为 X 轴，正方向向右，纵轴为 Y 轴，正方向向下）
-   * 中的坐标。
-   *
-   * @param point 点在屏幕坐标系中的坐标。
-   * @returns 点在世界坐标系中的坐标。
-   */
-  convertToPointInWorld(point: {
     /**
-     * 点在屏幕坐标系上的 X 轴坐标。
+     * 将白板绑定到 HTML 元素上。
+     *
+     * @param element 用于容纳白板的 HTML 元素容器。若为 `null`，表示解除对白板的绑定。
+     */
+    bindHtmlElement(element: HTMLDivElement | null): void;
+
+    /**
+     * 获取指定的不可见插件。
+     *
+     * @param kind 不可见插件的类型。
+     * @returns 指定的不可见插件。
+     */
+    getInvisiblePlugin<A extends Object>(kind: string): InvisiblePlugin<A> | null;
+
+    /**
+     * 转换白板上点的坐标。
+     *
+     * 该方法可以将屏幕坐标系（以屏幕左上角为原点，横轴为 X 轴，正方向向右，纵轴为 Y 轴，正方向向下）
+     * 中的坐标转换为世界坐标系（以白板初始化时的中点为原点，横轴为 X 轴，正方向向右，纵轴为 Y 轴，正方向向下）
+     * 中的坐标。
+     *
+     * @param point 点在屏幕坐标系中的坐标。
+     * @returns 点在世界坐标系中的坐标。
+     */
+    convertToPointInWorld(point: {
+        /**
+         * 点在屏幕坐标系上的 X 轴坐标。
+         */
+        x: number;
+        /**
+         * 点在屏幕坐标系上的 Y 轴坐标。
+         */
+        y: number;
+    }): {
+        /**
+         * 点在世界坐标系上的 X 轴坐标。
+         */
+        x: number;
+        /**
+         * 点在世界坐标系上的 Y 轴坐标。
+         */
+        y: number;
+    };
+
+    /**
+     * 生成特定场景的预览图。
+     *
+     * @param  scenePath 特定场景的路径。
+     * @param  div 用于显示预览内容的 div。
+     * @param  width 预览图的宽度。自 2.3.8 起，该参数为可选参数，如果不填，则默认为展示预览内容的 div 的宽度。
+     * @param  height 预览图的高度。自 2.3.8 起，该参数为可选参数，如果不填，则默认为展示预览内容的 div 的高度。
+     */
+    scenePreview(scenePath: string, div: HTMLElement, width: number | undefined, height: number | undefined): void;
+
+    /**
+     * 生成特定场景的截图。
+     * @param scenePath 特定场景的路径。
+     * @param width 截图的宽度。
+     * @param height 截图的高度
+     * @returns 截图的 URL 地址。
+     *
+     * **Note**
+     *
+     * 如果场景中展示了图片或动态 PPT 幻灯片，请确保该图片或 PPT 幻灯片的存储服务器支持跨域资源共享；否则，生成的截图中可能不会显示该图片或 PPT 幻灯片。
+     */
+    generateScreenshot(scenePath?: string, width?: number, height?: number): Promise<string>;
+
+    /**
+     * 生成特定场景的屏幕快照。
+     * @param scenePath 特定场景的路径。
+     * @param div 用于显示屏幕快照的 div。
+     * @param width 屏幕快照的宽度。自 2.3.8 起，该参数为可选参数，如果不填，则默认为展示屏幕快照的 div 的宽度。
+     * @param height 屏幕快照的高度。自 2.3.8 起，该参数为可选参数，如果不填，则默认为展示屏幕快照的 div 的高度。
+     */
+    fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
+
+    /**
+     * 注册自定义事件监听。
+     *
+     * 成功注册后，你可以接收到对应的自定义事件通知。
+     *
+     * **Note**
+     *
+     * 对于同名的自定义事件，SDK 仅支持触发一个回调。
+     *
+     * @param event 想要监听的自定义事件名称。
+     * @param listener 自定义事件回调，详见 {@link EventListener}。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。
+     * @param options 自从 v2.15.2。 自定义事件监听设置选项。详见 {@link MagixEventListenerOptions}。// TODO review
+     */
+    addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
+
+    /**
+     * 注册自定义事件监听。
+     *
+     * 成功注册后，你可以接收到对应的自定义事件通知。
+     *
+     * **Note**
+     *
+     * 对于同名的自定义事件，SDK 仅支持触发一个回调。
+     *
+     * @param event 想要监听的自定义事件名称。
+     * @param listener 自定义事件回调，详见 {@link EventsListener}。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。
+     * @param fireInterval SDK 触发回调的频率，单位为毫秒。该参数最小值为 500 ms，如果设置为低于该值会被重置为 500 ms。
+     *
+     * @example
+     * ```typescript
+     * function listener(events) {
+     *     // events 是一个数组
+     *     for (const event of events) {
+     *         // 回调事件 event
+     *     }
+     * }
+     * displayer.addMagixEventListener("my-event", listener, 100);
+     * ```
+     */
+    addMagixEventListener(event: string, listener: EventsListener, fireInterval?: number): void;
+
+    /**
+     * 移除自定义事件监听。
+     *
+     * @param event 想要移除监听的自定义事件名称。
+     * @param listener 要移除的监听。若不传，该自定义事件之下的所有监听器将全部注销。
      */
     x: number;
     /**
@@ -1844,7 +1938,7 @@ export declare interface Room extends Displayer {
   readonly uuid: string;
 
   /**
-   * 房间内用户的标识，字符串格式。
+   * 房间内用户的唯一标识符，字符串格式。
    */
   readonly uid: string;
 
@@ -2404,26 +2498,26 @@ export declare interface Room extends Displayer {
  * 房间连接状态。
  */
 export declare enum RoomPhase {
-  /**
-   * 连接中。
-   */
-  Connecting = "connecting",
-  /**
-   * 已连接。
-   */
-  Connected = "connected",
-  /**
-   * 正在重连。
-   */
-  Reconnecting = "reconnecting",
-  /**
-   * 正在断开连接。
-   */
-  Disconnecting = "disconnecting",
-  /**
-   * 已断开连接。
-   */
-  Disconnected = "disconnected",
+    /**
+     * 连接中。
+     */
+    Connecting = "connecting",
+    /**
+     * 已连接。
+     */
+    Connected = "connected",
+    /**
+     * 正在重连。
+     */
+    Reconnecting = "reconnecting",
+    /**
+     * 正在断开连接。
+     */
+    Disconnecting = "disconnecting",
+    /**
+     * 已断开连接。
+     */
+    Disconnected = "disconnected",
 }
 
 /**
@@ -2542,100 +2636,100 @@ export declare type SceneDefinition = {
  * `Player` 接口继承 `Displayer` 接口，并且增加用于操作白板回放的属性。
  */
 export declare interface Player extends Displayer {
-  /**
-   * 回放录像所属房间的 UUID。
-   */
-  readonly roomUUID: string;
+    /**
+     * 回放录像所属房间的 UUID。
+     */
+    readonly roomUUID: string;
 
-  /**
-   * 当前录像所属分片的 UUID。
-   */
-  readonly slice: string;
+    /**
+     * 当前录像所属分片的 UUID。
+     */
+    readonly slice: string;
 
-  /**
-   * 是否能立即播放（可能会缓冲）。
-   *
-   * @since 2.9.16
-   *
-   * - `true`：可以立即播放。
-   * - `false`：不能立即播放。
-   */
-  readonly isPlayable: boolean;
+    /**
+     * 是否能立即播放（可能会缓冲）。
+     *
+     * @since 2.9.16
+     *
+     * - `true`：可以立即播放。
+     * - `false`：不能立即播放。
+     */
+    readonly isPlayable: boolean;
 
-  /**
-   * 回放的阶段，详见 {@link PlayerPhase}。
-   */
-  readonly phase: PlayerPhase;
+    /**
+     * 回放的阶段，详见 {@link PlayerPhase}。
+     */
+    readonly phase: PlayerPhase;
 
-  /**
-   * 回放的状态，详见 {@link PlayerState}。
-   */
-  readonly state: PlayerState;
+    /**
+     * 回放的状态，详见 {@link PlayerState}。
+     */
+    readonly state: PlayerState;
 
-  /**
-   * 回放的进度，单位为毫秒。录像开始时为 `0`。
-   */
-  readonly progressTime: number;
+    /**
+     * 回放的进度，单位为毫秒。录像开始时为 `0`。
+     */
+    readonly progressTime: number;
 
-  /**
-   * 回放的总时长，单位为毫秒。
-   */
-  readonly timeDuration: number;
+    /**
+     * 回放的总时长，单位为毫秒。
+     */
+    readonly timeDuration: number;
 
-  /**
-   * 回放的总帧数。
-   */
-  readonly framesCount: number;
+    /**
+     * 回放的总帧数。
+     */
+    readonly framesCount: number;
 
-  /**
-   * 回放的起始时间（Unix 时间戳，单位为毫秒）。
-   */
-  readonly beginTimestamp: number;
+    /**
+     * 回放的起始时间（Unix 时间戳，单位为毫秒）。
+     */
+    readonly beginTimestamp: number;
 
-  /**
-   * 回放的播放倍速。取值必须大于 `0`，设为 `1` 表示按原速播放。
-   */
-  playbackSpeed: number;
+    /**
+     * 回放的播放倍速。取值必须大于 `0`，设为 `1` 表示按原速播放。
+     */
+    playbackSpeed: number;
 
-  /**
-   * 开始白板回放。
-   *
-   * 暂停回放后，可以调用该方法继续回放。
-   */
-  play(): void;
+    /**
+     * 开始白板回放。
+     *
+     * 暂停回放后，可以调用该方法继续回放。
+     */
+    play(): void;
 
-  /**
-   * 暂停白板回放。
-   */
-  pause(): void;
+    /**
+     * 暂停白板回放。
+     */
+    pause(): void;
 
-  /**
-   * 停止白板回放。
-   *
-   * 白板回放停止后，`Player` 资源会被释放。如果想要重新播放，需要重新初始化 `Player` 对象。
-   */
-  stop(): void;
+    /**
+     * 停止白板回放。
+     *
+     * 白板回放停止后，`Player` 资源会被释放。如果想要重新播放，需要重新初始化 `Player` 对象。
+     */
+    stop(): void;
 
-  /** // TODO review
-   * 跳转到指定位置开始白板回放。
-   *
-   * @since v2.15.2
-   *
-   * 白板回放的起始时间点为 0，你可以调用该方法，跳转到指定的回放位置。
-   *
-   * 成功调用该方法后，SDK 会返回 `PlayerSeekingResult`，报告定位回放的结果。
-   *
-   * @param progressTime 指定的回放位置，单位为毫秒。
-   * @returns 定位回放的结果。详见 {@link PlayerSeekingResult}。
-   */
-  seekToProgressTime(progressTime: number): Promise<PlayerSeekingResult>;
+    /** // TODO review
+     * 跳转到指定回放位置。
+     *
+     * @since v2.15.2
+     *
+     * 白板回放的起始时间点为 0，你可以调用该方法，跳转到指定的回放位置。
+     *
+     * 成功调用该方法后，SDK 会返回 `PlayerSeekingResult`，报告定位回放的结果。
+     *
+     * @param progressTime 指定的回放位置，单位为毫秒。
+     * @returns 定位回放的结果。详见 {@link PlayerSeekingResult}。
+     */
+    seekToProgressTime(progressTime: number): Promise<PlayerSeekingResult>;
 
-  /**
-   * 设置白板回放的观看模式。
-   *
-   * @param observerMode 白板回放的观看模式，详见 {@link ObserverMode}。
-   */
-  setObserverMode(observerMode: ObserverMode): void;
+    /**
+     * 设置白板回放的观看模式。
+     *
+     * @param observerMode 白板回放的观看模式，详见 {@link ObserverMode}。
+     */
+    setObserverMode(observerMode: ObserverMode): void;
 }
 
 /**
@@ -2788,7 +2882,7 @@ export declare type RoomMember = {
 };
 
 /**
- * 自定义用户信息。
+ * 自定义用户信息。// TODO review
  *
  * @since v2.15.2
  */
@@ -4213,20 +4307,22 @@ export declare type EventListener = (event: Event) => void;
 
 /** // TODO review
  * 自定义事件监听选项。
+ *
+ * @since v2.15.2
  */
 export declare type MagixEventListenerOptions = {
-  /**
-   * SDK 触发回调的间隔，单位为毫秒，默认值为 500，取值必须大于等于 500。
-   *
-   * SDK 会根据该参数的值周期性触发自定义事件回调。
-   */
-  fireInterval?: number;
-  /**
-   * 调用 {@link dispatchMagixEvent} 后是否待服务器确认事件发送成功后再发送事件回调：
-   * - true：调用 {@link dispatchMagixEvent} 后立即触发事件回调。
-   * - false：（默认）待服务器确认事件发送成功后再发送事件回调。
-   */
-  fireSelfEventAfterCommit?: boolean;
+    /**
+     * SDK 触发自定义事件回调的间隔，单位为毫秒，默认值为 500。取值必须 ≥ 500。
+     *
+     * SDK 会根据该参数的值周期性触发自定义事件回调。
+     */
+    fireInterval?: number;
+    /**
+     * 设置是否待服务器确认 {@link dispatchMagixEvent} 方法调用成功后再发送事件回调：
+     * - true：调用 {@link dispatchMagixEvent} 后立即触发事件回调。
+     * - false：（默认）待服务器确认事件发送成功后再发送事件回调。
+     */
+    fireSelfEventAfterCommit?: boolean;
 };
 
 /**
@@ -4263,26 +4359,28 @@ export declare type CameraState = Camera & {
  */
 export declare type MediaType = "video" | "audio";
 
-/**
- * 调用 {@link seekToProgressTime} 定位回放的结果。// TODO new
+/** // TODO new
+ * 调用 {@link seekToProgressTime} 定位回放的结果。
+ *
+ * @since v2.15.2
  */
-export declare enum PlayerSeekingResult {
-  /**
-   * 成功跳转至指定播放位置。
-   */
-  Success = "success",
-  /**
-   * 当前播放位置已经是指定播放位置，无需跳转。
-   */
-  SuccessButUnnecessary = "successButUnnecessary",
-  /**
-   * 跳转事件被另一个跳转操作覆盖，因此被取消。
-   */
-  Override = "override",
-  /**
-   * 播放器停止，因而终止跳转定位。
-   */
-  Stopped = "stopped",
+ export declare enum PlayerSeekingResult {
+    /**
+     * 成功跳转至指定播放位置。
+     */
+    Success = "success",
+    /**
+     * 当前播放位置已经是指定播放位置，无需跳转。
+     */
+    SuccessButUnnecessary = "successButUnnecessary",
+    /**
+     * 跳转操作被另一个跳转操作覆盖，因此被取消。
+     */
+    Override = "override",
+    /**
+     * 跳转操作因播放器停止而终止。
+     */
+    Stopped = "stopped",
 }
 
 /**
