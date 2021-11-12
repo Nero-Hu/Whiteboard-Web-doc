@@ -224,16 +224,19 @@ export declare type UserFonts = {
     [font: string]: string;
 };
 
-//TODO Q：到底是哪个版本新增的？之前说可能是 2.13.9，但是 2.13.2 好像就有了。
 /**
  * 预览 PPT 文件。
+ *
+ * @since 2.13.2
+ *
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前加载下一页 PPT 的内容。详情参考loadPPT参数说明 // TODO Q：这是个 bool 值，为什么要详见 loadPPT 参数？这个参数说明在哪里？
- * @param userFonts 用户传入的自定义字体。详情参考loadPPT参数说明 // TODO Q：为什么要参考loadPPT参数说明？
+ * @param preload 是否提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储，可以避免使用 IndexedDB 引起的兼容问题。// TODO CT review
+ * （A: loadPPT() 是一个内部函数，最终没有导出，所以打包类型的时候被扔掉了。这里 preload 指：是否对下一页资源，进行提前请求。只做请求，利用浏览器对 response 的缓存逻辑，来存储，不再使用 indexedDB 避免兼容等问题。）
+ * @param userFonts 用户传入的自定义字体。
  * @param logger PPT 预览的日志。
- * @param pptPrams PPT 预览的其他参数，方便升级等兼容行为，详情参考loadPPT参数说明 // TODO Q：为什么要参考loadPPT参数说明？
+ * @param pptPrams PPT 预览的其他参数。
  * @param events 事件。
  *
  * @returns EventEmitter 对象。
@@ -4010,29 +4013,30 @@ export declare enum Scope {
     Magix = "magix",
 }
 
-//TODO Q：这个是调用 https://api.netless.link/v5/services/conversion/tasks/{uuid} 接口查询文档转换任务时，服务端返回的 HTTP 响应内容吗？
+//TODO CT review
 /**
- * 轮询 PPT 转换进度的响应内容。
+ * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)
+ * 接口时，服务端返回的 HTTP 响应内容。
  */
 export declare type ConversionResponse = {
     /**
-     * PPT 转换任务的 UUID，即转换任务的唯一识别符。
+     * 转换任务的 UUID，即转换任务的唯一识别符。
      */
     uuid: string;
     /**
-    * PPT 转换任务的类型。
+    * 转换任务的类型。
     */
     type: ConversionType;
     /**
-    * PPT 转换任务的状态。
+    * 转换任务的状态。
     */
     status: Status;
     /**
-    * PPT 转换失败的原因。
+    * 转换失败的原因。
     */
     failedReason?: string;
     /**
-    * PPT 转换任务的进度详情。
+    * 转换任务的进度详情。
     */
     progress: Progress;
 };
@@ -4041,14 +4045,14 @@ export declare type ConversionResponse = {
  * PPT 预览的配置。
  */
  export declare type PreviewConfig = {
-    /** //TODO Q：这个具体是指预览界面的菜单吗？
-     * 将菜单栏替换成其它语言。详见 {@link International}。
+    /** //TODO CT review
+     * 将预览界面的菜单栏替换成其它语言。详见 {@link International}。
      */
     international?: International;
  };
 
-/** //TODO Q：请提供详细的参数解释。
- * PPT 预览的日志。
+/**
+ * 日志。
  */
 export declare type Logger<C = {
     [key: string]: any;
@@ -4297,17 +4301,15 @@ export declare type UserCursorIcons = {
     [key: string]: ReadonlyArray<string>;
 };
 
-//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？已有的 PPTKind 和这个很类似
-/** PPT 转换任务的类型。 */
+/** 文档转换任务的类型。 */
 export declare enum ConversionType {
-    /** 动态转换，即把 PPTX 文件转换为网页。 */
+    /** 动态文档转换，即把 PPTX 文件转换为网页。 */
     dynamic = "dynamic",
-    /** 静态转换，即把 PPTX 文件转换成静态图。 */
+    /** 静态文档转换，即把 PPT、PPTX、Word、PDF 等格式的文件转换成静态图。 */
     static = "static",
   }
 
-//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？
-/** PPT 转换任务的状态。 */
+/** 文档转换任务的状态。 */
 export declare enum Status {
     /** 等待转换。 */
     waiting = "Waiting",
@@ -4319,8 +4321,7 @@ export declare enum Status {
     fail = "Fail",
 }
 
-//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？
-/** PPT 转换任务的进度详情。 */
+/** 文档转换任务的进度详情。 */
 export declare type Progress = {
     /** 总页数。 */
     totalPageSize: number;
@@ -4335,39 +4336,38 @@ export declare type Progress = {
 };
 
 /**
- * //TODO Q：`International` 是用于设置预览区域的界面文字的吗？还是预览菜单栏的悬浮文字？例如，如果给 `prePage` 传入 "previous"，界面就会显示 previous 吗？
- * 用于在预览 PPT 时替换白板上方菜单的界面语言，可以直接传入要展示的语言。
+ * //TODO CT review
+ * 用于替换 PPT 预览菜单栏的悬浮文字，可以直接传入要展示的语言。
+ * 例如将 `prePage` 设为 `Previous`，菜单栏的悬浮文字就会显示 **Previous**。
  */
 export declare type International = {
-    //TODO Q：请逐一确认下面的解释是否正确
-    /** 上一页 */
+    /** 替换“上一页”的语言。 */
     prePage?: string;
-    /** 下一页 */
+    /** 替换“下一页”的语言。 */
     nextPage?: string;
-    /** 上一步 */
+    /** 替换“上一步”的语言。 */
     preStep?: string;
-    /** 下一步 */
+    /** 替换“下一步”的语言。 */
     nextStep?: string;
-    /** 跳转到 */
+    /** 替换“跳转到”的语言。 */
     jumpTo?: string;
-    /** 显示侧边栏 */
+    /** 替换“显示侧边栏”的语言。 */
     displaySidebar?: string;
-    /** 隐藏侧边栏 */
+    /** 替换“隐藏侧边栏”的语言。 */
     hideSidebar?: string;
-    /** 显示 PPT 备注 */
+    /** 替换“显示 PPT 备注”的语言。 */
     displayNote?: string;
-    /** 隐藏 PPT 备注 */
+    /** 替换“隐藏 PPT 备注”的语言。 */
     hideNote?: string;
-    /** 页码 */
+    /** 替换“页码”的语言。 */
     pageNumber?: string;
-    /** 重置当前 PPT 页的动画 */
+    /** 替换“重置当前 PPT 页的动画”的语言。 */
     resetCurrentSlideAnimation?: string;
-    /** 重置当前 PPT 文件的动画 */
+    /** 替换“重置当前 PPT 文件的动画”的语言。 */
     resetCurrentPPTAnimation?: string;
 };
 
-// TODO 这个是仅限于预览 PPT 的日志吗？还是所有日志？
-/** 用于打印预览 PPT 的日志。 */
+/** 打印日志。 */
 export declare type LoggerPrinter<C = {
     [key: string]: any;
 }> = {
@@ -4532,28 +4532,29 @@ export declare type RTCClient = {
     (position: number)=>number;
 };
 
-/** 文档转换生成的 PPT 文件。 */
+//TODO CT review
+/** 转换后生成的图片或动态 PPT 页。 */
 export declare type ConvertedFile = {
     /**
-     * PPT 文件的 URL 地址。
+     * - 图片：通过文档转换功能生成的 URL 地址。
+     * - 动态 PPT 页：通过文档转换功能生成的 URI 地址。
      */
     conversionFileUrl: string;
     /**
-     * //TODO 这个是 PPT 预览的 URL 吗？
+     * 图片或动态 PPT 预览图的 URL 地址。
      */
     preview?: string;
     /**
-     * PPT 在白板中的高度，单位为像素。
+     * 图片或动态 PPT 页在白板中的高度，单位为像素。
      */
     height: number;
     /**
-     * PPT 在白板中的宽度，单位为像素。
+     * 图片或动态 PPT 页在白板中的宽度，单位为像素。
      */
     width: number;
 };
 
-//TODO Q：这个和 enum PPTTaskStep 不是一样的么？
-/** 转换任务当前的步骤。 */
+/** 文档转换任务当前的步骤。 */
 export declare enum CurrentStep {
     /**
      * 打包。
