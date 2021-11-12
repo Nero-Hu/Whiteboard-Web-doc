@@ -1,6 +1,8 @@
 import { ComponentType, HTMLAttributes, Consumer } from "react";
+//import EventEmitter from "eventemitter3";
 
 export { ComponentType, HTMLAttributes, Consumer } from "react";
+//export { default as EventEmitter } from "eventemitter3";
 
 /**
  * 当前 SDK 的版本号，格式为字符串，如 `"2.12.11"`。
@@ -221,6 +223,22 @@ export declare type UserFonts = {
      */
     [font: string]: string;
 };
+
+//TODO 1) 哪个版本新增的？ 2) “详情参考loadPPT参数说明”，这个说明在哪？
+/**
+ * 预览 PPT 文件。
+ * @param conversionResponse 轮询 PPT 转换进度的响应内容。
+ * @param container 空的 HTML 元素容器。
+ * @param config 预览配置，详见 {@link PreviewConfig}。
+ * @param preload 是否提前加载下一页 PPT 的内容。详情参考loadPPT参数说明
+ * @param userFonts 用户传入的自定义字体。详情参考loadPPT参数说明
+ * @param logger PPT 预览的日志。
+ * @param pptPrams PPT 预览的其他参数，方便升级等兼容行为，详情参考loadPPT参数说明
+ * @param events 事件。
+ *
+ * @returns EventEmitter 对象。
+ */
+export declare function previewPPT(conversionResponse: ConversionResponse, container: HTMLDivElement, config?: PreviewConfig, preload?: boolean, userFonts?: UserFonts, logger?: Logger, pptPrams?: PptParams, events?: EventEmitter): EventEmitter;
 
 /**
  * 光标。
@@ -521,10 +539,27 @@ export declare abstract class InvisiblePlugin<A extends Object> {
     onDestroy(): void;
 
     /**
+    * 获取不可见插件属性的值。
+    * @since 2.13.7
+    *
+    * @param key 属性对应的 key。
+    */
+    getAttributesValue(key: string[] | string): any;
+
+    /**
      * 设置不可见插件的属性。
      * @param modifyAttributes 不可见插件的属性。
      */
     setAttributes(modifyAttributes: Partial<A>): void;
+
+    /**
+     * 更新不可见插件的属性。
+     * @since 2.13.7
+     *
+     * @param keys 单个或多个属性对应的 key。
+     * @param value 属性的值。
+     */
+    updateAttributes(keys: string | string[], value: any): void;
 
     /**
      * 删除不可见插件。
@@ -545,6 +580,8 @@ export declare abstract class InvisiblePlugin<A extends Object> {
     private enableCallbackUpdate: any;
 
     private disposer: any;
+
+    private copiedAttributes: any;
 
     private autorunAttributesUpdate: any;
 
@@ -752,7 +789,9 @@ export declare function isPlayer(displayer: Displayer): boolean;
 /**
  * 回调。
  */
-export declare interface Callbacks<CALLBACKS> {
+export declare interface Callbacks<CALLBACKS extends {
+    [name: string]: any;
+}> {
     /**
      * 注册一个回调。
      * @param name 回调名。
@@ -774,6 +813,12 @@ export declare interface Callbacks<CALLBACKS> {
      */
     off<NAME extends string>(name?: NAME, listener?: any): void;
 
+    /**
+     * 将注册的回调转到另一个 `Callbacks` 对象。
+     * @param name 回调名。
+     * @param toCallbacks 转到的 `Callbacks` 对象。
+     */
+    forwardTo<NAME extends string>(name: NAME, toCallbacks: Callbacks<CALLBACKS>): any;
 }
 
 /**
@@ -1380,6 +1425,12 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     readonly slice: string;
 
     /**
+     * 当前 SDK 的版本。
+     * @since 2.13.14
+     */
+    readonly version: string;
+
+    /**
      * 该客户端的设备类型，决定 SDK 如何处理鼠标事件和触碰事件。
      */
     readonly deviceType: DeviceType;
@@ -1569,7 +1620,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      *
      * @param event 想要监听的自定义事件名称。
      * @param listener 自定义事件回调，详见 {@link EventListener}。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。
-     * @param options 自从 v2.15.2。 自定义事件监听设置选项。详见 {@link MagixEventListenerOptions}。// TODO review
+     * @param options 自从 v2.15.2。 自定义事件监听设置选项。详见 {@link MagixEventListenerOptions}。
      */
     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
@@ -1776,6 +1827,12 @@ export declare interface Room extends Displayer {
     readonly phase: RoomPhase;
 
     /**
+     * 与服务器时钟校准后的当前时间戳，单位为毫秒。
+     * @since 2.13.8
+     */
+    readonly calibrationTimestamp: number;
+
+    /**
      * 房间的业务状态，详见[《房间业务状态管理》](https://docs.agora.io/cn/whiteboard/room_state_management?platform=Web)。
      */
     readonly state: RoomState;
@@ -1979,6 +2036,12 @@ export declare interface Room extends Displayer {
      * @param timestamp 远端白板内容在本地显示的 Unix 时间戳，单位为毫秒。
      */
     syncBlockTimestamp(timestamp: number): void;
+
+    /**
+     * 取消 {@link syncBlockTimestamp} 方法设置的本地显示远端白板内容的时间。
+     * @since 2.13.8
+     */
+    stopBlockTimestamp(): void;
 
     /**
      * 发送自定义事件。
@@ -2237,21 +2300,21 @@ export declare interface Room extends Displayer {
      * - true：锁定图片。
      * - false：不锁定图片。
      */
-     lockImages(locked: boolean): void;
+    lockImages(locked: boolean): void;
 
     /**
      * 移动选中的组件到顶层。
      *
      * @since v2.14.5
      */
-     moveSelectedComponentsToTop(): void;
+    moveSelectedComponentsToTop(): void;
 
     /**
      * 移动选中的组件到底层。
      *
      * @since v2.14.5
      */
-     moveSelectedComponentsToBottom(): void;
+    moveSelectedComponentsToBottom(): void;
 
 
     /**
@@ -2263,7 +2326,7 @@ export declare interface Room extends Displayer {
      *
      * @param fontSize 要调整到的字号。
      */
-     updateTextFontSize(fontSize: number): void;
+    updateTextFontSize(fontSize: number): void;
 
 
     /**
@@ -3091,7 +3154,7 @@ export declare type GlobalState = {
  * **Note**
  * - 一个场景只能插入一张图片或动态 PPT 页。
  * - 插入的图片或动态 PPT 页的中心点坐标默认为世界坐标系的原点。图片或动态 PPT 页插入场景后，你无法改变它在白板上的位置。
- *///TODO YX 这里合成了安卓里两个地方的注释
+ *///TODO yaxi 这里合成了安卓里两个地方的注释
 export declare type PptDescription = {
     /**
      * 图片或动态 PPT 页的地址，支持的格式如下：
@@ -3786,6 +3849,12 @@ export declare class WhiteWebSdk {
     readonly renderEngine: RenderEngine;
 
     /**
+     * 当前 SDK 的版本。
+     * @since 2.13.14
+     */
+    readonly version: string;
+
+    /**
      * `WhiteWebSdk` 的构造函数。
      * @param params 构造参数。
      * @returns 构造的 `WhiteWebSdk` 对象。
@@ -3933,7 +4002,81 @@ export declare enum Scope {
     Magix = "magix",
 }
 
+//TODO 这个是服务端返回的 HTTP 响应内容吗？
+/**
+ * 轮询 PPT 转换进度的响应内容。
+ */
+export declare type ConversionResponse = {
+    /**
+     * PPT 转换任务的 UUID，即转换任务的唯一识别符。
+     */
+    uuid: string;
+    /**
+    * PPT 转换任务的类型。
+    */
+    type: ConversionType;
+    /**
+    * PPT 转换任务的状态。
+    */
+    status: Status;
+    /**
+    * PPT 转换失败的原因。
+    */
+    failedReason?: string;
+    /**
+    * PPT 转换任务的进度详情。
+    */
+    progress: Progress;
+};
 
+/**
+ * PPT 预览的配置。
+ */
+ export declare type PreviewConfig = {
+    /** //TODO 这个具体是指预览界面的菜单吗？
+     * 将菜单栏替换成其它语言。详见 {@link International}。
+     */
+    international?: International;
+ };
+
+/** //TODO 请提供里面的参数解释
+ * PPT 预览的日志。
+ */
+export declare type Logger<C = {
+    [key: string]: any;
+}> = LoggerPrinter<C> & {
+    context?: Partial<C> & {
+        [key: string]: any;
+    };
+    withContext: <T extends Object>(context: Partial<C> & T)=>Logger<C & T>;
+};
+
+/**
+ * 动态 PPT 文件的参数设置。
+ */
+ export declare type PptParams = {
+    /** @ignore */
+    scheme?: string;
+    /**
+     * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
+     */
+    rtcClient?: RTCClient;
+    /**
+     * 是否开启服务端排版功能。
+     *
+     * @since 2.12.0
+     *
+     * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
+     *
+     * **Note**
+     *
+     * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
+     *
+     * - `true`：（默认）开启。
+     * - `false`：关闭。
+     */
+    useServerWrap?: boolean;
+};
 
 /** // TODO new
  * 自定义用户信息。
@@ -4146,31 +4289,81 @@ export declare type UserCursorIcons = {
     [key: string]: ReadonlyArray<string>;
 };
 
+//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？已有的 PPTKind 和这个很类似
+/** PPT 转换任务的类型。 */
+export declare enum ConversionType {
+    /** 动态转换，即把 PPTX 文件转换为网页。 */
+    dynamic = "dynamic",
+    /** 静态转换，即把 PPTX 文件转换成静态图。 */
+    static = "static",
+  }
+
+//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？
+/** PPT 转换任务的状态。 */
+export declare enum Status {
+    /** 等待转换。 */
+    waiting = "Waiting",
+    /** 正在转换。 */
+    converting = "Converting",
+    /** 完成转换。 */
+    finished = "Finished",
+    /** 转换失败。 */
+    fail = "Fail",
+}
+
+//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？
+/** PPT 转换任务的进度详情。 */
+export declare type Progress = {
+    /** 总页数。 */
+    totalPageSize: number;
+    /** 已转换的页数。 */
+    convertedPageSize: number;
+    /** 转换进度的百分比。 */
+    convertedPercentage: number;
+    /** 转换生成的 PPT 文件。 */
+    convertedFileList: ConvertedFile[];
+    /** 转换任务当前的步骤。 */
+    currentStep?: CurrentStep;
+};
+
 /**
- * 动态 PPT 文件的参数设置。
+ * //TODO 意思是如果我给 prePage 传入的 string 是 “previous”，菜单栏就会显示成“previous”？
+ * 用于在预览 PPT 时替换白板上方菜单的界面语言，可以直接传入要展示的语言。
  */
-export declare type PptParams = {
-    /** @ignore */
-    scheme?: string;
-    /**
-     * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
-     */
-    rtcClient?: RTCClient;
-    /**
-     * 是否开启服务端排版功能。
-     *
-     * @since 2.12.0
-     *
-     * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
-     *
-     * **Note**
-     *
-     * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
-     *
-     * - `true`：（默认）开启。
-     * - `false`：关闭。
-     */
-    useServerWrap?: boolean;
+export declare type International = {
+    //TODO 请逐一确认下面的解释是否正确
+    /** 上一页 */
+    prePage?: string;
+    /** 下一页 */
+    nextPage?: string;
+    /** 上一步 */
+    preStep?: string;
+    /** 下一步 */
+    nextStep?: string;
+    /** 跳转到 */
+    jumpTo?: string;
+    /** 显示侧边栏 */
+    displaySidebar?: string;
+    /** 隐藏侧边栏 */
+    hideSidebar?: string;
+    /** 显示 PPT 备注 */
+    displayNote?: string;
+    /** 隐藏 PPT 备注 */
+    hideNote?: string;
+    /** 页码 */
+    pageNumber?: string;
+    /** 重置当前 PPT 页的动画 */
+    resetCurrentSlideAnimation?: string;
+    /** 重置当前 PPT 文件的动画 */
+    resetCurrentPPTAnimation?: string;
+};
+
+// TODO 这个是仅限于预览 PPT 的日志吗？还是所有日志？
+/** 用于打印预览 PPT 的日志。 */
+export declare type LoggerPrinter<C = {
+    [key: string]: any;
+}> = {
+    [L: string]: (...messages: any[])=>void;
 };
 
 /**
@@ -4331,4 +4524,44 @@ export declare type RTCClient = {
     (position: number)=>number;
 };
 
+/** 文档转换生成的 PPT 文件。 */
+export declare type ConvertedFile = {
+    /**
+     * PPT 文件的 URL 地址。
+     */
+    conversionFileUrl: string;
+    /**
+     * //TODO 这个是 PPT 预览的 URL 吗？
+     */
+    preview?: string;
+    /**
+     * PPT 在白板中的高度，单位为像素。
+     */
+    height: number;
+    /**
+     * PPT 在白板中的宽度，单位为像素。
+     */
+    width: number;
+};
+
+//TODO 这个和 enum PPTTaskStep 不是一样的么？
+/** 转换任务当前的步骤。 */
+export declare enum CurrentStep {
+    /**
+     * 打包。
+     */
+    packaging = "Packaging",
+    /**
+     * 提取资源。
+     */
+    extracting = "Extracting",
+    /**
+     * 生成预览图。
+     */
+    generatingPreview = "GeneratingPreview",
+    /**
+     * 媒体文件转换。
+     */
+    mediaTranscode = "MediaTranscode",
+}
 

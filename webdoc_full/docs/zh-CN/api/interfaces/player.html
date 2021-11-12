@@ -117,11 +117,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="player.html#progresstime" class="tsd-kind-icon">progress<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#region" class="tsd-kind-icon">region</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="player.html#roomuuid" class="tsd-kind-icon">roomUUID</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="player.html#scheduletime" class="tsd-kind-icon">schedule<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#screentype" class="tsd-kind-icon">screen<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="player.html#slice" class="tsd-kind-icon">slice</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="player.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="player.html#timeduration" class="tsd-kind-icon">time<wbr>Duration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#version" class="tsd-kind-icon">version</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -145,7 +145,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#scenepathtype" class="tsd-kind-icon">scene<wbr>Path<wbr>Type</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#scenepreview" class="tsd-kind-icon">scene<wbr>Preview</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="player.html#seektoprogresstime" class="tsd-kind-icon">seek<wbr>ToProgress<wbr>Time</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="player.html#seektoscheduletime" class="tsd-kind-icon">seek<wbr>ToSchedule<wbr>Time</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="player.html#setcamerabound" class="tsd-kind-icon">set<wbr>Camera<wbr>Bound</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="player.html#setobservermode" class="tsd-kind-icon">set<wbr>Observer<wbr>Mode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="player.html#stop" class="tsd-kind-icon">stop</a></li>
@@ -417,18 +416,6 @@ displayer.callbacks.once(<span class="hljs-string">"onSliceChanged"</span>, <spa
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="scheduletime" class="tsd-anchor"></a>
-					<h3>schedule<wbr>Time</h3>
-					<div class="tsd-signature tsd-kind-icon">schedule<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>deprecated</dt>
-							<dd><p>请改用 <a href="player.html#progresstime">progressTime</a>。</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="screentype" class="tsd-anchor"></a>
 					<h3>screen<wbr>Type</h3>
@@ -469,6 +456,21 @@ displayer.callbacks.once(<span class="hljs-string">"onSliceChanged"</span>, <spa
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="version" class="tsd-anchor"></a>
+					<h3>version</h3>
+					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>当前 SDK 的版本。</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>2.13.14</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -476,9 +478,42 @@ displayer.callbacks.once(<span class="hljs-string">"onSliceChanged"</span>, <spa
 					<a name="addmagixeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Magix<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlistener" class="tsd-signature-type">EventListener</a>, options<span class="tsd-signature-symbol">?: </span><a href="../globals.html#magixeventlisteneroptions" class="tsd-signature-type">MagixEventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventslistener" class="tsd-signature-type">EventsListener</a>, fireInterval<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>注册自定义事件监听。</p>
+								</div>
+								<p>成功注册后，你可以接收到对应的自定义事件通知。</p>
+								<p><strong>Note</strong></p>
+								<p>对于同名的自定义事件，SDK 仅支持触发一个回调。</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>想要监听的自定义事件名称。</p>
+									</div>
+								</li>
+								<li>
+									<h5>listener: <a href="../globals.html#eventlistener" class="tsd-signature-type">EventListener</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>自定义事件回调，详见 <a href="../globals.html#eventlistener">EventListener</a>。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../globals.html#magixeventlisteneroptions" class="tsd-signature-type">MagixEventListenerOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>自从 v2.15.2。 自定义事件监听设置选项。详见 <a href="../globals.html#magixeventlisteneroptions">MagixEventListenerOptions</a>。</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
 						<li class="tsd-description">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
@@ -1026,51 +1061,17 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 					<a name="seektoprogresstime" class="tsd-anchor"></a>
 					<h3>seek<wbr>ToProgress<wbr>Time</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">seek<wbr>ToProgress<wbr>Time<span class="tsd-signature-symbol">(</span>progressTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">seek<wbr>ToProgress<wbr>Time<span class="tsd-signature-symbol">(</span>progressTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/playerseekingresult.html" class="tsd-signature-type">PlayerSeekingResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>设置白板回放的播放位置。</p>
-								</div>
-								<p>白板回放的起始时间点为 0，成功调用该方法后，白板回放会在指定位置开始播放。</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>progressTime: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>回放的进度，单位为毫秒。</p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="seektoscheduletime" class="tsd-anchor"></a>
-					<h3>seek<wbr>ToSchedule<wbr>Time</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">seek<wbr>ToSchedule<wbr>Time<span class="tsd-signature-symbol">(</span>scheduleTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>请改用 <a href="player.html#seektoprogresstime">seekToProgressTime</a>。</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>scheduleTime: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/playerseekingresult.html" class="tsd-signature-type">PlayerSeekingResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1236,9 +1237,6 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="player.html#roomuuid" class="tsd-kind-icon">roomUUID</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="player.html#scheduletime" class="tsd-kind-icon">schedule<wbr>Time</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="player.html#screentype" class="tsd-kind-icon">screen<wbr>Type</a>
 							</li>
@@ -1250,6 +1248,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="player.html#timeduration" class="tsd-kind-icon">time<wbr>Duration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="player.html#version" class="tsd-kind-icon">version</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="player.html#addmagixeventlistener" class="tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener</a>
@@ -1304,9 +1305,6 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="player.html#seektoprogresstime" class="tsd-kind-icon">seek<wbr>ToProgress<wbr>Time</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="player.html#seektoscheduletime" class="tsd-kind-icon">seek<wbr>ToSchedule<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="player.html#setcamerabound" class="tsd-kind-icon">set<wbr>Camera<wbr>Bound</a>

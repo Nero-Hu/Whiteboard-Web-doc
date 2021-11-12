@@ -3166,7 +3166,7 @@ export declare type PptDescription = {
      * You can get the URL address of the dynamic PPT preview in the `preview` field
      * in [the query result of the file conversion task](https://docs.agora.io/en/whiteboard/whiteboard_file_conversion?platform=RESTful#query-file-conversion-progress-get).
      * For example, "https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png".
-     *///TODO YX 发布后检查链接
+     */
     previewURL?: string;
 };
 

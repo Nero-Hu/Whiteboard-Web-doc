@@ -116,6 +116,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="displayer.html#screentype" class="tsd-kind-icon">screen<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="displayer.html#slice" class="tsd-kind-icon">slice</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="displayer.html#state" class="tsd-kind-icon">state</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="displayer.html#version" class="tsd-kind-icon">version</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -356,6 +357,21 @@ displayer.callbacks.once(<span class="hljs-string">"onSliceChanged"</span>, <spa
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="version" class="tsd-anchor"></a>
+					<h3>version</h3>
+					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>当前 SDK 的版本。</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>2.13.14</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -363,9 +379,42 @@ displayer.callbacks.once(<span class="hljs-string">"onSliceChanged"</span>, <spa
 					<a name="addmagixeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Magix<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlistener" class="tsd-signature-type">EventListener</a>, options<span class="tsd-signature-symbol">?: </span><a href="../globals.html#magixeventlisteneroptions" class="tsd-signature-type">MagixEventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventslistener" class="tsd-signature-type">EventsListener</a>, fireInterval<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>注册自定义事件监听。</p>
+								</div>
+								<p>成功注册后，你可以接收到对应的自定义事件通知。</p>
+								<p><strong>Note</strong></p>
+								<p>对于同名的自定义事件，SDK 仅支持触发一个回调。</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>想要监听的自定义事件名称。</p>
+									</div>
+								</li>
+								<li>
+									<h5>listener: <a href="../globals.html#eventlistener" class="tsd-signature-type">EventListener</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>自定义事件回调，详见 <a href="../globals.html#eventlistener">EventListener</a>。如果添加多个同名的事件回调，则之前添加的回调会被覆盖。</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../globals.html#magixeventlisteneroptions" class="tsd-signature-type">MagixEventListenerOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>自从 v2.15.2。 自定义事件监听设置选项。详见 <a href="../globals.html#magixeventlisteneroptions">MagixEventListenerOptions</a>。</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
 						<li class="tsd-description">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
@@ -979,6 +1028,9 @@ displayer.addMagixEventListener(<span class="hljs-string">"my-event"</span>, lis
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="displayer.html#state" class="tsd-kind-icon">state</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="displayer.html#version" class="tsd-kind-icon">version</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="displayer.html#addmagixeventlistener" class="tsd-kind-icon">add<wbr>Magix<wbr>Event<wbr>Listener</a>
