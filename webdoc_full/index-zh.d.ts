@@ -1,8 +1,8 @@
 import { ComponentType, HTMLAttributes, Consumer } from "react";
-//import EventEmitter from "eventemitter3";
+import EventEmitter from "eventemitter3";
 
 export { ComponentType, HTMLAttributes, Consumer } from "react";
-//export { default as EventEmitter } from "eventemitter3";
+export { default as EventEmitter } from "eventemitter3";
 
 /**
  * 当前 SDK 的版本号，格式为字符串，如 `"2.12.11"`。
