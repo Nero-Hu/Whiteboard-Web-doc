@@ -2850,7 +2850,7 @@ export declare type RoomMember = {
     /**
      * The unique identifier of a user in a string format. The maximum length is 1024 bytes.
      *
-     * This parameter is required. Ensure that the `uid` of each user in the same room is unique.
+     * Ensure that the `uid` of each user in the same room is unique.
      */
     uid: string;
 };
@@ -3742,6 +3742,10 @@ export declare type ConstructRoomParams = {
  *
  *   Room UUID, the unique identifier of a room. This property is returned
  * after a room is created successfully.
+ * - **uid**: *string*
+ *
+ *   The unique identifier (UID)of a user in a string format. The maximum length is 1024 bytes.
+ *   Ensure that the `uid` of each user in the same room is unique.
  * - **region?**: *string*
  *
  *   The data center, which supports the following values:
@@ -3763,7 +3767,7 @@ export declare type ConstructRoomParams = {
  * - **roomToken**: *string*
  *
  *   The Room Token for user authentication. See [Token overview](https://docs.agora.io/en/whiteboard/whiteboard_token_overview?platform=Android).
- * - **userPayload?**: *any*
+ * - **userPayload?**: *{[key: string]: any;}*
  *
  *   Customized user information. This property can use any data type.
  *
@@ -3870,11 +3874,15 @@ export declare type JoinRoomParams = ConstructRoomParams & {
 
     uuid: string;
 
+    uid: string; // TODO new
+
     region?: string;
 
     roomToken: string;
 
-    userPayload?: any;
+    userPayload?: { // TODO new
+        [key: string]: any;
+    };
 
     isWritable?: boolean;
 

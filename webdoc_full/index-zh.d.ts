@@ -224,16 +224,16 @@ export declare type UserFonts = {
     [font: string]: string;
 };
 
-//TODO 1) 哪个版本新增的？ 2) “详情参考loadPPT参数说明”，这个说明在哪？
+//TODO Q：到底是哪个版本新增的？之前说可能是 2.13.9，但是 2.13.2 好像就有了。
 /**
  * 预览 PPT 文件。
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前加载下一页 PPT 的内容。详情参考loadPPT参数说明
- * @param userFonts 用户传入的自定义字体。详情参考loadPPT参数说明
+ * @param preload 是否提前加载下一页 PPT 的内容。详情参考loadPPT参数说明 // TODO Q：这是个 bool 值，为什么要详见 loadPPT 参数？这个参数说明在哪里？
+ * @param userFonts 用户传入的自定义字体。详情参考loadPPT参数说明 // TODO Q：为什么要参考loadPPT参数说明？
  * @param logger PPT 预览的日志。
- * @param pptPrams PPT 预览的其他参数，方便升级等兼容行为，详情参考loadPPT参数说明
+ * @param pptPrams PPT 预览的其他参数，方便升级等兼容行为，详情参考loadPPT参数说明 // TODO Q：为什么要参考loadPPT参数说明？
  * @param events 事件。
  *
  * @returns EventEmitter 对象。
@@ -2572,7 +2572,7 @@ export declare interface Player extends Displayer {
      */
     stop(): void;
 
-    /** // TODO review
+    /**
      * 跳转到指定回放位置。
      *
      * @since v2.15.2
@@ -2739,13 +2739,13 @@ export declare type RoomMember = {
     /**
      * 自定义用户信息，在用户加入房间时传入。详见 {@link UserPayload}。
      *
-     * @since v2.15.2 // TODO payload 数据类型由 any 改为 UserPayload。
+     * @since v2.15.2
      */
     payload: UserPayload;
 };
 
 /**
- * 自定义用户信息。// TODO review
+ * 自定义用户信息。
  *
  * @since v2.15.2
  */
@@ -2758,7 +2758,7 @@ export declare type UserPayload = {
     /**
      * 用户标识，字符串格式，不能超过 1024 字节。
      *
-     * 该参数为必填。请确保同一房间内每个用户 `uid` 的唯一性。
+     * 请确保同一房间内每个用户 `uid` 的唯一性。
      */
     uid: string;
 };
@@ -3154,7 +3154,7 @@ export declare type GlobalState = {
  * **Note**
  * - 一个场景只能插入一张图片或动态 PPT 页。
  * - 插入的图片或动态 PPT 页的中心点坐标默认为世界坐标系的原点。图片或动态 PPT 页插入场景后，你无法改变它在白板上的位置。
- *///TODO yaxi 这里合成了安卓里两个地方的注释
+ */
 export declare type PptDescription = {
     /**
      * 图片或动态 PPT 页的地址，支持的格式如下：
@@ -3576,6 +3576,11 @@ export declare type ConstructRoomParams = {
  * - **uuid**: *string*
  *
  *   房间的 UUID，即房间的唯一标识符。成功创建房间后会返回该属性。
+ *
+ * - **uid**: *string*
+ *
+ *   用户的 UID，即用户的唯一标识符，字符串格式，不能超过 1024 字节。请确保同一房间内每个用户 `uid` 的唯一性。
+ *
  * - **region?**: *string*
  *
  *   连接的数据中心，支持传入以下值：
@@ -3594,7 +3599,7 @@ export declare type ConstructRoomParams = {
  * - **roomToken**: *string*
  *
  *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](https://docs.agora.io/cn/whiteboard/whiteboard_token_overview?platform=Android)。
- * - **userPayload?**: *any*
+ * - **userPayload?**: *{[key: string]: any;}*
  *
  *   自定义用户信息。该属性可以是任意类型的数据结构。
  *
@@ -3646,7 +3651,7 @@ export declare type ConstructRoomParams = {
  *      - iOS SDK 2.12.3 或更高版本
  *      - Web SDK 2.12.5 或更高版本
  *
- * - **disableMagixEventDispatchLimit?**: *boolean* // TODO new
+ * - **disableMagixEventDispatchLimit?**: *boolean*
  *
  *   **自从：2.15.2**
  *
@@ -3660,7 +3665,7 @@ export declare type ConstructRoomParams = {
  *    - `true`： 禁止擦除。
  *    - `false`：（默认）允许擦除。
  *
- * - **disablePencilWrittingLimitFrequency**?: *boolean* // TODO new
+ * - **disablePencilWrittingLimitFrequency**?: *boolean*
  *
  *   **自从：2.15.2**
  *
@@ -3695,16 +3700,19 @@ export declare type ConstructRoomParams = {
  */
 export declare type JoinRoomParams = ConstructRoomParams & {
     uuid: string;
+    uid: string;
     region?: string;
     roomToken: string;
-    userPayload?: any;
+    userPayload?: {
+        [key: string]: any;
+    };
     isWritable?: boolean;
     disableDeviceInputs?: boolean;
     enableDrawPoint?: boolean;
     disableNewPencil?: boolean;
-    disableMagixEventDispatchLimit?: boolean; // TODO new
+    disableMagixEventDispatchLimit?: boolean;
     disableEraseImage?: boolean;
-    disablePencilWrittingLimitFrequency?: boolean; // TODO new
+    disablePencilWrittingLimitFrequency?: boolean;
     floatBar?: boolean | Partial<FloatBarOptions>;
     hotKeys?: Partial<HotKeys>;
     rejectWhenReadonlyErrorLevel?: RoomErrorLevel;
@@ -4002,7 +4010,7 @@ export declare enum Scope {
     Magix = "magix",
 }
 
-//TODO 这个是服务端返回的 HTTP 响应内容吗？
+//TODO Q：这个是调用 https://api.netless.link/v5/services/conversion/tasks/{uuid} 接口查询文档转换任务时，服务端返回的 HTTP 响应内容吗？
 /**
  * 轮询 PPT 转换进度的响应内容。
  */
@@ -4033,13 +4041,13 @@ export declare type ConversionResponse = {
  * PPT 预览的配置。
  */
  export declare type PreviewConfig = {
-    /** //TODO 这个具体是指预览界面的菜单吗？
+    /** //TODO Q：这个具体是指预览界面的菜单吗？
      * 将菜单栏替换成其它语言。详见 {@link International}。
      */
     international?: International;
  };
 
-/** //TODO 请提供里面的参数解释
+/** //TODO Q：请提供详细的参数解释。
  * PPT 预览的日志。
  */
 export declare type Logger<C = {
@@ -4078,7 +4086,7 @@ export declare type Logger<C = {
     useServerWrap?: boolean;
 };
 
-/** // TODO new
+/**
  * 自定义用户信息。
  * @deprecated 已废弃。请改用 {@link JoinRoomParams} 中的 `userPayload`。
  */
@@ -4163,7 +4171,7 @@ export declare type WhiteScene = {
  */
 export declare type EventListener = (event: Event)=>void;
 
-/** // TODO review
+/**
  * 自定义事件监听选项。
  *
  * @since v2.15.2
@@ -4217,7 +4225,7 @@ export declare type CameraState = Camera & {
  */
 export declare type MediaType = "video" | "audio";
 
-/** // TODO new
+/**
  * 调用 {@link seekToProgressTime} 定位回放的结果。
  *
  * @since v2.15.2
@@ -4289,7 +4297,7 @@ export declare type UserCursorIcons = {
     [key: string]: ReadonlyArray<string>;
 };
 
-//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？已有的 PPTKind 和这个很类似
+//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？已有的 PPTKind 和这个很类似
 /** PPT 转换任务的类型。 */
 export declare enum ConversionType {
     /** 动态转换，即把 PPTX 文件转换为网页。 */
@@ -4298,7 +4306,7 @@ export declare enum ConversionType {
     static = "static",
   }
 
-//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？
+//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？
 /** PPT 转换任务的状态。 */
 export declare enum Status {
     /** 等待转换。 */
@@ -4311,7 +4319,7 @@ export declare enum Status {
     fail = "Fail",
 }
 
-//TODO 是仅限于动态 PPT 转换还是适用于所有的文档转换？
+//TODO Q：是仅限于动态 PPT 转换还是适用于所有的文档转换？
 /** PPT 转换任务的进度详情。 */
 export declare type Progress = {
     /** 总页数。 */
@@ -4327,11 +4335,11 @@ export declare type Progress = {
 };
 
 /**
- * //TODO 意思是如果我给 prePage 传入的 string 是 “previous”，菜单栏就会显示成“previous”？
+ * //TODO Q：`International` 是用于设置预览区域的界面文字的吗？还是预览菜单栏的悬浮文字？例如，如果给 `prePage` 传入 "previous"，界面就会显示 previous 吗？
  * 用于在预览 PPT 时替换白板上方菜单的界面语言，可以直接传入要展示的语言。
  */
 export declare type International = {
-    //TODO 请逐一确认下面的解释是否正确
+    //TODO Q：请逐一确认下面的解释是否正确
     /** 上一页 */
     prePage?: string;
     /** 下一页 */
@@ -4544,7 +4552,7 @@ export declare type ConvertedFile = {
     width: number;
 };
 
-//TODO 这个和 enum PPTTaskStep 不是一样的么？
+//TODO Q：这个和 enum PPTTaskStep 不是一样的么？
 /** 转换任务当前的步骤。 */
 export declare enum CurrentStep {
     /**
