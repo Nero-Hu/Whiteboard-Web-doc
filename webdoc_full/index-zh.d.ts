@@ -232,11 +232,12 @@ export declare type UserFonts = {
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储，可以避免使用 IndexedDB 引起的兼容问题。// TODO CT review
- * （A: loadPPT() 是一个内部函数，最终没有导出，所以打包类型的时候被扔掉了。这里 preload 指：是否对下一页资源，进行提前请求。只做请求，利用浏览器对 response 的缓存逻辑，来存储，不再使用 indexedDB 避免兼容等问题。）
- * @param userFonts 用户传入的自定义字体。
+ * @param preload 是否提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
+ * - true: 提前请求下一页 PPT 的资源。
+ * - false: 不提前请求下一页 PPT 的资源。
+ * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。
  * @param logger PPT 预览的日志。
- * @param pptPrams PPT 预览的其他参数。
+ * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
  * @param events 事件。
  *
  * @returns EventEmitter 对象。
