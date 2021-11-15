@@ -225,19 +225,19 @@ export declare type UserFonts = {
 };
 
 /**
- * 预览 PPT 文件。
+ * 预览 PPT 文件。// TODO To YX：这是一个独立于白板的独立应用（功能）。如果实现该功能，看到的是一个独立的预览页面，有自己的菜单栏。
  *
  * @since 2.13.2
  *
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前请求下一页 PPT 的资源：// TODO YX review
+ * @param preload 是否提前请求下一页 PPT 的资源：// TODO To YX: review
  * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
  * - false：不提前请求下一页 PPT 的资源。
  * （A: loadPPT() 是一个内部函数，最终没有导出，所以打包类型的时候被扔掉了。这里 preload 指：是否对下一页资源，进行提前请求。只做请求，利用浏览器对 response 的缓存逻辑，来存储，不再使用 indexedDB 避免兼容等问题。）
  * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。// TODO YX review
- * @param logger PPT 预览的日志。// TODO CT 不确定这里是否要加链接。
+ * @param logger PPT 预览的日志。预留参数，暂不支持。// TODO To YX：加上了“预留参数，暂不支持”，因为没有保留其构造函数。只能传 undefined，根本获取不到日志。
  * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
  * @param events 事件。
  *
@@ -4047,14 +4047,15 @@ export declare type ConversionResponse = {
  * PPT 预览的配置。
  */
  export declare type PreviewConfig = {
-    /** //TODO CT review
+    /** //TODO To YX：设置 PPT 预览菜单栏的界面文字。（要不要直接写设置？因为这里也没提默认文字是什么。）
      * 将预览界面的菜单栏替换成其它语言。详见 {@link International}。
      */
     international?: International;
  };
 
 /**
- * 日志。// TODO CT 这里我再和研发确认一下，我看 previewPPT 方法里是要穿一个 logger 实例的。
+ * @ignore // TODO To YX: 文档里隐藏吧
+ * 日志。
  */
 export declare type Logger<C = {
     [key: string]: any;
@@ -4338,7 +4339,7 @@ export declare type Progress = {
 };
 
 /**
- * //TODO CT review 这里我再确认一下，等开发回复
+ * //TODO To YX: `International` 类，用于设置 PPT 预览菜单栏的界面文字。你可以直接传入要展示的文字。（确认了一下，就是菜单栏按钮的界面文字）
  * 用于替换 PPT 预览菜单栏的悬浮文字，可以直接传入要展示的语言。
  * 例如将 `prePage` 设为 `Previous`，菜单栏的悬浮文字就会显示 **Previous**。
  */
