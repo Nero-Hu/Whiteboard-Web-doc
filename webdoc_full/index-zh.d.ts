@@ -227,16 +227,18 @@ export declare type UserFonts = {
 /**
  * 预览 PPT 文件。
  *
+ * 该方法会创建一个独立于白板的新页面，用于预览 PPT 文件。
+ *
  * @since 2.13.2
  *
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
- * - true: 提前请求下一页 PPT 的资源。
- * - false: 不提前请求下一页 PPT 的资源。
+ * @param preload 是否提前请求下一页 PPT 的资源：
+ * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
+ * - false：不提前请求下一页 PPT 的资源。
  * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。
- * @param logger PPT 预览的日志。
+ * @param logger PPT 预览的日志。预留参数，暂不支持。
  * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
  * @param events 事件。
  *
@@ -4014,7 +4016,7 @@ export declare enum Scope {
     Magix = "magix",
 }
 
-//TODO CT review
+
 /**
  * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)
  * 接口时，服务端返回的 HTTP 响应内容。
@@ -4043,16 +4045,17 @@ export declare type ConversionResponse = {
 };
 
 /**
- * PPT 预览的配置。
+ * PPT 预览页面的配置。
  */
  export declare type PreviewConfig = {
-    /** //TODO CT review
-     * 将预览界面的菜单栏替换成其它语言。详见 {@link International}。
+    /**
+     * 设置预览页面菜单栏的界面文字。详见 {@link International}。
      */
     international?: International;
  };
 
 /**
+ * @ignore
  * 日志。
  */
 export declare type Logger<C = {
@@ -4337,34 +4340,32 @@ export declare type Progress = {
 };
 
 /**
- * //TODO CT review
- * 用于替换 PPT 预览菜单栏的悬浮文字，可以直接传入要展示的语言。
- * 例如将 `prePage` 设为 `Previous`，菜单栏的悬浮文字就会显示 **Previous**。
+ * `International` 类，用于设置 PPT 预览菜单栏的界面文字。你可以直接传入要展示的文字。
  */
 export declare type International = {
-    /** 替换“上一页”的语言。 */
+    /** “上一页”的界面文字。 */
     prePage?: string;
-    /** 替换“下一页”的语言。 */
+    /** “下一页”的界面文字。 */
     nextPage?: string;
-    /** 替换“上一步”的语言。 */
+    /** “上一步”的界面文字。 */
     preStep?: string;
-    /** 替换“下一步”的语言。 */
+    /** “下一步”的界面文字。 */
     nextStep?: string;
-    /** 替换“跳转到”的语言。 */
+    /** “跳转到”的界面文字。 */
     jumpTo?: string;
-    /** 替换“显示侧边栏”的语言。 */
+    /** “显示侧边栏”的界面文字。 */
     displaySidebar?: string;
-    /** 替换“隐藏侧边栏”的语言。 */
+    /** “隐藏侧边栏”的界面文字。 */
     hideSidebar?: string;
-    /** 替换“显示 PPT 备注”的语言。 */
+    /** “显示 PPT 备注”的界面文字。 */
     displayNote?: string;
-    /** 替换“隐藏 PPT 备注”的语言。 */
+    /** “隐藏 PPT 备注”的界面文字。 */
     hideNote?: string;
-    /** 替换“页码”的语言。 */
+    /** “页码”的界面文字。 */
     pageNumber?: string;
-    /** 替换“重置当前 PPT 页的动画”的语言。 */
+    /** “重置当前 PPT 页的动画”的界面文字。 */
     resetCurrentSlideAnimation?: string;
-    /** 替换“重置当前 PPT 文件的动画”的语言。 */
+    /** “重置当前 PPT 文件的动画”的界面文字。 */
     resetCurrentPPTAnimation?: string;
 };
 
@@ -4533,7 +4534,6 @@ export declare type RTCClient = {
     (position: number)=>number;
 };
 
-//TODO CT review
 /** 转换后生成的图片或动态 PPT 页。 */
 export declare type ConvertedFile = {
     /**
