@@ -231,9 +231,9 @@ export declare type UserFonts = {
  *
  * @since 2.13.2
  *
- * @param conversionResponse 轮询 PPT 转换进度的响应内容。
+ * @param conversionResponse 轮询 PPT 转换进度的响应内容。详见 {@link ConversionResponse}。
  * @param container 空的 HTML 元素容器。
- * @param config 预览配置，详见 {@link PreviewConfig}。
+ * @param config 预览页面的配置。详见 {@link PreviewConfig}。
  * @param preload 是否提前请求下一页 PPT 的资源：
  * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
  * - false：不提前请求下一页 PPT 的资源。
@@ -821,7 +821,7 @@ export declare interface Callbacks<CALLBACKS extends {
 
     /**
      * 将注册的回调转到另一个 `Callbacks` 对象。
-     * @param name 回调名。
+     * @param name 注册回调的名称。
      * @param toCallbacks 转到的 `Callbacks` 对象。
      */
     forwardTo<NAME extends string>(name: NAME, toCallbacks: Callbacks<CALLBACKS>): any;
@@ -4049,7 +4049,7 @@ export declare type ConversionResponse = {
  */
  export declare type PreviewConfig = {
     /**
-     * 设置预览页面菜单栏的界面文字。详见 {@link International}。
+     * 给预览页面的菜单栏添加界面文字。详见 {@link International}。
      */
     international?: International;
  };
@@ -4333,14 +4333,14 @@ export declare type Progress = {
     convertedPageSize: number;
     /** 转换进度的百分比。 */
     convertedPercentage: number;
-    /** 转换生成的 PPT 文件。 */
+    /** 转换后生成的图片或动态 PPT 页。 */
     convertedFileList: ConvertedFile[];
     /** 转换任务当前的步骤。 */
     currentStep?: CurrentStep;
 };
 
 /**
- * `International` 类，用于设置 PPT 预览菜单栏的界面文字。你可以直接传入要展示的文字。
+ * `International` 类，用于添加 PPT 预览菜单栏的界面文字。你可以直接传入要展示的文字，例如 “Next”。
  */
 export declare type International = {
     /** “上一页”的界面文字。 */
@@ -4369,7 +4369,10 @@ export declare type International = {
     resetCurrentPPTAnimation?: string;
 };
 
-/** 打印日志。 */
+/**
+ * @ignore
+ * 打印日志。
+ */
 export declare type LoggerPrinter<C = {
     [key: string]: any;
 }> = {
@@ -4537,8 +4540,7 @@ export declare type RTCClient = {
 /** 转换后生成的图片或动态 PPT 页。 */
 export declare type ConvertedFile = {
     /**
-     * - 图片：通过文档转换功能生成的 URL 地址。
-     * - 动态 PPT 页：通过文档转换功能生成的 URI 地址。
+     * 图片的 URL 地址或动态 PPT 页的 URI 地址。
      */
     conversionFileUrl: string;
     /**

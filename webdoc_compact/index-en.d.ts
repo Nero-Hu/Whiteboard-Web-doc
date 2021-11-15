@@ -229,6 +229,28 @@ export declare type UserFonts = {
 };
 
 /**
+ * Previews the PowerPoint (PPT) file.
+ *
+ * This function creates a new page for PPT preview, which is separate from the whiteboard page.
+ *
+ * @since 2.13.2
+ *
+ * @param conversionResponse The response for querying the progress of PPT file conversion. See {@link ConversionResponse}.
+ * @param container An empty HTML container.
+ * @param config Configurations of the preview page. See {@link PreviewConfig}.
+ * @param preload Whether to request the resources of the next slide in advance:
+ * - true: Request the resources of the next slide in advance. In this case, the response is saved using the browser cache.
+ * - false: Do not request the resources of the next slide in advance.
+ * @param userFonts Custom fonts. See {@link UserFonts}.
+ * @param logger PPT preview logs. Reserved for future use.
+ * @param pptPrams Other parameters related to PPT preview. See {@link PptParams}.
+ * @param events Events.
+ *
+ * @returns The EventEmitter object.
+ *///TODO YX check
+export declare function previewPPT(conversionResponse: ConversionResponse, container: HTMLDivElement, config?: PreviewConfig, preload?: boolean, userFonts?: UserFonts, logger?: Logger, pptPrams?: PptParams, events?: EventEmitter): EventEmitter;
+
+/**
  * Cursor.
  */
 export declare interface Cursor {
@@ -528,10 +550,27 @@ export declare abstract class InvisiblePlugin<A extends Object> {
     onDestroy(): void;
 
     /**
+    * Gets the value of one or more attributes of the invisible plugin.
+    * @since 2.13.7
+    *
+    * @param key The key of the attribute.
+    *///TODO YX check
+     getAttributesValue(key: string[] | string): any;
+
+    /**
      * Sets the attributes of the invisible plugin.
      * @param modifyAttributes The attributes of the invisible plugin.
      */
     setAttributes(modifyAttributes: Partial<A>): void;
+
+    /**
+     * Updates one or more attributes of the invisible plugin.
+     * @since 2.13.7
+     *
+     * @param keys The key of the attribute.
+     * @param value The value of the attribute.
+     *///TODO YX check
+     updateAttributes(keys: string | string[], value: any): void;
 
     /**
      * Deletes the invisible plugin.
@@ -552,6 +591,8 @@ export declare abstract class InvisiblePlugin<A extends Object> {
     private enableCallbackUpdate: any;
 
     private disposer: any;
+
+    private copiedAttributes: any;
 
     private autorunAttributesUpdate: any;
 
@@ -761,7 +802,9 @@ export declare function isPlayer(displayer: Displayer): boolean;
 /**
  * Callbacks.
  */
-export declare interface Callbacks<CALLBACKS> {
+export declare interface Callbacks<CALLBACKS extends {
+    [name: string]: any;
+}> {
     /**
      * Registers a callback.
      * @param name The callback name.
@@ -782,6 +825,13 @@ export declare interface Callbacks<CALLBACKS> {
      * @param listener The callback function.
      */
     off<NAME extends string>(name?: NAME, listener?: any): void;
+
+    /**
+     * Forwards a registered callback to another `Callbacks` object.
+     * @param name The name of the registered callback.
+     * @param toCallbacks The `Callbacks` object to which the registered callback is forwarded.
+     *///TODO YX check
+     forwardTo<NAME extends string>(name: NAME, toCallbacks: Callbacks<CALLBACKS>): any;
 
 }
 
@@ -1420,6 +1470,12 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     readonly slice: string;
 
     /**
+     * The version of the current SDK.
+     * @since 2.13.14
+     *///TODO YX check
+     readonly version: string;
+
+    /**
      * The user's device type, which determines how the SDK handles mouse and touch events.
      */
     readonly deviceType: DeviceType;
@@ -1833,6 +1889,12 @@ export declare interface Room extends Displayer {
   readonly phase: RoomPhase;
 
   /**
+   * The current timestamp (ms) that is calibrated using the server time.
+   * @since 2.13.8
+   *///TODO YX check
+  readonly calibrationTimestamp: number;
+
+  /**
    * The business status of the room.
    */
   readonly state: RoomState;
@@ -2054,6 +2116,13 @@ export declare interface Room extends Displayer {
    * contents on the local client.
    */
   syncBlockTimestamp(timestamp: number): void;
+
+  /**
+   * Cancel the Unix timestamp (ms) for displaying remote whiteboard contents on
+   * the local client, which is set by {@link syncBlockTimestamp}.
+   * @since 2.13.8
+   *///TODO YX check
+  stopBlockTimestamp(): void;
 
   /**
    * Sends a custom event.
@@ -3294,7 +3363,7 @@ export declare type PptDescription = {
      * You can get the URL address of the dynamic PPT preview in the `preview` field
      * in [the query result of the file conversion task](https://docs.agora.io/en/whiteboard/whiteboard_file_conversion?platform=RESTful#query-file-conversion-progress-get).
      * For example, "https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png".
-     *///TODO YX 发布后检查链接
+     */
     previewURL?: string;
 };
 
@@ -4065,6 +4134,12 @@ export declare class WhiteWebSdk {
     readonly renderEngine: RenderEngine;
 
     /**
+     * The version of the current SDK.
+     * @since 2.13.14
+     *///TODO YX check
+    readonly version: string;
+
+    /**
      * The `WhiteWebSdk` constructor.
      * @param params Construction parameters.
      * @returns The constructed `WhiteWebSdk` object.
@@ -4209,6 +4284,87 @@ export declare enum Scope {
      */
     Magix = "magix",
 }
+
+/**
+ * The HTTP response returned by the server when you
+ * [Query file conversion progress](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89).
+ *///TODO YX check
+ export declare type ConversionResponse = {
+    /**
+     * The unique identifier (UUID) of the file-conversion task.
+     */
+    uuid: string;
+    /**
+    * The type of the file-conversion task.
+    */
+    type: ConversionType;
+    /**
+    * The status of the file-conversion task.
+    */
+    status: Status;
+    /**
+    * The reason why the file-conversion task fails.
+    */
+    failedReason?: string;
+    /**
+    * Details about the file-conversion progress.
+    */
+    progress: Progress;
+};
+
+/**
+ * Configurations of the PPT preview page.
+ *///TODO YX check
+export declare type PreviewConfig = {
+    /**
+     * Adds text to the menu on the preview page. See {@link International}.
+     */
+    international?: International;
+ };
+
+/**
+ * @ignore
+ * Logs.
+ */
+export declare type Logger<C = {
+    [key: string]: any;
+}> = LoggerPrinter<C> & {
+    context?: Partial<C> & {
+        [key: string]: any;
+    };
+    withContext: <T extends Object>(context: Partial<C> & T)=>Logger<C & T>;
+};
+
+/**
+ * Configurations for dynamic PPT files.
+ */
+export declare type PptParams = {
+    /** @ignore */
+    scheme?: string;
+    /**
+     * The `AgoraRTCClient` class in the Agora RTC SDK. See {@link RTCClient}.
+     */
+    rtcClient?: RTCClient;
+    /**
+     * Whether to enable server-side typesetting for dynamic PPT slides.
+     *
+     * @since 2.12.0
+     *
+     * As of February 10, 2021, when converting dynamic PPT slides to HTML
+     * web pages, the Agora Interactive Whiteboard server supports typesetting
+     * the dynamic PPT slides to ensure the presentation of the text in
+     * the dynamic PPT slides is consistent across platforms.
+     *
+     * **Note**
+     *
+     * From 2.12.18, the default value of `useServerWrap` is changed from
+     * `false` to `true`.
+     *
+     * - `true`: (Default) Enable server-side typesetting.
+     * - `false`: Disable server-side typesetting.
+     */
+    useServerWrap?: boolean;
+};
 
 /**
  * Customized user information.
@@ -4455,35 +4611,79 @@ export declare type UserCursorIcons = {
     [key: string]: ReadonlyArray<string>;
 };
 
+/** The type of the file-conversion task. */
+export declare enum ConversionType {
+    /** Dynamic file conversion, which converts a PPTX file to web pages. */
+    dynamic = "dynamic",
+    /** Static file conversion, which converts a PPT, PPTX, Word, or PDF file to images. */
+    static = "static",
+  }
+
+/** The state of the file-conversion task. */
+export declare enum Status {
+    /** Conversion is waiting to start. */
+    waiting = "Waiting",
+    /** Conversion is in progress. */
+    converting = "Converting",
+    /** Conversion is finished. */
+    finished = "Finished",
+    /** Conversion fails. */
+    fail = "Fail",
+}
+
+/** Details about the file-conversion progress. */
+export declare type Progress = {
+    /** The total number of pages to be converted. */
+    totalPageSize: number;
+    /** The number of pages converted. */
+    convertedPageSize: number;
+    /** The conversion progress (in percentage). */
+    convertedPercentage: number;
+    /** The generated file. */
+    convertedFileList: ConvertedFile[];
+    /** The current step of the file-conversion task. */
+    currentStep?: CurrentStep;
+};
+
 /**
- * Configurations for dynamic PPT files.
+ * This type is used to add text to the menu on the PPT preview page.
+ * You can pass in the letters to be displayed, for example, "Next".
  */
-export declare type PptParams = {
-    /** @ignore */
-    scheme?: string;
-    /**
-     * The `AgoraRTCClient` class in the Agora RTC SDK. See {@link RTCClient}.
-     */
-    rtcClient?: RTCClient;
-    /**
-     * Whether to enable server-side typesetting for dynamic PPT slides.
-     *
-     * @since 2.12.0
-     *
-     * As of February 10, 2021, when converting dynamic PPT slides to HTML
-     * web pages, the Agora Interactive Whiteboard server supports typesetting
-     * the dynamic PPT slides to ensure the presentation of the text in
-     * the dynamic PPT slides is consistent across platforms.
-     *
-     * **Note**
-     *
-     * From 2.12.18, the default value of `useServerWrap` is changed from
-     * `false` to `true`.
-     *
-     * - `true`: (Default) Enable server-side typesetting.
-     * - `false`: Disable server-side typesetting.
-     */
-    useServerWrap?: boolean;
+export declare type International = {
+    /** The text for “the previous page”. */
+    prePage?: string;
+    /** The text for "the next page". */
+    nextPage?: string;
+    /** The text for "the previous step". */
+    preStep?: string;
+    /** The text for "the next step". */
+    nextStep?: string;
+    /** The text for "jump to". */
+    jumpTo?: string;
+    /** The text for "display the sidebar". */
+    displaySidebar?: string;
+    /** The text for "hide the sidebar". */
+    hideSidebar?: string;
+    /** The text for "display slide notes". */
+    displayNote?: string;
+    /** The text for "hide slide notes". */
+    hideNote?: string;
+    /** The text for "page number". */
+    pageNumber?: string;
+    /** The text for "reset animation of the current slide".*/
+    resetCurrentSlideAnimation?: string;
+    /** The text for "reset animation of the current PPT file". */
+    resetCurrentPPTAnimation?: string;
+};
+
+/**
+ * @ignore
+ * 打印日志。
+ */
+export declare type LoggerPrinter<C = {
+    [key: string]: any;
+}> = {
+    [L: string]: (...messages: any[])=>void;
 };
 
 /**
@@ -4649,4 +4849,45 @@ export declare type RTCClient = {
     (position: number)=>number;
 };
 
+//TODO YX check
+/** The image or dynamic PPT slide generated by file conversion. */
+export declare type ConvertedFile = {
+    /**
+     * The URL address of the image, or the URI address of the dynamic PPT slide.
+     */
+    conversionFileUrl: string;
+    /**
+     * The URL address of the preview for the image or dynamic PPT slide.
+     */
+    preview?: string;
+    /**
+     * The height (px) of the image or dynamic PPT slide.
+     */
+    height: number;
+    /**
+     * The width (px) of the image or dynamic PPT slide.
+     */
+    width: number;
+};
+
+//TODO YX check
+/** The current step of the file-conversion task. */
+export declare enum CurrentStep {
+    /**
+     * Packaging.
+     */
+    packaging = "Packaging",
+    /**
+     * Extracting resources.
+     */
+    extracting = "Extracting",
+    /**
+     * Generating the preview.
+     */
+    generatingPreview = "GeneratingPreview",
+    /**
+     * Transcoding media files.
+     */
+    mediaTranscode = "MediaTranscode",
+}
 
