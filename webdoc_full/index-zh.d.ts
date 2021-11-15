@@ -232,11 +232,13 @@ export declare type UserFonts = {
  * @param conversionResponse 轮询 PPT 转换进度的响应内容。
  * @param container 空的 HTML 元素容器。
  * @param config 预览配置，详见 {@link PreviewConfig}。
- * @param preload 是否提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储，可以避免使用 IndexedDB 引起的兼容问题。// TODO CT review
+ * @param preload 是否提前请求下一页 PPT 的资源：// TODO YX review
+ * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
+ * - false：不提前请求下一页 PPT 的资源。
  * （A: loadPPT() 是一个内部函数，最终没有导出，所以打包类型的时候被扔掉了。这里 preload 指：是否对下一页资源，进行提前请求。只做请求，利用浏览器对 response 的缓存逻辑，来存储，不再使用 indexedDB 避免兼容等问题。）
- * @param userFonts 用户传入的自定义字体。
- * @param logger PPT 预览的日志。
- * @param pptPrams PPT 预览的其他参数。
+ * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。// TODO YX review
+ * @param logger PPT 预览的日志。// TODO CT 不确定这里是否要加链接。
+ * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
  * @param events 事件。
  *
  * @returns EventEmitter 对象。
@@ -4013,7 +4015,7 @@ export declare enum Scope {
     Magix = "magix",
 }
 
-//TODO CT review
+
 /**
  * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)
  * 接口时，服务端返回的 HTTP 响应内容。
@@ -4052,7 +4054,7 @@ export declare type ConversionResponse = {
  };
 
 /**
- * 日志。
+ * 日志。// TODO CT 这里我再和研发确认一下，我看 previewPPT 方法里是要穿一个 logger 实例的。
  */
 export declare type Logger<C = {
     [key: string]: any;
@@ -4336,7 +4338,7 @@ export declare type Progress = {
 };
 
 /**
- * //TODO CT review
+ * //TODO CT review 这里我再确认一下，等开发回复
  * 用于替换 PPT 预览菜单栏的悬浮文字，可以直接传入要展示的语言。
  * 例如将 `prePage` 设为 `Previous`，菜单栏的悬浮文字就会显示 **Previous**。
  */
@@ -4532,7 +4534,6 @@ export declare type RTCClient = {
     (position: number)=>number;
 };
 
-//TODO CT review
 /** 转换后生成的图片或动态 PPT 页。 */
 export declare type ConvertedFile = {
     /**
