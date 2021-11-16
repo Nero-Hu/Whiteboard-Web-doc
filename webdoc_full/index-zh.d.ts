@@ -4019,8 +4019,7 @@ export declare enum Scope {
 
 
 /**
- * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)
- * 接口时，服务端返回的 HTTP 响应内容。
+ * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)接口时，服务端返回的 HTTP 响应内容。
  */
 export declare type ConversionResponse = {
     /**
