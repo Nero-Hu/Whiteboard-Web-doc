@@ -1,8 +1,7 @@
 import { ComponentType, HTMLAttributes, Consumer } from "react";
-import EventEmitter from "eventemitter3";
 
 export { ComponentType, HTMLAttributes, Consumer } from "react";
-export { default as EventEmitter } from "eventemitter3";
+
 
 /**
  * 当前 SDK 的版本号，格式为字符串，如 `"2.12.11"`。
@@ -2753,20 +2752,21 @@ export declare type RoomMember = {
 /**
  * 自定义用户信息。
  *
+ * - **[key: string]**: *any*
+ *
+ *   key-value 结构的自定义用户信息，例如，`"avatar", "https://example.com/user.png"`。
+ *
+ * - **uid**: *string*
+ *
+ *   用户标识，字符串格式，不能超过 1024 字节。
+ *
+ *   请确保同一房间内每个用户 `uid` 的唯一性。
+ *
+ *   @since v2.15.0
  */
 export declare type UserPayload = {
-    /**
-     * key-value 结构的自定义用户信息，例如，`"avatar", "https://example.com/user.png"`。
-     */
     [key: string]: any;
 } & {
-    /**
-     * 用户标识，字符串格式，不能超过 1024 字节。
-     *
-     * 请确保同一房间内每个用户 `uid` 的唯一性。
-     *
-     * @since v2.15.0
-     */
     uid: string;
 };
 
@@ -4556,6 +4556,12 @@ export declare type ConvertedFile = {
      * 图片或动态 PPT 页在白板中的宽度，单位为像素。
      */
     width: number;
+};
+
+/**
+ * @ignore
+ */
+ export declare type EventEmitter = {
 };
 
 /** 文档转换任务当前的步骤。 */
