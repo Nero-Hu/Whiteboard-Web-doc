@@ -1678,7 +1678,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param event The name of the customized event to be listened for.
      * @param listener The customized event callback. See {@link EventListener}.
      * If you add multiple callbacks for the same event, the callback added later overrides the one added earlier.
-     * @param options Since v2.15.2. Options for setting a customized event listener. See {@link MagixEventListenerOptions}. // TODO review
+     * @param options Since v2.15.2. Options for setting a custom event listener. See {@link MagixEventListenerOptions}.
      */
     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
@@ -2684,11 +2684,6 @@ export declare interface Player extends Displayer {
     playbackSpeed: number;
 
     /**
-     * @deprecated Use {@link progressTime} instead.
-     */
-    readonly scheduleTime: number;
-
-    /**
      * Starts the playback of the whiteboard content.
      *
      * When the playback pauses, you can call this method to resume the playback.
@@ -2712,7 +2707,7 @@ export declare interface Player extends Displayer {
     /**
      * Seeks to a specified playback position (ms).
      *
-     * @since v2.15.2
+     * @since v2.15.0
      *
      * By default, the playback starts from the beginning of the file. You can
      * call this method to start the playback from your specified position.
@@ -2732,12 +2727,6 @@ export declare interface Player extends Displayer {
      * @param observerMode The mode for watching the whiteboard playback. See {@link ObserverMode}.
      */
     setObserverMode(observerMode: ObserverMode): void;
-
-    /**
-     * @deprecated Use {@link seekToProgressTime} instead.
-     */
-    seekToScheduleTime(scheduleTime: number): void;
-
 }
 
 /**
@@ -2841,10 +2830,6 @@ export declare type BroadcastState = {
      * The user ID of the host. This property is `undefined` if there is no host in the room.
      */
     broadcasterId?: number;
-    /**
-     * @deprecated
-     */
-    broadcasterInformation?: MemberInformation;
 };
 
 /**
@@ -2900,15 +2885,13 @@ export declare type RoomMember = {
     /**
      * The customized user information, which is passed in when the user joins the room. See {@link UserPayload}.
      *
-     * @since v2.15.2
+     * @since v2.15.0
      */
      payload: UserPayload;
 };
 
-/** // TODO review
+/**
  * Customized user information.
- *
- * @since v2.15.2
  */
  export declare type UserPayload = {
     /**
@@ -2920,6 +2903,8 @@ export declare type RoomMember = {
      * The unique identifier of a user in a string format. The maximum length is 1024 bytes.
      *
      * Ensure that the `uid` of each user in the same room is unique.
+     *
+     * @since v2.15.0
      */
     uid: string;
 };
@@ -2934,18 +2919,12 @@ export declare type RoomMember = {
  * - **broadcastState**: *Readonly<BroadcastState>*
  *
  *   The current state of the view.
- * - **zoomScale**: *number*
- *
- *   The scale factor of the view.
- *   @deprecated Use `room.cameraState.scale` instead.
  */
 export declare type RoomState = DisplayerState & {
 
     memberState: MemberState;
 
     broadcastState: Readonly<BroadcastState>;
-
-    zoomScale: number;
 };
 
 /**
@@ -3050,10 +3029,6 @@ export declare type MemberState = {
      * The shape type.
      */
     shapeType?: ShapeType;
-    /**
-     * @deprecated
-     */
-    pencilOptions: PencilOptions;
 };
 
 /**
@@ -3340,7 +3315,7 @@ export declare type GlobalState = {
  * which means you cannot change the position of the image or dynamic PPT slide
  * inside the whiteboard.
  *
- *///TODO YX 这里合成了安卓里两个地方的注释
+ */
 export declare type PptDescription = {
     /**
      * The address of the image or dynamic PPT slide. The supported formats are as follows:
@@ -3813,8 +3788,10 @@ export declare type ConstructRoomParams = {
  * after a room is created successfully.
  * - **uid**: *string*
  *
+ *   **Since v2.15.0**
  *   The unique identifier (UID)of a user in a string format. The maximum length is 1024 bytes.
  *   Ensure that the `uid` of each user in the same room is unique.
+ *
  * - **region?**: *string*
  *
  *   The data center, which supports the following values:
@@ -3876,7 +3853,7 @@ export declare type ConstructRoomParams = {
  *
  * - **disableNewPencil?**: *boolean*
  *
- *   ***Since 2.12.5***
+ *   **Since 2.12.5**
  *
  *   Disables/Enables the stroke effect of the pencil.
  *   - `true`: (Default) Disable the stroke effect of the pencil.
@@ -3889,9 +3866,9 @@ export declare type ConstructRoomParams = {
  *      - iOS SDK 2.12.3 or later
  *      - Web SDK 2.12.5 or later
  *
- * - **disableMagixEventDispatchLimit?**: *boolean* // TODO new
+ * - **disableMagixEventDispatchLimit?**: *boolean*
  *
- *   **Since v2.15.2**
+ *   **Since v2.15.0**
  *
  *   Whether to disable the frequency limit for sending custom events:
  *   - `true`: Disable the frequency limit. When the frequency limit is disabled, freezes may occur.
@@ -3903,14 +3880,14 @@ export declare type ConstructRoomParams = {
  *    - `true`：Disable the eraser from erasing images.
  *    - `false`：(Default) Enable the eraser to erase images.
  *
- * - **disablePencilWrittingLimitFrequency**?: *boolean* // TODO new
+ * - **disablePencilWrittingLimitFrequency**?: *boolean*
  *
  *   **Since v2.15.2**
  *
- *   Whether to disable the frequency limit for writing using the `pencil` tool:
- *   - `true`: Disable the frequency limit. When the frequency limit is disabled, CPU consumption may increase.
+ *   Whether to disable the frequency limit for synchronizing the writing input while using the `pencil` tool:
+ *   - `true`: Disable the frequency limit. When the frequency limit is disabled, the writing is synchronized immediately, but CPU consumption can increase.
  *   - `false`: (Default) Enable the frequency limit. When the frequency limit is enabled, the writing synchronization can
- *   be slightly delayed, but CPU consumption may decrease.
+ *   be slightly delayed, but CPU consumption is lessened.
  *
  * - **floatBar?**: *boolean | Partial<FloatBarOptions>*
  *
@@ -3943,13 +3920,13 @@ export declare type JoinRoomParams = ConstructRoomParams & {
 
     uuid: string;
 
-    uid: string; // TODO new
+    uid: string;
 
     region?: string;
 
     roomToken: string;
 
-    userPayload?: { // TODO new
+    userPayload?: {
         [key: string]: any;
     };
 
@@ -3961,11 +3938,11 @@ export declare type JoinRoomParams = ConstructRoomParams & {
 
     disableNewPencil?: boolean;
 
-    disableMagixEventDispatchLimit?: boolean; // TODO new
+    disableMagixEventDispatchLimit?: boolean;
 
     disableEraseImage?: boolean;
 
-    disablePencilWrittingLimitFrequency?: boolean; // TODO new
+    disablePencilWrittingLimitFrequency?: boolean;
 
     floatBar?: boolean | Partial<FloatBarOptions>;
 
@@ -4370,7 +4347,7 @@ export declare type PptParams = {
  * Customized user information.
  * @deprecated Use `userPayload` in {@link JoinRoomParams} instead.
  */
- export declare type MemberInformation = {
+export declare type MemberInformation = {
     id: number;
     session: string;
     payload: any;
@@ -4455,17 +4432,17 @@ export declare type WhiteScene = {
  */
 export declare type EventListener = (event: Event)=>void;
 
-/** // TODO review
- * Options for setting a customized event listener.
+/**
+ * Options for setting a custom event listener.
  *
  * @since v2.15.2
  */
  export declare type MagixEventListenerOptions = {
     /**
-     * The interval (ms) of the SDK triggering customized event callbacks. The default value is 500.
+     * The interval (ms) of the SDK triggering custom event callbacks. The default value is 500.
      * The value must be equal to or greater than 500.
      *
-     * The SDK triggers the customized event callbacks based on the set value of this parameter.
+     * The SDK triggers the custom event callbacks based on the set value of this parameter.
      */
     fireInterval?: number;
     /**
@@ -4510,10 +4487,10 @@ export declare type CameraState = Camera & {
  */
 export declare type MediaType = "video" | "audio";
 
-/** // TODO review
+/**
  * The result of the seek operation by calling the {@link seekToProgressTime} method.
  *
- * @since v2.15.2
+ * @since v2.15.0
  */
  export declare enum PlayerSeekingResult {
     /**
@@ -4868,6 +4845,12 @@ export declare type ConvertedFile = {
      * The width (px) of the image or dynamic PPT slide.
      */
     width: number;
+};
+
+/**
+ * @ignore
+ */
+export declare type EventEmitter = {
 };
 
 //TODO YX check

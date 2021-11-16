@@ -2581,7 +2581,7 @@ export declare interface Player extends Displayer {
     /**
      * 跳转到指定回放位置。
      *
-     * @since v2.15.2
+     * @since v2.15.0
      *
      * 白板回放的起始时间点为 0，你可以调用该方法，跳转到指定的回放位置。
      *
@@ -2745,7 +2745,7 @@ export declare type RoomMember = {
     /**
      * 自定义用户信息，在用户加入房间时传入。详见 {@link UserPayload}。
      *
-     * @since v2.15.2
+     * @since v2.15.0
      */
     payload: UserPayload;
 };
@@ -2753,7 +2753,6 @@ export declare type RoomMember = {
 /**
  * 自定义用户信息。
  *
- * @since v2.15.2
  */
 export declare type UserPayload = {
     /**
@@ -2765,6 +2764,8 @@ export declare type UserPayload = {
      * 用户标识，字符串格式，不能超过 1024 字节。
      *
      * 请确保同一房间内每个用户 `uid` 的唯一性。
+     *
+     * @since v2.15.0
      */
     uid: string;
 };
@@ -3659,7 +3660,7 @@ export declare type ConstructRoomParams = {
  *
  * - **disableMagixEventDispatchLimit?**: *boolean*
  *
- *   **自从：2.15.2**
+ *   **自从：2.15.0**
  *
  *   是否关闭发送自定义事件的频率限制：
  *   - `true`：关闭频率限制。可能会出现卡顿。
@@ -3675,8 +3676,8 @@ export declare type ConstructRoomParams = {
  *
  *   **自从：2.15.2**
  *
- *   是否关闭使用 `pencil` 工具书写的频率限制：
- *   - `true`：关闭频率限制。可能会增加 CPU 性能消耗。
+ *   使用 `pencil` 书写时，是否关闭笔迹同步的频率限制：
+ *   - `true`：关闭频率限制。笔迹会立即同步，但是可能会增加 CPU 性能消耗。
  *   - `false`：（默认）开启频率限制。笔迹同步会有轻微延迟，但是可以降低 CPU 性能消耗。
  *
  * - **floatBar?**: *boolean | Partial<FloatBarOptions>*
@@ -4236,7 +4237,7 @@ export declare type MediaType = "video" | "audio";
 /**
  * 调用 {@link seekToProgressTime} 定位回放的结果。
  *
- * @since v2.15.2
+ * @since v2.15.0
  */
  export declare enum PlayerSeekingResult {
     /**
