@@ -2147,10 +2147,12 @@ export declare interface Room extends Displayer {
    * @param path The path of the scene directory, which must starts with `/`
    * and cannot be the path of a scene. For example, `"/math"`.
    * @param scenes An array of scenes. For the files of a single scene, see {@link SceneDefinition}.
-   * @param index The index of the first scene to be inserted. The index of a
-   * scene under a scene directory starts from 0. If the index is greater than
-   * the total number of existing scenes under the scene directory, the new
-   * scene is put after the last scene.
+   * @param index The index of the first scene to be inserted under the specified scene directory.
+   * The index of a scene under a scene directory starts from 0.
+   * - If the specified index number is no greater than the index of an existing scene, the new scenes are put before the existing scene corresponding to the specified index number;
+   * - If the index is greater than the index of any existing scene, the new scenes are put after the last existing scene.
+   * - If you do not specify the index (because this parameter is optional, you can just omit it), the new scenes are put after the last existing scene.
+   *
    */
   putScenes(
     path: string,

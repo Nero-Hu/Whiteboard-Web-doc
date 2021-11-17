@@ -2061,15 +2061,18 @@ export declare interface Room extends Displayer {
     dispatchMagixEvent(event: string, payload: any): void;
 
     /**
-     * 在指定场景组下插入多个场景。
+     * 在指定场景目录下插入多个场景。
      *
      * **Note**
      *
      * 调用该方法插入多个场景后不会切换到新插入的场景。如果要切换至新插入的场景，需要调用 {@link setScenePath}。
      *
-     * @param path 指定场景组的地址，必须以 `/` 开头，不能为场景路径。
+     * @param path 指定场景目录的地址，必须以 `/` 开头，不能为场景路径。
      * @param scenes 由多个场景构成的数组。单个场景的字段详见 {@link SceneDefinition}。
-     * @param index 待插入的多个场景中，第一个场景在该场景组的索引号。如果传入的索引号大于该场景组已有场景总数，新插入的场景会排在现有场景的最后。场景的索引号从 0 开始。
+     * @param index 待插入的多个场景中，第一个场景在该场景目录的索引号。场景的索引号从 0 开始。
+     * - 如果传入的索引号小于或等于该场景目录下现有场景的索引号，新插入的场景会排在传入索引号对应场景的前面。
+     * - 如果传入的索引号大于该场景目录下现有场景的索引号，新插入的场景会排在现有场景的最后。
+     * - 如果不传入索引号（该参数为选填），新插入的场景会排在现有场景的最后。
      */
     putScenes(path: string, scenes: ReadonlyArray<SceneDefinition>, index?: number): void;
 
