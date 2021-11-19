@@ -1683,7 +1683,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
     /**
-     * Adds a listener for a customized event.
+     * Adds a high-frequency listener for a customized event.
      *
      * You can receive the customized event callback after a successful call of this method.
      *
@@ -1706,7 +1706,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * displayer.addMagixEventListener("my-event", listener, 100);
      * ```
      */
-    addMagixEventListener(event: string, listener: EventsListener, fireInterval?: number): void;
+    addMagixEventListener(event: string, listener: EventsListener, fireInterval: number): void;
 
     /**
      * Removes a listener for a customized event.

@@ -1630,7 +1630,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     addMagixEventListener(event: string, listener: EventListener, options?: MagixEventListenerOptions): void;
 
     /**
-     * 注册自定义事件监听。
+     * 注册高频自定义事件监听。
      *
      * 成功注册后，你可以接收到对应的自定义事件通知。
      *
@@ -1653,7 +1653,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * displayer.addMagixEventListener("my-event", listener, 100);
      * ```
      */
-    addMagixEventListener(event: string, listener: EventsListener, fireInterval?: number): void;
+    addMagixEventListener(event: string, listener: EventsListener, fireInterval: number): void;
 
     /**
      * 移除自定义事件监听。
