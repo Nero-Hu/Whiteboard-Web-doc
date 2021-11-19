@@ -2118,7 +2118,7 @@ export declare interface Room extends Displayer {
   syncBlockTimestamp(timestamp: number): void;
 
   /**
-   * Cancel the Unix timestamp (ms) for displaying remote whiteboard contents on
+   * Cancels the Unix timestamp (ms) for displaying remote whiteboard contents on
    * the local client, which is set by {@link syncBlockTimestamp}.
    * @since 2.13.8
    */
