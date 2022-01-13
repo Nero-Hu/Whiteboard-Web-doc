@@ -590,6 +590,8 @@ export declare abstract class InvisiblePlugin<A extends Object> {
 
     private autorunAttributesUpdate: any;
 
+    private isEnableUpdateAttributes: any;
+
 }
 
 /**
@@ -1843,13 +1845,6 @@ export declare interface Room extends Displayer {
     readonly state: RoomState;
 
     /**
-     * 自定义输入源。
-     *
-     * @since 2.12.11
-     */
-    readonly customInput: CustomInput;
-
-    /**
      * 用户在当前房间是否为互动模式：
      * - `true`： 互动模式，即对白板具有读写权限。
      * - `false`：订阅模式，即对白板具有只读权限。
@@ -2324,18 +2319,29 @@ export declare interface Room extends Displayer {
      */
     moveSelectedComponentsToBottom(): void;
 
-
-    /**
-     * 调整字体大小。
+    /** // TODO v2.16.0
+     * 在指定位置插入文字
      *
-     * @since v2.14.5
+     * @since v2.16.0
      *
-     * 该方法用于调整使用 `text` 工具输入的文字的大小。
-     *
-     * @param fontSize 要调整到的字号。
+     * @param x 第一个字的的左侧边中点，世界坐标系中的 x 坐标
+     * @param y 第一个字的的左侧边中点，世界坐标系中的 y 坐标
+     * @param textContent 初始化文字的内容，不传则为空
+     * @returns 该文字的标识符
      */
-    updateTextFontSize(fontSize: number): void;
+     insertText(x: number, y: number, textContent?: string): Identifier;
 
+     /** // TODO v2.16.0
+      * 编辑指定文字的内容
+      * @param identifier 文字的标识符。为 ``insertText()`` 的返回值。
+      * @param textContent 文字要改成的内容
+      */
+     updateText(identifier: Identifier, textContent: string): void;
+
+     /** // TODO v2.16.0
+      * 修改当前被选中的 text 的状态
+      */
+     updateSelectedText(format: TextFormat): void;
 
     /**
      * 播放动态 PPT 下一页。
@@ -2819,38 +2825,6 @@ export declare type SceneState = {
 };
 
 /**
- * 自定义输入源（例如点阵笔）的接口。
- *
- * @since 2.12.11
- */
-export declare interface CustomInput {
-    /**
-     * 输入按下操作。
-     *
-     * @param x 按下的点在屏幕坐标系（以屏幕左上角为原点）的 x 轴坐标。
-     * @param y 按下的点在屏幕坐标系（以屏幕左上角为原点）的 y 轴坐标。
-     */
-    inputDown(x: number, y: number): void;
-
-    /**
-     * 输入移动操作。
-     *
-     * @param x 移动的点在屏幕坐标系（以屏幕左上角为原点）的 x 轴坐标。
-     * @param y 移动的点在屏幕坐标系（以屏幕左上角为原点）的 y 轴坐标。
-     */
-    inputMove(x: number, y: number): void;
-
-    /**
-     * 输入松开操作。
-     *
-     * @param x 抬起的点在屏幕坐标系（以屏幕左上角为原点）的 x 轴坐标。
-     * @param y 抬起的点在屏幕坐标系（以屏幕左上角为原点）的 y 轴坐标。
-     */
-    inputUp(x: number, y: number): void;
-
-}
-
-/**
  * `Displayer` 对象的 Consumer。
  */
 export declare const DisplayerConsumer: Consumer<Displayer>;
@@ -2877,6 +2851,10 @@ export declare type MemberState = {
      * 绘制线条的颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
      */
     strokeColor: Color;
+    /** // TODO 2.16.0
+     * 文字颜色
+     */
+     textColor?: Color;
     /**
      * 绘制线条的粗细。
      */
@@ -2885,6 +2863,22 @@ export declare type MemberState = {
      * 字体大小。Chrome 浏览器对于小于 12 的字体会自动调整为 12。
      */
     textSize: number;
+    /** // TODO 2.16.0
+     * 是否加粗文字
+     */
+     bold?: boolean;
+     /** // TODO 2.16.0
+      * 是否使用斜体
+      */
+     italic?: boolean;
+     /** // TODO 2.16.0
+      * 是否显示下划线
+      */
+     underline?: boolean;
+     /** // TODO 2.16.0
+      * 是否显示删除线
+      */
+     lineThrough?: boolean;
     /**
      * 绘制图形的类型。
      */
@@ -3332,6 +3326,8 @@ export declare enum CursorNames {
      * 指向东西的双向箭头。
      */
     Ew = "cursor-ew",
+    // TODO 2.16.0
+    Rotation = "cursor-rotation",
     /**
      * 不可点区域的默认光标。
      */
@@ -3941,7 +3937,7 @@ export declare class WhiteWebSdk {
 
     /**
      * @ignore
-     * @deprecated 已废弃。d
+     * @deprecated 已废弃。
      */
     pptConverter(roomToken: string): LegacyPPTConverter;
 
@@ -3970,6 +3966,10 @@ export declare class WhiteWebSdk {
 
     private fontFamily: any;
 
+    private disableCurveAnimes: any;
+
+    private disableRotation: any;
+
     private useMobXState: any;
 
     private onlyCallbackRemoteStateModify: any;
@@ -3977,6 +3977,8 @@ export declare class WhiteWebSdk {
     private urlInterrupter: any;
 
     private pptParams: any;
+
+    private standardizeUserPayload: any;
 
     private standardizeCameraBound: any;
 
@@ -3997,6 +3999,11 @@ export declare class WhiteWebSdk {
     private static defaultValue: any;
 
 }
+
+/**
+ * 组件插件的唯一标识符。
+ */
+export declare type Identifier = string;
 
 /**
  * 事件的范围。
@@ -4163,6 +4170,34 @@ export declare type RenderPlugin<C = {
     (plugin: PluginInstance<C, T>, event: NativeEvent)=>boolean;
 };
 
+// TODO 2.16.0
+export declare type TextFormat = {
+    /**
+     * 颜色
+     */
+    color?: Color;
+    /**
+     * 字体大小
+     */
+    fontSize?: number;
+    /**
+     * 是否加粗
+     */
+    bold?: boolean;
+    /**
+     * 是否斜体
+     */
+    italic?: boolean;
+    /**
+     * 是否加下划线
+     */
+    underline?: boolean;
+    /**
+     * 是否加删除线
+     */
+    lineThrough?: boolean;
+};
+
 /**
  * 白板场景。
  */
@@ -4259,11 +4294,6 @@ export declare type MediaType = "video" | "audio";
      */
     Stopped = "stopped",
 }
-
-/**
- * 组件插件的唯一标识符。
- */
-export declare type Identifier = string;
 
 /**
  * 空白区域的设置。
