@@ -2319,27 +2319,40 @@ export declare interface Room extends Displayer {
      */
     moveSelectedComponentsToBottom(): void;
 
-    /** // TODO v2.16.0
-     * 在指定位置插入文字
+    /** // TODO TBR
+     * 在指定位置插入文字。
      *
      * @since v2.16.0
      *
-     * @param x 第一个字的的左侧边中点，世界坐标系中的 x 坐标
-     * @param y 第一个字的的左侧边中点，世界坐标系中的 y 坐标
-     * @param textContent 初始化文字的内容，不传则为空
-     * @returns 该文字的标识符
+     * @param x 第一个文字左侧边的中点在世界坐标系中的 X 轴坐标。
+     * @param y 第一个文字左侧边的中点在世界坐标系中的 Y 轴坐标。
+     * @param textContent 初始的文字内容，不传则为空。
+     *
+     * @returns 文字的标识符，字符串格式。
      */
      insertText(x: number, y: number, textContent?: string): Identifier;
 
-     /** // TODO v2.16.0
-      * 编辑指定文字的内容
-      * @param identifier 文字的标识符。为 ``insertText()`` 的返回值。
-      * @param textContent 文字要改成的内容
+     /** // TODO TBR
+      *
+      * 修改指定文字的内容。
+      *
+      * @since v2.16.0
+      *
+      * 调用 {@link insertText} 方法后，你可以调用该方法并传入 `insertText` 方法返回的 `Identifier`，修改指定文字的内容。
+      *
+      * @param identifier 文字的标识符，为 {@link insertText} 的返回值。
+      * @param textContent 修改后的文字内容。
       */
      updateText(identifier: Identifier, textContent: string): void;
 
-     /** // TODO v2.16.0
-      * 修改当前被选中的 text 的状态
+     /** // TODO TBR
+      * 修改当前被选中文字的字体样式。
+      *
+      * @since v2.16.0
+      *
+      * 选中文字后，你可以调用该方法修改字体大小、颜色、是否加粗、是否斜体等样式。
+      *
+      * @param format 修改后的字体样式。详见 {@link TextFormat}。
       */
      updateSelectedText(format: TextFormat): void;
 
@@ -2851,8 +2864,10 @@ export declare type MemberState = {
      * 绘制线条的颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
      */
     strokeColor: Color;
-    /** // TODO 2.16.0
-     * 文字颜色
+    /** // TODO TBR
+     * 字体颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
+     *
+     * @since v2.16.0
      */
      textColor?: Color;
     /**
@@ -2860,23 +2875,43 @@ export declare type MemberState = {
      */
     strokeWidth: number;
     /**
-     * 字体大小。Chrome 浏览器对于小于 12 的字体会自动调整为 12。
+     * 字体大小，取值必须大于 0。Chrome 浏览器对于小于 12 的字体会自动调整为 12。
      */
     textSize: number;
-    /** // TODO 2.16.0
-     * 是否加粗文字
+    /** // TODO TBR
+     * 是否加粗：
+     *
+     * - `true`：加粗。
+     * - `false`：（默认）不加粗。
+     *
+     * @since v2.16.0
      */
      bold?: boolean;
-     /** // TODO 2.16.0
-      * 是否使用斜体
+     /** // TODO TBR
+      * 是否使用斜体：
+      *
+      * - `true`：使用斜体。
+      * - `false`：（默认）不使用斜体。
+      *
+      * @since v2.16.0
       */
      italic?: boolean;
-     /** // TODO 2.16.0
-      * 是否显示下划线
+     /** // TODO TBR
+      * 是否加下划线：
+      *
+      * - `true`：加下划线。
+      * - `false`：（默认）不加下划线。
+      *
+      * @since v2.16.0
       */
      underline?: boolean;
-     /** // TODO 2.16.0
-      * 是否显示删除线
+     /** // TODO TBR
+      * 是否加删除线：
+      *
+      * - `true`：加删除线。
+      * - `false`：（默认）不加删除线。
+      *
+      * @since v2.16.0
       */
      lineThrough?: boolean;
     /**
@@ -3133,7 +3168,7 @@ export declare type PluginDescription<A = any> = {
 };
 
 /**
- * 颜色，格式为 RGB。例如 `[0, 0, 255]` 代表蓝色。
+ * 颜色，RGB 格式。例如， `[0, 0, 255]` 代表蓝色。
  */
 export declare type Color = number[];
 
@@ -3326,7 +3361,11 @@ export declare enum CursorNames {
      * 指向东西的双向箭头。
      */
     Ew = "cursor-ew",
-    // TODO 2.16.0
+    /**
+     * 旋转箭头。
+     *
+     * @since v2.16.0
+     */
     Rotation = "cursor-rotation",
     /**
      * 不可点区域的默认光标。
@@ -3434,6 +3473,23 @@ export declare type WhiteWebSdkConfiguration = {
      * SDK 上报日志的选项，详见 {@link LoggerOptions}。
      */
     loggerOptions?: LoggerOptions;
+    /** // TODO TBR
+     * 使用铅笔工具（`pencil`）时，是否关闭补间动画功能：
+     * - `true`：开启补间动画功能。开启该功能后，当本地用户使用 `pencil` 在白板上绘制或书写时，SDK 会自动在关键帧之间插入帧，使远端用户看到的笔迹绘制过程更加流畅，但会因此增加延时。
+     * - `false`：（默认）关闭补间动画功能。关闭该功能后，远端用户看到的笔迹绘制过程可能出现卡顿，但是会缩短延时。
+     *
+     * @since v2.16.0
+     */
+     disableCurveAnimes?: boolean;
+     /** // TODO TBR
+      * 是否关闭图片旋转：
+      *
+      * - `true`：开启图片旋转。开启后，可对选中的图片任意旋转。
+      * - `false`：（默认）禁止图片旋转。
+      *
+      * @since v2.16.0
+      */
+     disableRotation?: boolean;
     /**
      * 断线重连设置。默认开启自动断线重连。
      *
@@ -4170,30 +4226,47 @@ export declare type RenderPlugin<C = {
     (plugin: PluginInstance<C, T>, event: NativeEvent)=>boolean;
 };
 
-// TODO 2.16.0
+// TODO TBR
+/**
+ * 字体样式。
+ *
+ * @since v2.16.0
+ */
 export declare type TextFormat = {
     /**
-     * 颜色
+     * 颜色，RGB 格式。例如，`[0, 0, 255]` 代表蓝色。
      */
     color?: Color;
     /**
-     * 字体大小
+     * 字体大小，取值必须大于 0。
      */
     fontSize?: number;
     /**
-     * 是否加粗
+     * 是否加粗：
+     *
+     * - `true`：加粗。
+     * - `false`：（默认）不加粗。
      */
     bold?: boolean;
     /**
-     * 是否斜体
+     * 是否使用斜体：
+     *
+     * - `true`：使用斜体。
+     * - `false`：（默认）不使用斜体。
      */
     italic?: boolean;
     /**
-     * 是否加下划线
+     * 是否加下划线：
+     *
+     * - `true`：加下划线。
+     * - `false`：（默认）不加下划线。
      */
     underline?: boolean;
     /**
-     * 是否加删除线
+     * 是否加删除线：
+     *
+     * - `true`：加删除线。
+     * - `false`：（默认）不加删除线。
      */
     lineThrough?: boolean;
 };
