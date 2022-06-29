@@ -1351,7 +1351,7 @@ export declare type ContentMode = (screenSize: Size, boundSize: Size)=>number;
      */
     None = "none",
     /**
-     * 场景组。
+     * 场景目录。
      */
     Dir = "dir",
     /**
@@ -1514,6 +1514,25 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     setCameraBound(cameraBound: CameraBound): void;
 
     /**
+     * 创建场景目录的监听器对象。
+     *
+     * 成功创建监听器对象后，当指定场景目录下的场景、子场景目录发生变化时，SDK 会触发你在 {@link ScenesCallbacks ScenesCallbacks} 中实现的回调。
+     * 当不再需要使用已创建的监听器时，需要调用 {@link ScenesCallbacksNode.dispose dispose} 来释放该监听器对象。
+     *
+     * @note
+     * - 该方法需要在加入白板房间后调用。
+     * - 对于每个场景目录，仅支持创建一个监听器对象。如果需要创建新的监听器对象，必须先调用 `dispose` 释放已创建的监听器对象。
+     *
+     * @param path 场景目录的路径。如果你传入的是场景路径，SDK 会将监听对象设置为其父场景目录。
+     * @param callbacks 需要监听的回调。详见 `ScenesCallbacks`。
+     * @returns
+     * - 方法调用成功时，返回 {@link ScenesCallbacksNode ScenesCallbacksNode} 对象。
+     * - 方法调用失败时，返回 `null`。方法调用失败可能是因为指定的场景目录不存在。
+     *
+     */
+     createScenesCallback(path: string, callbacks?: Partial<ScenesCallbacks>): ScenesCallbacksNode | null;
+
+    /**
      * 获取房间内指定用户的白板工具状态。
      *
      * @param memberId 指定用户的 ID。
@@ -1533,7 +1552,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 调整视角，以保证完整显示视觉矩形。
      *
-     * @param rectangle 视觉矩形的参数设置，详见 {@link Rectangle}。
+     * @param rectangle 视觉矩形的参数设置，详见 [Rectangle](https://docs.agora.io/cn/whiteboard/API%20Reference/whiteboard_web/globals.html#rectangle)。
      */
     moveCameraToContain(rectangle: Rectangle & Readonly<{
         animationMode?: AnimationMode;
@@ -1685,7 +1704,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 查询场景路径类型。
      *
-     * @param path 想要查询的场景路径。
+     * @param path 场景的路径。请确保场景路径以 `/` 开头，并且由场景目录和场景名构成，例如，`/math/classA`。
      * @returns 场景路径的类型。
      */
     scenePathType(path: string): ScenePathType;
@@ -1696,6 +1715,14 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @returns 当前房间内所有场景的信息。
      */
     entireScenes(): SceneMap;
+
+    /**
+     * 获取指定场景的信息。
+     *
+     * @param path 场景的路径。请确保场景路径以 `/` 开头，并且由场景目录和场景名构成，例如，`/math/classA`。
+     * @returns 场景信息。详见 {@link WhiteScene WhiteScene}。
+     */
+     getScene(path: string): WhiteScene | undefined;
 
 }
 
@@ -1802,6 +1829,14 @@ export declare type DisplayerCallbacks = {
      * @param type 媒体文件的类型。
      */
     (shapeId: string, type: MediaType)=>void;
+    onPPTMediaPlayError:
+    /**
+     * 动态 PPT 中的媒体文件播放出错回调。
+     * @param shapeId 插入媒体文件的 shape 对象的 ID。
+     * @param type 媒体文件的类型。
+     * @param error 错误提示。
+     */
+    (shapeId: string, type: MediaType, error: Error)=>void;
 };
 
 /**
@@ -2003,24 +2038,24 @@ export declare interface Room extends Displayer {
      * 该方法为同步调用。
      *
      * 场景切换失败可能有以下原因：
-     * - 路径不合法，请确保场景路径以 "/"，由场景组和场景名构成。
+     * - 路径不合法，请确保场景路径以 "/"，由场景目录和场景名构成。
      * - 场景路径对应的场景不存在。
-     * - 传入的路径是场景组的路径，而不是场景路径。
+     * - 传入的路径是场景目录的路径，而不是场景路径。
      *
-     * @param scenePath 想要切换到的场景路径。请确保场景路径以 "/" 开头并且由场景组和场景名构成，如 `/math/classA`。
+     * @param scenePath 想要切换到的场景路径。请确保场景路径以 "/" 开头并且由场景目录和场景名构成，如 `/math/classA`。
      */
     setScenePath(scenePath: string): void;
 
     /**
-     * 切换至当前场景组下的指定场景。
+     * 切换至当前场景目录下的指定场景。
      *
      * 方法调用成功后，房间内的所有用户看到的白板都会切换到指定场景。
      *
      * **Note**
      *
-     * 指定的场景必须在当前场景组中，否则方法调用会失败。
+     * 指定的场景必须在当前场景目录中，否则方法调用会失败。
      *
-     * @param index 目标场景在当前场景组下的索引号。
+     * @param index 目标场景在当前场景目录下的索引号。
      */
     setSceneIndex(index: number): void;
 
@@ -2081,22 +2116,22 @@ export declare interface Room extends Displayer {
     cleanCurrentScene(retainPpt?: boolean): void;
 
     /**
-     * 删除场景或者场景组。
+     * 删除场景或者场景目录。
      *
      * **Note**
      *
      * - 互动白板实时房间内必须至少有一个场景。当删除所有的场景后，SDK 会自动生成一个路径为 `/init` 初始场景（房间初始化时的默认场景）。
-     * - 如果删除白板当前所在场景，白板会展示被删除场景所在场景组的最后一个场景
-     * - 如果删除的是场景组，则该场景组下的所有场景都会被删除。
-     * - 如果删除的是当前场景所在的场景组，例如 `dirA`，SDK 会执行向上递归逻辑选择新的场景作为当前场景，规则如下：
-     *    1. 如果当前场景组路径下还有其他场景组，例如 `dirB`，排在被删除的场景组 `dirA` 后面，则将场景切换至
+     * - 如果删除白板当前所在场景，白板会展示被删除场景所在场景目录的最后一个场景
+     * - 如果删除的是场景目录，则该场景目录下的所有场景都会被删除。
+     * - 如果删除的是当前场景所在的场景目录，例如 `dirA`，SDK 会执行向上递归逻辑选择新的场景作为当前场景，规则如下：
+     *    1. 如果当前场景目录路径下还有其他场景目录，例如 `dirB`，排在被删除的场景目录 `dirA` 后面，则将场景切换至
      *    `dirB` 中的第一个场景（index 为 0）。
-     *    2. 如果当前场景组路径下 `dirA` 后不存在场景组，则查看当前场景组路径下是否存在场景；
-     *    如果存在，则将场景切换至当前场景组路径下的第一个场景（index 为 0）。
-     *    3. 如果当前场景组路径下 `dirA` 后没有场景组，也不存在任何场景，则查看 `dirA` 前面是否存在场景组 `dirC`；如果存在，则选择 `dirC` 中的第一个场景（index 为 0）。
+     *    2. 如果当前场景目录路径下 `dirA` 后不存在场景目录，则查看当前场景目录路径下是否存在场景；
+     *    如果存在，则将场景切换至当前场景目录路径下的第一个场景（index 为 0）。
+     *    3. 如果当前场景目录路径下 `dirA` 后没有场景目录，也不存在任何场景，则查看 `dirA` 前面是否存在场景目录 `dirC`；如果存在，则选择 `dirC` 中的第一个场景（index 为 0）。
      *    4. 以上都不满足，则继续向上递归执行该逻辑。
      *
-     * @param path 场景路径或场景组路径。如果传入的是场景组，则会删除该场景组下的所有场景。
+     * @param path 场景路径或场景目录路径。如果传入的是场景目录，则会删除该场景目录下的所有场景。
      */
     removeScenes(path: string): void;
 
@@ -2105,10 +2140,10 @@ export declare interface Room extends Displayer {
      *
      * 成功移动场景后，场景路径也会改变。
      *
-     * @param originalPath 需要移动的场景的原路径。必须为场景路径，不能是场景组的路径。
-     * @param targetPath 目标场景组路径或目标场景路径：
-     * - 当 `targetPath`设置为目标场景组时，表示将指定场景移至其他场景组中，场景路径会发生改变，但是场景名称不变。
-     * - 当 `targetPath`设置为目标场景路径时，表示改变指定场景在当前场景组的位置，场景路径和场景名都会发生改变。
+     * @param originalPath 需要移动的场景的原路径。必须为场景路径，不能是场景目录的路径。
+     * @param targetPath 目标场景目录的路径或目标场景的路径：
+     * - 当 `targetPath`设置为目标场景目录时，表示将指定场景移至其他场景目录中，场景路径会发生改变，但是场景名称不变。
+     * - 当 `targetPath`设置为目标场景路径时，表示改变指定场景在当前场景目录的位置，场景路径和场景名都会发生改变。
      */
     moveScene(originalPath: string, targetPath: string): void;
 
@@ -2319,10 +2354,8 @@ export declare interface Room extends Displayer {
      */
     moveSelectedComponentsToBottom(): void;
 
-    /** // TODO TBR
+    /**
      * 在指定位置插入文字。
-     *
-     * @since v2.16.0
      *
      * @param x 第一个文字左侧边的中点在世界坐标系中的 X 轴坐标。
      * @param y 第一个文字左侧边的中点在世界坐标系中的 Y 轴坐标。
@@ -2332,29 +2365,24 @@ export declare interface Room extends Displayer {
      */
      insertText(x: number, y: number, textContent?: string): Identifier;
 
-     /** // TODO TBR
-      *
-      * 修改指定文字的内容。
-      *
-      * @since v2.16.0
-      *
-      * 调用 {@link insertText} 方法后，你可以调用该方法并传入 `insertText` 方法返回的 `Identifier`，修改指定文字的内容。
-      *
-      * @param identifier 文字的标识符，为 {@link insertText} 的返回值。
-      * @param textContent 修改后的文字内容。
-      */
-     updateText(identifier: Identifier, textContent: string): void;
+    /**
+     * 修改指定文字的内容。
+     *
+     * 调用 {@link insertText} 方法后，你可以调用该方法并传入 `insertText` 方法返回的 `Identifier`，修改指定文字的内容。
+     *
+     * @param identifier 文字的标识符，为 {@link insertText} 的返回值。
+     * @param textContent 修改后的文字内容。
+     */
+    updateText(identifier: Identifier, textContent: string): void;
 
-     /** // TODO TBR
-      * 修改当前被选中文字的字体样式。
-      *
-      * @since v2.16.0
-      *
-      * 选中文字后，你可以调用该方法修改字体大小、颜色、是否加粗、是否斜体等样式。
-      *
-      * @param format 修改后的字体样式。详见 {@link TextFormat}。
-      */
-     updateSelectedText(format: TextFormat): void;
+    /**
+     * 修改当前被选中文字的字体样式。
+     *
+     * 选中文字后，你可以调用该方法修改字体大小、颜色、是否加粗、是否斜体等样式。
+     *
+     * @param format 修改后的字体样式。详见 {@link TextFormat}。
+     */
+    updateSelectedText(format: TextFormat): void;
 
     /**
      * 播放动态 PPT 下一页。
@@ -2812,7 +2840,7 @@ export declare type RoomState = DisplayerState & {
  */
 export declare type SceneState = {
     /**
-     * 当前场景组下所有场景的列表。
+     * 当前场景目录下所有场景的列表。
      */
     scenes: ReadonlyArray<WhiteScene>;
     /**
@@ -2826,13 +2854,13 @@ export declare type SceneState = {
      */
     sceneName: string;
     /**
-     * 当前场景所属场景组的路径。
+     * 当前场景所属场景目录的路径。
      *
      * @since 2.10.3
      */
     contextPath: string;
     /**
-     * 当前场景在所属场景组中的索引号。
+     * 当前场景在所属场景目录中的索引号。
      */
     index: number;
 };
@@ -2864,10 +2892,8 @@ export declare type MemberState = {
      * 绘制线条的颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
      */
     strokeColor: Color;
-    /** // TODO TBR
+    /**
      * 字体颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
-     *
-     * @since v2.16.0
      */
      textColor?: Color;
     /**
@@ -2878,40 +2904,33 @@ export declare type MemberState = {
      * 字体大小，取值必须大于 0。Chrome 浏览器对于小于 12 的字体会自动调整为 12。
      */
     textSize: number;
-    /** // TODO TBR
+    /**
      * 是否加粗：
      *
      * - `true`：加粗。
      * - `false`：（默认）不加粗。
-     *
-     * @since v2.16.0
      */
      bold?: boolean;
-     /** // TODO TBR
+     /**
       * 是否使用斜体：
       *
       * - `true`：使用斜体。
       * - `false`：（默认）不使用斜体。
       *
-      * @since v2.16.0
       */
      italic?: boolean;
-     /** // TODO TBR
+     /**
       * 是否加下划线：
       *
       * - `true`：加下划线。
       * - `false`：（默认）不加下划线。
-      *
-      * @since v2.16.0
       */
      underline?: boolean;
-     /** // TODO TBR
+     /**
       * 是否加删除线：
       *
       * - `true`：加删除线。
       * - `false`：（默认）不加删除线。
-      *
-      * @since v2.16.0
       */
      lineThrough?: boolean;
     /**
@@ -3314,7 +3333,7 @@ export declare enum CursorNames {
      */
     Selector = "cursor-selector",
     /**
-     * 画笔。
+     * 铅笔。
      */
     Pencil = "cursor-pencil",
     /**
@@ -3473,21 +3492,29 @@ export declare type WhiteWebSdkConfiguration = {
      * SDK 上报日志的选项，详见 {@link LoggerOptions}。
      */
     loggerOptions?: LoggerOptions;
-    /** // TODO TBR
-     * 使用铅笔工具（`pencil`）时，是否关闭补间动画功能：
-     * - `true`：开启补间动画功能。开启该功能后，当本地用户使用 `pencil` 在白板上绘制或书写时，SDK 会自动在关键帧之间插入帧，使远端用户看到的笔迹绘制过程更加流畅，但会因此增加延时。
-     * - `false`：（默认）关闭补间动画功能。关闭该功能后，远端用户看到的笔迹绘制过程可能出现卡顿，但是会缩短延时。
+    /**
+     * 是否关闭新铅笔工具（`pencil`）的补间动画功能：
+     * - `true`：开启补间动画功能。开启该功能后，当本地用户使用 `pencil` 在白板上绘制或书写时，SDK 会自动在关键帧之间插入帧，使远端用户看到的书写或绘制过程更加流畅，但会因此增加延时。
+     * - `false`：（默认）关闭补间动画功能。关闭该功能后，会缩短延时，但远端用户看到的笔迹绘制过程可能出现卡顿。
      *
-     * @since v2.16.0
+     * @note 该属性仅在 `disableNewPencil` 设为 `fasle` 时生效。
      */
      disableCurveAnimes?: boolean;
-     /** // TODO TBR
+     /**
+      * 是否关闭新铅笔的笔锋效果：
+      *
+      * - `true`：关闭笔锋效果。
+      * - `false`：（默认）开启笔锋效果。
+      *
+      * @note 该属性仅在 `disableNewPencil` 设为 `fasle` 时生效。
+      */
+     disableNewPencilStroke?: boolean;
+     /**
       * 是否关闭图片旋转：
       *
       * - `true`：开启图片旋转。开启后，可对选中的图片任意旋转。
       * - `false`：（默认）禁止图片旋转。
       *
-      * @since v2.16.0
       */
      disableRotation?: boolean;
     /**
@@ -3690,9 +3717,9 @@ export declare type ConstructRoomParams = {
  *    该方法与 `isWritable` 的区别详见[《禁止设备操作｜禁止操作》](https://developer.netless.link/javascript-zh/home/disable#禁止设备操作)。
  * - **enableDrawPoint?**: *boolean*
  *
- *   是否允许使用画笔工具（`pencil`）画点。
+ *   是否允许使用铅笔工具（`pencil`）画点。
  *   - `true`： 允许。
- *   - `false`：（默认）不允许。此时使用画笔工具单击白板绘制的点不会保留在屏幕上。
+ *   - `false`：（默认）不允许。此时使用铅笔工具单击白板绘制的点不会保留在屏幕上。
  *
  *   **Note**
  *
@@ -3702,13 +3729,13 @@ export declare type ConstructRoomParams = {
  *
  *   **自从：2.12.5**
  *
- *   关闭/开启笔锋效果：
- *   - `true`: （默认）关闭笔锋效果。
- *   - `false`: 开启笔锋效果。
+ *   关闭/开启新铅笔工具：
+ *   - `true`:（默认）关闭新铅笔工具。
+ *   - `false`: 开启新铅笔工具。开启后，SDK 会对铅笔工具（`pencil`）应用新版笔迹平滑算法，使书写笔迹更加流畅自然，并带有笔锋效果。
  *
  *  **Note**
  *
- *   为正常显示笔迹，在开启笔峰效果前，请确保该房间内的所有用户使用如下 SDK：
+ *   为正常显示笔迹，在开启新铅笔前，请确保该房间内的所有用户使用如下 SDK：
  *      - Android SDK 2.12.3 或更高版本
  *      - iOS SDK 2.12.3 或更高版本
  *      - Web SDK 2.12.5 或更高版本
@@ -4226,11 +4253,8 @@ export declare type RenderPlugin<C = {
     (plugin: PluginInstance<C, T>, event: NativeEvent)=>boolean;
 };
 
-// TODO TBR
 /**
  * 字体样式。
- *
- * @since v2.16.0
  */
 export declare type TextFormat = {
     /**
@@ -4284,6 +4308,86 @@ export declare type WhiteScene = {
      */
     ppt?: PptDescription;
 };
+
+/**
+ * 场景目录的信息。
+ */
+export declare interface ScenesCallbacksNode extends Callbacks {
+    /**
+     * 场景目录的路径。
+     */
+    readonly path: string;
+    /**
+     * 场景目录下所有场景的名称。
+     */
+    readonly scenes: ReadonlyArray<string>;
+    /**
+     * 场景目录下场景的数量。
+     */
+    readonly scenesCount: number;
+    /**
+     * 场景目录下所有子场景目录的名称。
+     */
+    readonly sceneGroups: ReadonlyArray<string>;
+    /**
+     * 场景目录下子场景目录的数量。
+     */
+    readonly sceneGroupsCount: number;
+    /**
+     * 释放监听器对象。
+     */
+    dispose(): void;
+
+}
+
+/**
+ * 场景回调。
+ */
+export declare type ScenesCallbacks = {
+    /**
+     * 指定场景目录下场景数量发生变化回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param scenesCount 指定场景目录下当前的场景数量。
+     */
+    onScenesCountUpdate: (scenesCallbacks: ScenesCallbacksNode, scenesCount: number)=>void;
+    /**
+     * 新增场景回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param name 新增场景的场景名称。
+     */
+    onAddScene: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * 删除场景回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param name 被删除场景的场景名称
+     */
+    onRemoveScene: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * 指定场景目录下子场景目录数量发生变化回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param sceneGroupsCount 指定场景目录下当前子场景目录的数量。
+     */
+    onScenesGroupCountUpdate: (scenesCallbacks: ScenesCallbacksNode, sceneGroupsCount: number)=>void;
+    /**
+     * 新增子场景目录回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param name 新增的子场景目录的名称。
+     */
+    onAddSceneGroup: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * 删除子场景目录回调。
+     *
+     * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
+     * @param name 被删除的子场景目录的名称。
+     */
+    onRemoveSceneGroup: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+};
+
 
 /**
  * 事件监听器。

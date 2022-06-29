@@ -162,7 +162,7 @@
 <th>描述</th>
 </tr>
 <tr>
-<td>{}{@link insertImage insertImage}</td>
+<td>{@link insertImage insertImage}</td>
 <td>插入图片占位符</td>
 </tr>
 <tr>
@@ -171,11 +171,19 @@
 </tr>
 <tr>
 <td>{@link SceneState SceneState}</td>
-<td>获取当前场景组下的场景状态</td>
+<td>获取当前场景目录下的场景状态</td>
+</tr>
+<tr>
+<td>{@link createScenesCallback createScenesCallback}</td>
+<td>创建场景目录的监听器对象</td>
 </tr>
 <tr>
 <td>{@link SceneMap SceneMap}</td>
-<td>获取当前场景组下的场景列表</td>
+<td>获取当前场景目录下的场景列表</td>
+</tr>
+<tr>
+<td>{@link getScene getScene}</td>
+<td>获取指定场景的信息</td>
 </tr>
 <tr>
 <td>{@link setScenePath setScenePath}</td>
@@ -183,11 +191,11 @@
 </tr>
 <tr>
 <td>{@link setSceneIndex setSceneIndex}</td>
-<td>切换至当前场景组下的指定场景</td>
+<td>切换至当前场景目录下的指定场景</td>
 </tr>
 <tr>
 <td>{@link putScenes putScenes}</td>
-<td>在指定场景组下插入多个场景</td>
+<td>在指定场景目录下插入多个场景</td>
 </tr>
 <tr>
 <td>{@link moveScene moveScene}</td>
@@ -203,7 +211,7 @@
 </tr>
 <tr>
 <td>{@link removeScenes removeScenes}</td>
-<td>删除场景或者场景组</td>
+<td>删除场景或者场景目录</td>
 </tr>
 <tr>
 <td>{@link cleanCurrentScene cleanCurrentScene}</td>
@@ -214,8 +222,16 @@
 <td>锁定选中图片</td>
 </tr>
 <tr>
-<td>{@link updateTextFontSize updateTextFontSize}</td>
-<td>调整字体大小</td>
+<td>{@link insertText insertText}</td>
+<td>在指定位置插入文字</td>
+</tr>
+<tr>
+<td>{@link updateText updateText}</td>
+<td>修改指定的文字</td>
+</tr>
+<tr>
+<td>{@link updateSelectedText updateSelectedText}</td>
+<td>修改当前被选中文字的字体样式</td>
 </tr>
 <tr>
 <td>{@link pptNextStep pptNextStep}</td>
