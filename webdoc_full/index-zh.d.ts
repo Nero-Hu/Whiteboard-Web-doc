@@ -796,7 +796,7 @@ export declare function isPlayer(displayer: Displayer): boolean;
 /**
  * 回调。
  */
-export declare interface Callbacks<CALLBACKS extends {
+ export declare interface Callbacks<CALLBACKS extends {
     [name: string]: any;
 }> {
     /**
@@ -3494,8 +3494,8 @@ export declare type WhiteWebSdkConfiguration = {
     loggerOptions?: LoggerOptions;
     /**
      * 是否关闭新铅笔工具（`pencil`）的补间动画功能：
-     * - `true`：开启补间动画功能。开启该功能后，当本地用户使用 `pencil` 在白板上绘制或书写时，SDK 会自动在关键帧之间插入帧，使远端用户看到的书写或绘制过程更加流畅，但会因此增加延时。
-     * - `false`：（默认）关闭补间动画功能。关闭该功能后，会缩短延时，但远端用户看到的笔迹绘制过程可能出现卡顿。
+     * - `true`：关闭补间动画功能。关闭该功能后，会缩短延时，但远端用户看到的笔迹绘制过程可能出现卡顿。
+     * - `false`：（默认）开启补间动画功能。开启后，当本地用户使用 `pencil` 在白板上绘制或书写时，SDK 会自动在关键帧之间插入帧，使远端用户看到的书写或绘制过程更加流畅，但会因此增加延时。
      *
      * @note 该属性仅在 `disableNewPencil` 设为 `fasle` 时生效。
      */
@@ -3512,8 +3512,8 @@ export declare type WhiteWebSdkConfiguration = {
      /**
       * 是否关闭图片旋转：
       *
-      * - `true`：开启图片旋转。开启后，可对选中的图片任意旋转。
-      * - `false`：（默认）禁止图片旋转。
+      * - `true`：禁止图片旋转。
+      * - `false`：（默认）开启图片旋转。开启后，可对选中的图片任意旋转。
       *
       */
      disableRotation?: boolean;
@@ -4312,7 +4312,7 @@ export declare type WhiteScene = {
 /**
  * 场景目录的信息。
  */
-export declare interface ScenesCallbacksNode extends Callbacks {
+export declare interface ScenesCallbacksNode extends Callbacks<ScenesCallbacks> {
     /**
      * 场景目录的路径。
      */
@@ -4362,7 +4362,7 @@ export declare type ScenesCallbacks = {
      * 删除场景回调。
      *
      * @param scenesCallbacks 场景目录的信息。详见 {@link ScenesCallbacksNode ScenesCallbacksNode}。
-     * @param name 被删除场景的场景名称
+     * @param name 被删除场景的场景名称。
      */
     onRemoveScene: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
     /**

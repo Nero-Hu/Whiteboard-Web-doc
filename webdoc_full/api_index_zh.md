@@ -149,7 +149,7 @@
 <td>调整视角以完整显示 PPT 的内容（指定动画模式）</td>
 </tr>
 <tr>
-<td>{@link BroadcastState BroadcastState</td>
+<td>{@link BroadcastState BroadcastState}</td>
 <td>获取用户的视角状态</td>
 </tr>
 </table>

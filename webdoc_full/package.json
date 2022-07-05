@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "docs-gen:zh-CN": "npx typedoc --theme docs/theme --out ./docs/zh-CN/api --readme ./api_index_zh.md --name \"Agora 互动白板 Web SDK API 参考\" --options ./config/typedoc.json ./index-zh.d.ts --excludePrivate ",
-    "docs-gen:en": "npx typedoc --theme docs/theme --out ./docs/en/api --readme ./api_index_en.md --name \"Agora Interactive Whiteboard Web SDK API Reference\" --options ./config/typedoc.json ./index-en.d.ts --excludePrivate"
+    "docs-gen:zh-CN": "npx typedoc --out ./docs/zh-CN/api --readme ./api_index_zh.md --name \"Agora 互动白板 Web SDK API 参考\" --options ./config/typedoc.json ./index-zh.d.ts --excludePrivate ",
+    "docs-gen:en": "npx typedoc --out ./docs/en/api --readme ./api_index_en.md --name \"Agora Interactive Whiteboard Web SDK API Reference\" --options ./config/typedoc.json ./index-en.d.ts --excludePrivate"
   },
   "dependencies": {
     "react": "^17.0.2",

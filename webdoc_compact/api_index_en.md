@@ -140,7 +140,7 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>Adjusts the view (in the specified animation mode) to ensure the complete display of the PPT slide.</td>
 </tr>
 <tr>
-<td>{@link BroadcastState BroadcastState</td>
+<td>{@link BroadcastState BroadcastState}</td>
 <td>Gets the view state of the user.</td>
 </tr>
 </table>
@@ -153,7 +153,7 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <th>Description</th>
 </tr>
 <tr>
-<td>{}{@link insertImage insertImage}</td>
+<td>{@link insertImage insertImage}</td>
 <td>Inserts an image placeholder on the whiteboard.</td>
 </tr>
 <tr>

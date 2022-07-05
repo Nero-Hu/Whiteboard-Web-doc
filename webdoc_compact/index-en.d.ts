@@ -3699,8 +3699,8 @@ export declare type WhiteWebSdkConfiguration = {
      /**
       * Sets whether to disable image rotation:
       *
-      * - `true`: Disable image rotation.
-      * - `false`: (Default) Enable image rotation.This allows users to rotate a selected image by any angle.
+      * - `true`: Enable image rotation.This allows users to rotate a selected image by any angle.
+      * - `false`: (Default) Disable image rotation.
       */
      disableRotation?: boolean;
     /**
@@ -4554,7 +4554,7 @@ export declare type WhiteScene = {
 /**
  * The information about a scene directory.
  */
- export declare interface ScenesCallbacksNode extends Callbacks {
+ export declare interface ScenesCallbacksNode extends Callbacks<ScenesCallbacks> {
     /**
      * The path of the scene directory.
      */
