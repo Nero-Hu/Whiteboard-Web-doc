@@ -2895,7 +2895,7 @@ export declare type MemberState = {
     /**
      * 字体颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。
      */
-     textColor?: Color;
+    textColor?: Color;
     /**
      * 绘制线条的粗细。
      */
@@ -2910,29 +2910,29 @@ export declare type MemberState = {
      * - `true`：加粗。
      * - `false`：（默认）不加粗。
      */
-     bold?: boolean;
-     /**
-      * 是否使用斜体：
-      *
-      * - `true`：使用斜体。
-      * - `false`：（默认）不使用斜体。
-      *
-      */
-     italic?: boolean;
-     /**
-      * 是否加下划线：
-      *
-      * - `true`：加下划线。
-      * - `false`：（默认）不加下划线。
-      */
-     underline?: boolean;
-     /**
-      * 是否加删除线：
-      *
-      * - `true`：加删除线。
-      * - `false`：（默认）不加删除线。
-      */
-     lineThrough?: boolean;
+    bold?: boolean;
+    /**
+     * 是否使用斜体：
+     *
+     * - `true`：使用斜体。
+     * - `false`：（默认）不使用斜体。
+     *
+     */
+    italic?: boolean;
+    /**
+     * 是否加下划线：
+     *
+     * - `true`：加下划线。
+     * - `false`：（默认）不加下划线。
+     */
+    underline?: boolean;
+    /**
+     * 是否加删除线：
+     *
+     * - `true`：加删除线。
+     * - `false`：（默认）不加删除线。
+     */
+    lineThrough?: boolean;
     /**
      * 绘制图形的类型。
      */

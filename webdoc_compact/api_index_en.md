@@ -165,8 +165,17 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>Gets the state of the scenes under the current scene directory.</td>
 </tr>
 <tr>
+<td>{@link createScenesCallback createScenesCallback}</td>
+<td>Creates a listener object for a scene directory.</td>
+</tr>
+<tr>
+<tr>
 <td>{@link SceneMap SceneMap}</td>
 <td>Gets the list of scenes under the current scene directory.</td>
+</tr>
+<tr>
+<td>{@link getScene getScene}</td>
+<td>Gets the information about a specified scene.</td>
 </tr>
 <tr>
 <td>{@link setScenePath setScenePath}</td>
@@ -206,8 +215,16 @@ Agora provides interactive whiteboard with high reliability and rich features th
 <td>Locks selected images.</td>
 </tr>
 <tr>
-<td>{@link updateTextFontSize updateTextFontSize}</td>
-<td>Adjusts font size.</td>
+<td>{@link insertText insertText}</td>
+<td>Inserts text at a specified position.</td>
+</tr>
+<tr>
+<td>{@link updateText updateText}</td>
+<td>Modifies the specified text.</td>
+</tr>
+<tr>
+<td>{@link updateSelectedText updateSelectedText}</td>
+<td>Modifies the font style of the currently selected text.</td>
 </tr>
 <tr>
 <tr>

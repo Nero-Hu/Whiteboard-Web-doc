@@ -1555,6 +1555,26 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     setCameraBound(cameraBound: CameraBound): void;
 
     /**
+     * Creates a listener object for a scene directory.
+     *
+     * After the listener object is successfully created, when the scenes and subdirectories in the specified
+     * scene directory change, the SDK triggers the callbacks you have registered in {@link ScenesCallbacks ScenesCallbacks} to report the scene events.
+     * When you no longer need the created listener, call {@link ScenesCallbacksNode.dispose dispose} to release the listener object.
+     *
+     * @note
+     * - Call this method after joining the whiteboard room.
+     * - You can create only one listener object for each scene directory.
+     * If you need to create a new listener object, you must call `dispose` to release the created listener object first.
+     *
+     * @param path The path of the scene directory. If you pass in a scene path, the SDK sets the listened object to its parent scene directory.
+     * @param callbacks The callbacks to be listened to. See `ScenesCallbacks`.
+     * @returns
+     * - The {@link ScenesCallbacksNode ScenesCallbacksNode} object if the method call succeeds.
+     * - `null` if the method call fails. The method call can fail because the specified scene directory does not exist.
+     */
+     createScenesCallback(path: string, callbacks?: Partial<ScenesCallbacks>): ScenesCallbacksNode | null;
+
+    /**
      * Gets the state of the whiteboard tool used by the user.
      *
      * @param memberId The ID of the user.
@@ -1748,6 +1768,16 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      */
     entireScenes(): SceneMap;
 
+    /**
+     * Gets the information about a specified scene.
+     *
+     * @param path The path of a scene. Ensure the scene path stars with `/` and consists of the scene directory and scene name.
+     * For example, `/math/classA`.
+     *
+     * @returns The information about the specified scene. See {@link WhiteScene WhiteScene}.
+     */
+     getScene(path: string): WhiteScene | undefined;
+
 }
 
 /**
@@ -1854,6 +1884,14 @@ export declare type DisplayerCallbacks = {
      * @param type The type of the media file.
      */
     (shapeId: string, type: MediaType)=>void;
+    onPPTMediaPlayError:
+    /**
+     * Reports exceptions that occur during the playing of the media file in a dynamic PPT slide.
+     * @param shapeId The ID of the shape where the media file is inserted.
+     * @param type The type of the media file. See MediaType.
+     * @param error An error message.
+     */
+    (shapeId: string, type: MediaType, error: Error)=>void;
 };
 
 /**
@@ -1898,13 +1936,6 @@ export declare interface Room extends Displayer {
    * The business status of the room.
    */
   readonly state: RoomState;
-
-  /**
-   * Custom inputs.
-   *
-   * @since 2.12.11
-   */
-  readonly customInput: CustomInput;
 
   /**
    * Whether the user is in interactive mode in the room:
@@ -2436,16 +2467,37 @@ export declare interface Room extends Displayer {
    */
   moveSelectedComponentsToBottom(): void;
 
+
   /**
-   * Adjusts font size.
+   * Inserts text at a specified position.
    *
-   * @since v2.14.5
+   * @param x The X coordinate of the midpoint of the left edge of the first character in the world coordinate system.
+   * @param y The Y coordinate of the midpoint of the left edge of the first character in the world coordinate system.
+   * @param textContent The initial text. If you do not pass in a value, the content is empty.
    *
-   * This method adjusts the size of the text entered with the `text` tool.
-   *
-   * @param fontSize The target font size.
+   * @returns The identifier of the text in string format.
    */
-  updateTextFontSize(fontSize: number): void;
+  insertText(x: number, y: number, textContent?: string): Identifier;
+
+  /**
+   * Modifies the specified text.
+   *
+   * After calling {@link insertText}, you can call this method and pass in the `identifier` returned by the `insertText`
+   * method to modify the content of the specified text.
+   *
+   * @param identifier The identifier of the text, which is the return value of `insertText`.
+   * @param textContent The new text.
+   */
+  updateText(identifier: Identifier, textContent: string): void;
+
+  /**
+   * Modifies the font style of the currently selected text.
+   *
+   * After selecting some text, you can call this method to modify the font size, color, bold style, and italic style of the text.
+   *
+   * @param format The font style after modification. See {@link TextFormat}.
+   */
+  updateSelectedText(format: TextFormat): void;
 
   /**
    * Plays the next slide of the dynamic PPT file.
@@ -2962,38 +3014,6 @@ export declare type SceneState = {
 };
 
 /**
- * The interface for custom inputs (such as digital pens).
- *
- * @since 2.12.11
- */
-export declare interface CustomInput {
-    /**
-     * Inputs a press.
-     *
-     * @param x The X coordinate of the point pressed in the screen coordinate system (taking the upper left corner as the origin).
-     * @param y The Y coordinate of the point pressed in the screen coordinate system (taking the upper left corner as the origin).
-     */
-    inputDown(x: number, y: number): void;
-
-    /**
-     * Inputs a movement.
-     *
-     * @param x The X coordinate of the point moved in the screen coordinate system (taking the upper left corner as the origin).
-     * @param y The Y coordinate of the point moved in the screen coordinate system (taking the upper left corner as the origin).
-     */
-    inputMove(x: number, y: number): void;
-
-    /**
-     * Inputs a release.
-     *
-     * @param x The X coordinate of the point released in the screen coordinate system (taking the upper left corner as the origin).
-     * @param y The Y coordinate of the point released in the screen coordinate system (taking the upper left corner as the origin).
-     */
-    inputUp(x: number, y: number): void;
-
-}
-
-/**
  * The Consumer for a `Displayer` object.
  */
 export declare const DisplayerConsumer: Consumer<Displayer>;
@@ -3022,6 +3042,10 @@ export declare type MemberState = {
      */
     strokeColor: Color;
     /**
+     * The stroke color in RGB format. For example, `[0, 0, 255]` represents blue.
+     */
+    textColor?: Color;
+    /**
      * The stroke width.
      */
     strokeWidth: number;
@@ -3029,6 +3053,34 @@ export declare type MemberState = {
      * The font size of the text. The Chrome browser automatically adjusts fonts smaller than 12 to 12.
      */
     textSize: number;
+    /**
+     * Whether to bold the text:
+     *
+     * - `true`: Bold the text.
+     * - `false`: (Default) Do not bold the text.
+     */
+    bold?: boolean;
+    /**
+     * Whether to italicize the text:
+     *
+     * - `true`: Italicize the text.
+     * - `false`: (Default) Do not italicize the text.
+     */
+    italic?: boolean;
+    /**
+     * Whether to underline the text:
+     *
+     * - `true`: Underline the text.
+     * - `false`: (Default) Do not underline the text.
+     */
+    underline?: boolean;
+    /**
+     * Whether to apply strikethrough formatting to the text:
+     *
+     * - `true`: Apply strikethrough formatting.
+     * - `false`: (Default) Do not apply strikethrough formatting.
+     */
+    lineThrough?: boolean;
     /**
      * The shape type.
      */
@@ -3627,6 +3679,31 @@ export declare type WhiteWebSdkConfiguration = {
      */
     loggerOptions?: LoggerOptions;
     /**
+     * Sets whether to disable tween animation for the new pencil:
+     *
+     * - `true`: Disable tween animation. This can decrease latency, but cause freezes in the writing or drawing process seen by remote users.
+     * - `false`: (Default) Enable tween animation. This allows the SDK to automatically insert frames between keyframes when a user draws or writes with the pencil, so that remote users see a smoother drawing process, but this increases latency.
+     *
+     * @note This property takes effect only when `disableNewPencil` is set as `false`.
+     */
+     disableCurveAnimes?: boolean;
+     /**
+      * Sets whether to disable the stroke effect of the new pencil:
+      *
+      * - `true`: Disable the stroke effect.
+      * - `false`: (Default) Enable the stroke effect.
+      *
+      * @note This property takes effect only when `disableNewPencil` is set as `false`.
+      */
+     disableNewPencilStroke?: boolean;
+     /**
+      * Sets whether to disable image rotation:
+      *
+      * - `true`: Disable image rotation.
+      * - `false`: (Default) Enable image rotation.This allows users to rotate a selected image by any angle.
+      */
+     disableRotation?: boolean;
+    /**
      * Reconnection configuration. The reconnection mechanism is enabled by default.
      *
      * To disable the reconnection mechanism, set `reconnectionOptions` as `false`
@@ -3859,9 +3936,9 @@ export declare type ConstructRoomParams = {
  *
  *   **Since 2.12.5**
  *
- *   Disables/Enables the stroke effect of the pencil.
- *   - `true`: (Default) Disable the stroke effect of the pencil.
- *   - `false`: Enable the stroke effect of the pencil.
+ *   Disables/Enables the new pencil:
+ *   - `true`: (Default) Disable the new pencil. The SDK applies the old stroke smoothing algorithm to pencil.
+ *   - `false`: Enable the new pencil. This allows the SDK to apply the new stroke smoothing algorithm to pencil, which results in smoother, more natural handwriting with a stroke effect.
  *
  *  **Note**
  *
@@ -4415,6 +4492,48 @@ export declare type RenderPlugin<C = {
 };
 
 /**
+ * The text format.
+ */
+ export declare type TextFormat = {
+    /**
+     * The stroke color in RGB format. For example, `[0, 0, 255]` represents blue.
+     */
+    color?: Color;
+    /**
+     * The font size. The value must be greater than 0.
+     */
+    fontSize?: number;
+    /**
+     * Whether to bold the text:
+     *
+     * - `true`: Bold the text.
+     * - `false`: (Default) Do not bold the text.
+     */
+    bold?: boolean;
+    /**
+     * Whether to italicize the text:
+     *
+     * - `true`: Italicize the text.
+     * - `false`: (Default) Do not italicize the text.
+     */
+    italic?: boolean;
+    /**
+     * Whether to underline the text:
+     *
+     * - `true`: Underline the text.
+     * - `false`: (Default) Do not underline the text.
+     */
+    underline?: boolean;
+    /**
+     * Whether to apply strikethrough formatting to the text:
+     *
+     * - `true`: Apply strikethrough formatting.
+     * - `false`: (Default) Do not apply strikethrough formatting.
+     */
+    lineThrough?: boolean;
+};
+
+/**
  * Whiteboard scene.
  */
 export declare type WhiteScene = {
@@ -4430,6 +4549,87 @@ export declare type WhiteScene = {
      */
     ppt?: PptDescription;
 };
+
+
+/**
+ * The information about a scene directory.
+ */
+ export declare interface ScenesCallbacksNode extends Callbacks {
+    /**
+     * The path of the scene directory.
+     */
+    readonly path: string;
+    /**
+     * The names of all scenes under the scene directory.
+     */
+    readonly scenes: ReadonlyArray<string>;
+    /**
+     * The number of scenes under the scene directory.
+     */
+    readonly scenesCount: number;
+    /**
+     * The names of all subdirectories under the scene directory.
+     */
+    readonly sceneGroups: ReadonlyArray<string>;
+    /**
+     * The number of subdirectories under the scene directory.
+     */
+    readonly sceneGroupsCount: number;
+    /**
+     * Releases the listener object for the scene directory.
+     */
+    dispose(): void;
+
+}
+
+/**
+ * Scene callbacks.
+ */
+export declare type ScenesCallbacks = {
+    /**
+     * Occurs when the number of scenes under the specified scene directory changes.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param scenesCount The current number of scenes under the specified scene directory.
+     */
+    onScenesCountUpdate: (scenesCallbacks: ScenesCallbacksNode, scenesCount: number)=>void;
+    /**
+     * Occurs when a new scene is added to the specified scene directory.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param name The name of the new scene.
+     */
+    onAddScene: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * Occurs when a scene is deleted from the specified scene directory.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param name The name of the deleted scene.
+     */
+    onRemoveScene: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * Occurs when the number of subdirectories under the specified scene directory changes.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param sceneGroupsCount The current number of subdirectories under the specified scene directory.
+     */
+    onScenesGroupCountUpdate: (scenesCallbacks: ScenesCallbacksNode, sceneGroupsCount: number)=>void;
+    /**
+     * Occurs when a new subdirectory is added to the specified scene directory.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param name The name of the new subdirectory.
+     */
+    onAddSceneGroup: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+    /**
+     * Occurs when a subdirectory is deleted from the specified scene directory.
+     *
+     * @param scenesCallbacks The information about the scene directory. See {@link ScenesCallbacksNode ScenesCallbacksNode}.
+     * @param name The name of the deleted subdirectory.
+     */
+    onRemoveSceneGroup: (scenesCallbacks: ScenesCallbacksNode, name: string)=>void;
+};
+
 
 /**
  * The listener for an event.
