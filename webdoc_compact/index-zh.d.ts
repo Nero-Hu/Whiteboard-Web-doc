@@ -289,7 +289,7 @@ export declare interface Cursor {
      * 通过注入 JSX 结构来改变光标的外观。
      *
      * @example
-     * ```tsx
+     * ```typescript
      * cursor.setReactNode(
      *     <img src="https://my-resources.com/icon.png"/>
      * );
@@ -3302,7 +3302,7 @@ export declare type WhiteWebSdkConfiguration = {
      * 你可以使用如下代码对白板的界面进行自定义包装：
      *
      * @example
-     * ```tsx
+     * ```typescript
      * import React from "react";
      *
      * class WrappedComponent extends React.Component {
