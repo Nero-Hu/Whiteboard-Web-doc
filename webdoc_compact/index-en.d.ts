@@ -3188,7 +3188,7 @@ export declare enum ApplianceNames {
     shape = "shape",
     /**
      * A pencil eraser used to erase any part of the pencil strokes.
-     * This tool only applys to NewPencil. You need to set disableNewPencil to false before using the pencil eraser.
+     * This tool only applies to NewPencil. You need to set disableNewPencil to false before using the pencil eraser.
      */
      pencilEraser = "pencilEraser",
      /**    
