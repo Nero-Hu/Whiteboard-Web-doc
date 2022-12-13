@@ -1705,12 +1705,12 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
 
     /**
-     * Generates the snapshot and write it into the specified CanvasRenderingContext2D object. 
-     * @param context The CanvasRenderingContext2D object。
+     * Generates the snapshot and writes it into the specified CanvasRenderingContext2D object. 
+     * @param context The CanvasRenderingContext2D object.
      * @param scenePath The path of the scene.
      * @param width The width of the snapshot.
      * @param height The height of the snapshot.
-     * @param camera The description of view angle. See Camera.
+     * @param camera The description of the view angle. See Camera.
      * @param ratio The device pixel ratio. This paramter is optional. 
      * If you do not set this parameter, the default value is 1.
      */
@@ -3112,10 +3112,10 @@ export declare type MemberState = {
      */
     lineThrough?: boolean;
     /**
-     * Whether to support draw dotted lines:
+     * Whether to support drawing dotted lines:
      * 
-     * - `true`: Support draw dotted lines.
-     * - `false`: (Default) Do not support draw dotted lines.
+     * - `true`: Support drawing dotted lines.
+     * - `false`: (Default) Do not support drawing dotted lines.
      */
      dottedLine?: boolean;
     /**
@@ -3123,10 +3123,10 @@ export declare type MemberState = {
      */
     shapeType?: ShapeType;
     /**
-     * Whethter to allow directly selecting and editing whiteboard texts:
+     * Whether to allow directly selecting and editing whiteboard text:
      * 
-     * - `true`: Allow directly selecting and editing whiteboard texts.
-     * - `false`: (Default) Do not allow directly selecting and editing whiteboard texts.
+     * - `true`: Allow directly selecting and editing whiteboard text.
+     * - `false`: (Default) Do not allow directly selecting and editing whiteboard text.
      */
      textCanSelectText?: boolean;
 };
@@ -3188,7 +3188,7 @@ export declare enum ApplianceNames {
     shape = "shape",
     /**
      * A pencil eraser used to erase any part of the pencil strokes.
-     * This tool only applies to NewPencil. You need to set disableNewPencil to false before using the pencil eraser.
+     * This tool only applies to `NewPencil`. You need to set `disableNewPencil` to `false` before using the pencil eraser.
      */
      pencilEraser = "pencilEraser",
      /**    
