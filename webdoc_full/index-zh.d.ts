@@ -312,7 +312,7 @@ export declare interface Cursor {
      * 通过注入 JSX 结构来改变光标的外观。
      *
      * @example
-     * ```tsx
+     * ```typescript
      * cursor.setReactNode(
      *     <img src="https://my-resources.com/icon.png"/>
      * );
@@ -691,6 +691,25 @@ export declare enum LoggerReportMode {
      */
     DependsOnRemote = "dependsOnRemote",
 }
+
+/**
+ * 铅笔工具的书写质量设置。
+ */
+ export declare enum NewPencilWritingQuality {
+    /**
+     * 高质量。
+     */
+    Hight = 0,
+    /**
+     * 中质量。
+     */
+    Medium = 1,
+    /**
+     * 低质量。
+     */
+    Low = 2,
+}
+
 
 /**
  * 设置异步模块的加载模式。
@@ -1636,6 +1655,17 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
 
     /**
+     * 生成屏幕快照，并写入指定的 CanvasRenderingContext2D 对象中。
+     * @param context CanvasRenderingContext2D 对象。
+     * @param scenePath 场景的路径。
+     * @param width 屏幕快照的宽度。
+     * @param height 屏幕快照的高度。
+     * @param camera 视角的描述。
+     * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
+     */
+     screenshotToCanvas(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): void;
+
+     /**
      * 注册自定义事件监听。
      *
      * 成功注册后，你可以接收到对应的自定义事件通知。
@@ -2934,9 +2964,23 @@ export declare type MemberState = {
      */
     lineThrough?: boolean;
     /**
+     * 是否支持绘制虚线（仅限铅笔工具）：
+     * 
+     * - `true`：支持绘制虚线。
+     * - `false`：（默认）不支持绘制虚线。
+     */
+    dottedLine?: boolean;
+    /**
      * 绘制图形的类型。
      */
     shapeType?: ShapeType;
+    /**
+     * 是否允许直接选择并编辑文字：
+     * 
+     * - `true`：允许直接选择并编辑文字。
+     * - `false`：（默认）不允许直接选择并编辑文字。 
+     */
+    textCanSelectText?: boolean;
 };
 
 /**
@@ -2996,6 +3040,10 @@ export declare enum ApplianceNames {
      */
     shape = "shape",
     /**
+     * 用于擦除局部铅笔笔迹的橡皮工具。该工具仅对 NewPencil 生效，使用前需要先设置 disableNewPencil 为 false。
+     */
+    pencilEraser = "pencilEraser",
+     /**
      * 橡皮工具。
      */
     eraser = "eraser",
@@ -3545,7 +3593,7 @@ export declare type WhiteWebSdkConfiguration = {
      * 你可以使用如下代码对白板的界面进行自定义包装：
      *
      * @example
-     * ```tsx
+     * ```typescript
      * import React from "react";
      *
      * class WrappedComponent extends React.Component {
@@ -3802,6 +3850,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
     disableMagixEventDispatchLimit?: boolean;
     disableEraseImage?: boolean;
     disablePencilWrittingLimitFrequency?: boolean;
+    newPencilWritingQuality?: NewPencilWritingQuality;
     floatBar?: boolean | Partial<FloatBarOptions>;
     hotKeys?: Partial<HotKeys>;
     rejectWhenReadonlyErrorLevel?: RoomErrorLevel;

@@ -294,7 +294,7 @@ export declare interface Cursor {
      * Changes the cursor style using JSX.
      *
      * @example
-     * ```tsx
+     * ```typescript
      * cursor.setReactNode(
      *     <img src="https://my-resources.com/icon.png"/>
      * );
@@ -3481,7 +3481,7 @@ export declare type WhiteWebSdkConfiguration = {
      * Refer to the following code to package the whiteboard view:
      *
      * @example
-     * ```tsx
+     * ```typescript
      * import React from "react";
      *
      * class WrappedComponent extends React.Component {
