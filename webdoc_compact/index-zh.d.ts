@@ -1112,7 +1112,7 @@ export declare type PPTTaskParams = {
      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
      * | `in-mum` | 印度孟买 | 印度                           |
-     * | `gb-lon` | 英国伦敦 | 欧洲                           |
+     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
      */
     region?: string;
@@ -1363,7 +1363,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
      * | `in-mum` | 印度孟买 | 印度                           |
-     * | `gb-lon` | 英国伦敦 | 欧洲                           |
+     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
      */
     readonly region: string;
@@ -3216,7 +3216,7 @@ export declare type WhiteWebSdkConfiguration = {
      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
      * | `in-mum` | 印度孟买 | 印度                           |
-     * | `gb-lon` | 英国伦敦 | 欧洲                           |
+     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
      *
      * **Note**
@@ -3431,7 +3431,7 @@ export declare type ConstructRoomParams = {
  *   | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
  *   | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
  *   | `in-mum` | 印度孟买 | 印度                           |
- *   | `gb-lon` | 英国伦敦 | 欧洲                           |
+ *   | `eu` | 欧洲（法兰克福） | 欧洲                           |
  *   | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
  *
  *   **Note**
@@ -3550,7 +3550,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *     | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
  *     | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
  *     | `in-mum` | 印度孟买 | 印度                           |
- *     | `gb-lon` | 英国伦敦 | 欧洲                           |
+ *     | `eu` | 欧洲（法兰克福） | 欧洲                           |
  *     | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
  *
  *   **Note**
@@ -3603,7 +3603,7 @@ export declare type PlayableCheckingParams = {
      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
      * | `in-mum` | 印度孟买 | 印度                           |
-     * | `gb-lon` | 英国伦敦 | 欧洲                           |
+     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
      */
     region?: string;
@@ -3652,7 +3652,7 @@ export declare class WhiteWebSdk {
      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
      * | `in-mum` | 印度孟买 | 印度                           |
-     * | `gb-lon` | 英国伦敦 | 欧洲                           |
+     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
      *
      * **Note**

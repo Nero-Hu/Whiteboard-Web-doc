@@ -136,7 +136,7 @@ Removes the specified whiteboard page.
     - `us-sv`: Silicon Valley, United States, which provides services to North America and South America.
     - `sg`: Singapore, which provides services to Singapore, East Asia, and Southeast Asia.
     - `in-mum`: Mumbai, India, which provides services to India.
-    - `gb-lon`: London, United Kingdom, which provides services to Europe.
+    - `eu`: Europe(Frankfurt), which provides services to Europe.
 - `joinRoom`: (Required) Object. Parameters for joining a room:
   - `uid`: String. The unique identifier of a user in string format. The maximum length is 1,024 bytes. Ensure that the `uid` of each user in the same room is unique.
   - `uuid`: String. The room UUID, that is, the unique identifier of a room. See the value of the `uuid` parameter in the response body after a successful call of [Create a room (POST)](https://docs.agora.io/en/whiteboard/whiteboard_room_management?platform=RESTful#create-a-room-post).

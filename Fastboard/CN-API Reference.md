@@ -537,7 +537,7 @@ hand = "hand"
     - `us-sv`：美国硅谷，服务区覆盖北美洲、南美洲。
     - `sg`：新加坡，服务区覆盖新加坡、东亚、东南亚。
     - `in-mum`：印度孟买，服务区覆盖印度。
-    - `gb-lon`：英国伦敦，服务区覆盖欧洲。
+    - `eu`：欧洲（法兰克福），服务区覆盖欧洲。
 - `joinRoom`: Object。（必需）调用 [`joinRoom`](https://docs.agora.io/cn/whiteboard/API%20Reference/whiteboard_web/classes/whitewebsdk.html#joinroom) 加入房间的参数设置，必须传入以下参数：
   - `uid`: String。用户的 UID，即用户的唯一标识符，字符串格式，不能超过 1024 字节。请确保同一房间内每个用户的 `uid` 唯一。
   - `uuid`: String。房间的 UUID，即房间的唯一标识符。详见[创建房间](https://docs.agora.io/cn/whiteboard/whiteboard_room_management?platform=RESTful#创建房间（post）)请求成功后响应包体中 `uuid` 参数的值。

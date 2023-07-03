@@ -1193,7 +1193,7 @@ export declare type PPTTaskParams = {
      * | `us-sv`  | Silicon Valley, United States | North America and South America          |
      * | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
      * | `in-mum` | Mumbai, India                 | India                                    |
-     * | `gb-lon` | London, United Kingdom        | Europe                                   |
+     * | `eu` | Frankfurt, Europe        | Europe                                   |
      * | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
      */
     region?: string;
@@ -1477,7 +1477,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * | `us-sv`  | Silicon Valley, United States | North America and South America          |
      * | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
      * | `in-mum` | Mumbai, India                 | India                                    |
-     * | `gb-lon` | London, United Kingdom        | Europe                                   |
+     * | `eu` | Frankfurt, Europe        | Europe                                   |
      * | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
      */
     readonly region: string;
@@ -3650,7 +3650,7 @@ export declare type WhiteWebSdkConfiguration = {
      * | `us-sv`  | Silicon Valley, United States | North America and South America          |
      * | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
      * | `in-mum` | Mumbai, India                 | India                                    |
-     * | `gb-lon` | London, United Kingdom        | Europe                                   |
+     * | `eu` | Frankfurt, Europe        | Europe                                   |
      * | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
      *
      * **Note**
@@ -3931,7 +3931,7 @@ export declare type ConstructRoomParams = {
  *   | `us-sv`  | Silicon Valley, United States | North America and South America          |
  *   | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
  *   | `in-mum` | Mumbai, India                 | India                                    |
- *   | `gb-lon` | London, United Kingdom        | Europe                                   |
+ *   | `eu` | Frankfurt, Europe        | Europe                                   |
  *   | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
  *
  *   **Note**
@@ -4097,7 +4097,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *   | `us-sv`  | Silicon Valley, United States | North America and South America          |
  *   | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
  *   | `in-mum` | Mumbai, India                 | India                                    |
- *   | `gb-lon` | London, United Kingdom        | Europe                                   |
+ *   | `eu` | Frankfurt, Europe        | Europe                                   |
  *   | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
  *
  *   **Note**
@@ -4165,7 +4165,7 @@ export declare type PlayableCheckingParams = {
  *   | `us-sv`  | Silicon Valley, United States | North America and South America          |
  *   | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
  *   | `in-mum` | Mumbai, India                 | India                                    |
- *   | `gb-lon` | London, United Kingdom        | Europe                                   |
+ *   | `eu` | Frankfurt, Europe        | Europe                                   |
  *   | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
      */
     region?: string;
@@ -4216,7 +4216,7 @@ export declare class WhiteWebSdk {
      *  | `us-sv`  | Silicon Valley, United States | North America and South America          |
      *  | `sg`     | Singapore                     | Singapore, East Asia, and Southeast Asia |
      *  | `in-mum` | Mumbai, India                 | India                                    |
-     *  | `gb-lon` | London, United Kingdom        | Europe                                   |
+     *  | `eu` | Frankfurt, Europe        | Europe                                   |
      *  | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
      *
      * **Note**
