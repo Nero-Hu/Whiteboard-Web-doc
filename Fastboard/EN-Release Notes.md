@@ -11,7 +11,7 @@ This release adds the `insertDocs [2/3]` method to insert PDF/PPTX docs converte
 
 **Control PDF/PPTX docs**
 
-This release adds the `dispatchDocsEvent` method to send events to specified PPDF/PPTX docs inserted in the whiteboard. This enables page turning, page jumping, and slide animation playback to be controlled programmatically.
+This release adds the `dispatchDocsEvent` method to send events to specified PDF/PPTX docs inserted in the whiteboard. This enables page turning, page jumping, and slide animation playback to be controlled programmatically.
 
 #### Bugfixes
 
