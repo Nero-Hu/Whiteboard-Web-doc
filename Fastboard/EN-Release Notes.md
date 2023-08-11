@@ -15,7 +15,7 @@ This release adds the `dispatchDocsEvent` method to send events to specified PDF
 
 #### Bugfixes
 
-该版本修复了使用旧版本打包器时偶现的的打包失败问题。
+This release fixed the intermittent packaging failure issue when using an older version of the packager.
 
 #### API Changes
 
