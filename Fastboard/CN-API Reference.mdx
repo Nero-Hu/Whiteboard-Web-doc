@@ -55,6 +55,37 @@ createReplayUI(player?: FastboardPlayer | null, div?: Element): ReplayUI;
 
 方法调用成功时返回 `ReplayUI` 组件。详见 [`replayUI`](#replayui)。
 
+<h2 className="anchor index-auto-group index-class-dispatchdocsevent" id="dispatchdocsevent">dispatchDocsEvent</h2>
+
+```typescript
+  export function dispatchDocsEvent(
+    fastboard: FastboardApp | WindowManager,
+    event: "prevPage" | "nextPage" | "prevStep" | "nextStep" | "jumpToPage",
+    options: DocsEventOptions = {}
+  )
+```
+
+向指定文档发送事件。
+
+该方法仅适用于使用 [`insertDocs`](#insertdocs) 方法插入的文档。
+
+**参数**
+
+- `fastboard`：[`FastboardApp`](#createfastboard) 或 [`WindowManager`](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount) 对象。发送事件的对象。
+- `event`：String。需要触发的事件类型，取值如下：
+  - `prevPage`：上一页。
+  - `nextPage`：下一页。
+  - `prevStep`：上一步。向静态文档发送此事件效果与 `prevPage` 相同。
+  - `nextStep`：下一步。向静态文档发送此事件效果与 `nextPage` 相同。
+  - `jumpToPage`：跳转至页码。发送此事件时，需要传入 `options` 以指定页码。
+- `options`：（可选）`DocsEventOptions`。事件选项，用于指定文档和跳转页面，详见[`DocsEventOptions`](#docseventoptions)。默认为空对象，代表发送事件给当前焦点所在的文档。
+
+**返回**
+
+- `true`：方法调用成功。
+- `false`：方法调用失败。失败原因可能是未找到文档对象或文档不可写。
+
+
 <h2 className="anchor index-auto-group index-class-mount" id="mount">mount</h2>
 
 ```typescript
@@ -64,7 +95,11 @@ mount(app: FastboardApp, div: HTMLDivElement, options?: MountProps): {
 };
 ```
 
-<Admonition type="caution" title="注意">自 v0.3.6 起不推荐使用该方法，请改用 <a href="#createui"><code>createUI</code></a>。</Admonition>
+
+<Admonition type="caution" title="注意">
+自 v0.3.6 起不推荐使用该方法，请改用 <a href="#createui"><code>createUI</code></a>。
+</Admonition>
+
 挂载白板应用到 HTML 元素上。
 
 **参数**
@@ -232,13 +267,32 @@ insertMedia(title: string, src: string): Promise<string | undefined>
 
 方法调用成功时，返回插件的标识符。
 
-<h3 className="anchor index-api-insertdocs" id="insertdocs">insertDocs [1/2]</h3>
+<h3 className="anchor index-api-insertdocs" id="insertdocs">insertDocs [1/3]</h3>
 
 ```typescript
 insertDocs(title: string, response: ConversionResponse): Promise<string | undefined>;
 ```
 
-在白板子窗口中插入并展示文档。
+在白板子窗口中插入并展示文档。该方法适用于[旧版文档转换服务](/doc/whiteboard/web/fastboard-sdk/advanced-features/convert-files-old)。
+
+成功发起文档转换任务并调用[查询文档转换任务进度（旧版）](https://docportal.shengwang.cn/cn/whiteboard/whiteboard_file_conversion_old?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)获取文档转换结果后，可以调用该方法并传入获取的文档转换结果，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
+
+**参数**
+
+- `title`：窗口标题。
+- `response`：[查询文档转换任务进度（旧版）](https://docportal.shengwang.cn/cn/whiteboard/whiteboard_file_conversion_old?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)请求成功时返回的响应包体。
+
+**返回**
+
+方法调用成功时，返回插件的标识符。
+
+<h3 className="anchor index-api-insertdocs" id="insertdocs">insertDocs [2/3]</h3>
+
+```typescript
+insertDocs(filename: string, response: ProjectorResponse): Promise<string | undefined>;
+```
+
+在白板子窗口中插入并展示文档。该方法适用于[新版文档转换服务](/doc/whiteboard/web/fastboard-sdk/advanced-features/convert-files)。
 
 成功发起文档转换任务并调用[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)获取文档转换结果后，可以调用该方法并传入获取的文档转换结果，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
 
@@ -251,15 +305,21 @@ insertDocs(title: string, response: ConversionResponse): Promise<string | undefi
 
 方法调用成功时，返回插件的标识符。
 
-<h3 className="anchor index-api-insertdocs" id="insertdocs">insertDocs [2/2]</h3>
+<h3 className="anchor index-api-insertdocs" id="insertdocs">insertDocs [3/3]</h3>
 
 ```typescript
-insertDocs(params: InsertDocsStatic | InsertDocsDynamic): Promise<string | undefined>;
+insertDocs(filename: string, response: ProjectorResponse): Promise<string | undefined>;
 ```
 
 在白板子窗口中插入并展示文档。
 
 成功[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)后， 可以调用该方法，传入转换后文档的相关参数，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
+
+
+<Admonition type="info" title="信息">
+ 对比 `insertDocs [1/3]` 和 `insertDocs [2/3]`，`insertDocs [3/3]` 需要手动传入少量参数，而不是直接传入[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)的响应包体。
+</Admonition>
+
 
 **参数**
 
@@ -271,7 +331,11 @@ insertDocs(params: InsertDocsStatic | InsertDocsDynamic): Promise<string | undef
 insertCodeEditor(): Promise<string | undefined>
 ```
 
-<Admonition type="caution" title="注意">该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'Monaco' })` 实现。</Admonition>
+
+<Admonition type="caution" title="注意">
+该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'Monaco' })` 实现。
+</Admonition>
+
 插入代码编辑器。
 
 CodeEditor 是基于 [Monaco Editor](https://github.com/microsoft/monaco-editor) 开发的代码编辑器插件。通过调用 `insertCodeEditor` 方法，你可以快速在白板中集成 CodeEditor 插件，并使用代码编辑、自动补全、调试等功能。
@@ -286,7 +350,11 @@ CodeEditor 是基于 [Monaco Editor](https://github.com/microsoft/monaco-editor)
 insertCountdown(): Promise<string | undefined>
 ```
 
-<Admonition type="caution" title="注意">该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'Countdown' })` 实现。</Admonition>
+
+<Admonition type="caution" title="注意">
+该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'Countdown' })` 实现。
+</Admonition>
+
 插入计时器。
 
 Countdown 是声网开发的计时器插件。通过调用 `insertCountdown` 方法，你可以快速在白板中集成 Countdown 插件，并使用该插件设定、暂停、重置倒计时。
@@ -301,7 +369,11 @@ Countdown 是声网开发的计时器插件。通过调用 `insertCountdown` 方
 insertGeoGebra(): Promise<string | undefined>
 ```
 
-<Admonition type="caution" title="注意">该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'GeoGebra' })` 实现。</Admonition>
+
+<Admonition type="caution" title="注意">
+该方法自 v0.3.6 起废弃，请改用 `fastboard.manager.addApp({ kind: 'GeoGebra' })` 实现。
+</Admonition>
+
 插入 GeoGebra 数学计算器。
 
 GeoGebra 是基于 [GeoGebra](https://www.geogebra.org/) 开发的数学计算器插件。通过调用 `insertGeoGebra` 方法，你可以快速在白板中集成 GeoGebra 插件并使用该插件的功能。
@@ -527,6 +599,14 @@ hand = "hand"
 
 `Color`：Number[]。颜色，格式为 RGB。例如 `[0, 0, 255]` 代表蓝色。
 
+<h3 className="anchor index-api-docseventoptions" id="docseventoptions">DocsEventOptions</h3>
+
+`DocsEventOptions` 接口包含以下属性：
+
+- `appId`: （可选）String。指定事件发送的文档。如果不传入，则为当前焦点所在的文档。
+- `page`：（可选）number。发送 `jumpToPage` 事件时想要跳转的页码。取值范围为 `1` 至文档最大页数。
+
+
 <a name="fastboardoptions"></a>
 
 <h3 className="anchor index-api-fastboardoptions" id="fastboardoptions">FastboardOptions</h3> 
@@ -653,7 +733,7 @@ export interface InsertDocsStatic {
   - `ppt`：PptDescription。PPT 描述，包含以下属性：
     - `width`：Number。文件的宽度，单位为像素。
     - `height`：Number。文件的高度，单位为像素。
-    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid) 返回的响应包体中 `conversionFileUrl` 字段的值。
+    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid) 返回的响应包体中 `images` 字段下 `url` 的值。
 - `title`: （可选）String。窗口标题。
 
 
