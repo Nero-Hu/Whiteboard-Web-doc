@@ -34,6 +34,37 @@ Creates a set of built-in UI components that enables replay mode.
 
 The `ReplayUI` component. See [`ReplayUI`](#replayui). 
 
+## dispatchDocsEvent
+
+```typescript
+  export function dispatchDocsEvent(
+    fastboard: FastboardApp | WindowManager,
+    event: "prevPage" | "nextPage" | "prevStep" | "nextStep" | "jumpToPage",
+    options: DocsEventOptions = {}
+  )
+```
+
+Send events to a specified doc.
+
+This method only applies to docs inserted by [`insertDocs`](#insertdocs).
+
+**Parameters**
+
+- `fastboard`: [`FastboardApp`](#createfastboard) or [`WindowManager`](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount) object. The object you wish to send events to.
+- `event`: String. The event type. Only the following values are allowed. 
+  - `prevPage`: To the previous page.
+  - `nextPage`: To the next page.
+  - `prevStep`: To the previous step. This event equals to `prevPage` when sent to static docs.
+  - `nextStep`: To the next step. This event equals to `nextPage` when sent to static docs.
+  - `jumpToPage`: To a specified pagecount. You need to specify the pagecount by passing in `options`. 
+- `options`: (Optional)`DocsEventOptions`. Event options, used to specify the pagecount and the target doc. See [`DocsEventOptions`](#docseventoptions). `options` is empty by default, meaning sending events to the docs with the focus. 
+
+**Returns**
+
+- `true`: Success.
+- `false`: Failure. The reasonfailure
+
+
 ## mount
 
 ```typescript
@@ -47,7 +78,63 @@ mount(app: FastboardApp, div: HTMLDivElement, options?: MountProps): {
 
 Mounts the `FastboardApp` object to the HTML element.
 
+### insertDocs [1/3]
 
+```typescript
+insertDocs(title: string, response: ConversionResponse): Promise<string | undefined>;
+```
+
+Inserts and displays a document in the whiteboard sub-window. This methods applies to the [old file conversion service](https://docs.agora.io/en/interactive-whiteboard/reference/file-conversion-overview-deprecated?platform=web).
+
+After successfully launching a file conversion task and calling the [Query file conversion progress API](https://docs.agora.io/en/interactive-whiteboard/reference/whiteboard-api/file-conversion-deprecated?platform=web#query-file-conversion-progress-get) to get the file conversion result, you can call this method and pass in the obtained file conversion result. After a successful call, the SDK automatically creates a sub-window to insert and display the converted document per page.
+
+**Parameters**
+
+- `title`: The title of the sub-window.
+- `response`: The response body returned when the call of the [Query file conversion progress API](https://docs.agora.io/en/interactive-whiteboard/reference/whiteboard-api/file-conversion-deprecated?platform=web#query-file-conversion-progress-get) succeeds.
+
+**Returns**
+
+The identifier of the extension identifier when the method call succeeds.
+
+### insertDocs [2/3]
+
+```typescript
+insertDocs(filename: string, response: ProjectorResponse): Promise<string | undefined>;
+```
+
+Inserts and displays a document in the whiteboard sub-window. This methods applies to the [new file conversion service](https://docs.agora.io/en/interactive-whiteboard/develop/file-conversion-overview?platform=web).
+
+After successfully launching a file conversion task and calling the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task) to get the file conversion result, you can call this method and pass in the obtained file conversion result. After a successful call, the SDK automatically creates a sub-window to insert and display the converted document per page.
+
+**Parameters**
+
+- `title`: The title of the sub-window.
+- `response`: The response body returned when the call of the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task) succeeds.
+
+**Returns**
+
+The identifier of the extension identifier when the method call succeeds.
+
+
+### insertDocs [3/3]
+
+```typescript
+insertDocs(params: InsertDocsStatic | InsertDocsDynamic): Promise<string | undefined>;
+```
+
+Inserts and displays a document in the whiteboard sub-window.
+
+After successfully [launching a file conversion task](/interactive-whiteboard/reference/whiteboard-api/file-conversion#start-file-conversion), you can call this method and pass in the parameters of the converted file. After a successful call, the SDK automatically creates a sub-window to insert and display the converted file per page.
+
+**Note**
+ Compared with `insertDocs [1/3]` and `insertDocs [2/3]`, `insertDocs [3/3]` requires passing in parameters manually instead of the response body acquired by calling the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task). 
+</Admonition>
+
+
+**Parameters**
+
+- `params`: Parameters of the converted file. If the file is a static type, see <a href="#docstatic"><code>InsertDocsStatic</code></a>; if the file is a dynamic type, see <a href="#docdynamic"><code>InsertDocsDynamic</code></a>.
 
 ### insertCodeEditor
 
@@ -120,6 +207,12 @@ Removes the specified whiteboard page.
 
 `false`: Failure. 
 
+### DocsEventOptions
+
+`DocsEventOptions` includes the following properties:
+
+- `appId`: (Optional) String. Specify the target doc to send events to. If not passed in, the tartget doc is the doc with the focus. 
+- `page`: (Optional) Number. The page number you wish to jumpt to. The value should be within the range of 1 to the maximum pagcount of the doc.
 
 
 ## Type definition

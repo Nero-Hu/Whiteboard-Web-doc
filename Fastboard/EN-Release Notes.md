@@ -1,3 +1,30 @@
+## v0.3.8
+
+v0.3.6 was released on August xx, 2023.
+
+
+#### New features
+
+**Insert PDF/PPTX docs**
+
+This release adds the `insertDocs [2/3]` method to insert PDF/PPTX docs converted by the [New file conversion service](https://docs.agora.io/en/interactive-whiteboard/develop/file-conversion-overview?platform=web).
+
+**Control PDF/PPTX docs**
+
+This release adds the `dispatchDocsEvent` method to send events to specified PDF/PPTX docs inserted in the whiteboard. This enables page turning, page jumping, and slide animation playback to be controlled programmatically.
+
+#### Bugfixes
+
+This release fixed the intermittent packaging failure issue when using an older version of the packager.
+
+#### API Changes
+
+**Added**
+
+- [`insertDocs [2/3]`](https://docs.agora.io/en/interactive-whiteboard/reference/uikit-sdk?platform=web#insertdocs-23)
+- [`dispatchDocsEvent`](https://docs.agora.io/en/interactive-whiteboard/reference/uikit-sdk?platform=web#dispatchdocsevent)
+- [`DocsEventOptions`](https://docs.agora.io/en/interactive-whiteboard/reference/uikit-sdk?platform=web#docseventoptions)
+
 ## v0.3.6
 
 v0.3.6 was released on October 28, 2022.

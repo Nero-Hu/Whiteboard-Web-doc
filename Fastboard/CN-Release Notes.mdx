@@ -9,6 +9,34 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 声网 Fastboard SDK 是为帮助开发人员快速构建白板应用推出的新一代白板 SDK。Fastboard SDK 基于互动白板 SDK （`white-web-sdk`）开发，对复杂的 API 进行封装，简化了接口调用逻辑，并提供核心功能的实现和默认 UI；此外，Fastboard SDK 还集成窗口管理器（[Window Manager](https://github.com/netless-io/window-manager)）和插件中心（[Netless App](https://github.com/netless-io/netless-app)），方便开发者快速添加插件，轻松扩展白板应用的功能。使用 Fastboard SDK，你无需深入学习互动白板复杂的概念，只需几行代码即可加入白板房间，并立即使用丰富的工具体验实时互动协作。
 
+<VersionSection version="0.3.8 版">
+
+该版本于 2023 年 8 月 17 日发布。
+
+
+<VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
+
+<ListTitle>快速插入文档</ListTitle>
+
+新增 `insertDocs [2/3]` 方法，用于快速插入[新版文档转换服务](./advanced-features/convert-files)转换后的 PDF/PPTX 文档。
+
+<ListTitle>操作 PDF/PPTX 文档</ListTitle>
+
+新增 `dispatchDocsEvent` 方法，用于向插入白板的 PDF/PPTX 文档发送事件，实现控制文档翻页、页面跳转和幻灯片动画播放。
+
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
+
+该版本修复了使用旧版本打包器时偶现的打包失败问题。
+
+<VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
+
+<ListTitle>新增</ListTitle>
+
+- [`insertDocs [2/3]`](/api-ref/whiteboard/web/fastboard-api#insertdocs2)
+- [`dispatchDocsEvent`](/api-ref/whiteboard/web/fastboard-api#dispatchdocsevent)
+- [`DocsEventOptions`](/api-ref/whiteboard/web/fastboard-api#docseventoptions)
+
+</VersionSection>
 
 
 <VersionSection version="0.3.6 版">
@@ -136,7 +164,11 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 Fastboard SDK 集成了窗口管理器（[Window Manager](https://github.com/netless-io/window-manager)）和插件中心（[Netless App](https://github.com/netless-io/netless-app)），用于在白板应用中快速添加和使用插件，扩展白板的功能。该版本默认提供代码编辑器（Code Editor）、计时器（Countdown）、数学计算器（GeoGebra）插件，加入房间即可使用。此外，你还可以根据业务需求开发并添加自定义插件。
 
-<Admonition type="caution" title="注意">GeoGebra 数学计算器仅作为示例插件，如需商用，请联系 GeoGebra 获取许可。</Admonition>
+
+<Admonition type="caution" title="注意">
+GeoGebra 数学计算器仅作为示例插件，如需商用，请联系 GeoGebra 获取许可。
+</Admonition>
+
 
 <ListTitle>展示文件</ListTitle>
 
