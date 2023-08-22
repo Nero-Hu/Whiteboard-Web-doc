@@ -11,28 +11,28 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 <VersionSection version="0.3.8 版">
 
-该版本于 2023 年 8 月 X 日发布。
+该版本于 2023 年 8 月 17 日发布。
 
 
 <VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
 
 <ListTitle>快速插入文档</ListTitle>
 
-该版本新增 `insertDocs [2/3]`，用于快速插入[新版文档转换服务](./advanced-features/convert-files)转换后的 PDF/PPTX 文档。
+新增 `insertDocs [2/3]` 方法，用于快速插入[新版文档转换服务](./advanced-features/convert-files)转换后的 PDF/PPTX 文档。
 
 <ListTitle>操作 PDF/PPTX 文档</ListTitle>
 
-该版本新增 `dispatchDocsEvent`，用于向插入白板的 PDF/PPTX 文档发送事件，实现代码控制文档翻页、页面跳转和幻灯片动画播放。
+新增 `dispatchDocsEvent` 方法，用于向插入白板的 PDF/PPTX 文档发送事件，实现控制文档翻页、页面跳转和幻灯片动画播放。
 
 <VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
 
-该版本修复了使用旧版本打包器时偶现的的打包失败问题。
+该版本修复了使用旧版本打包器时偶现的打包失败问题。
 
 <VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
 
 <ListTitle>新增</ListTitle>
 
-- [`insertDocs [2/3]`](/api-ref/whiteboard/web/fastboard-api#insertdocs)
+- [`insertDocs [2/3]`](/api-ref/whiteboard/web/fastboard-api#insertdocs2)
 - [`dispatchDocsEvent`](/api-ref/whiteboard/web/fastboard-api#dispatchdocsevent)
 - [`DocsEventOptions`](/api-ref/whiteboard/web/fastboard-api#docseventoptions)
 
