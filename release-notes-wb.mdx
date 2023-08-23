@@ -7,7 +7,19 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+<VersionSection version="2.16.43 版">
 
+<VersionTitle icon="/img/icons/version-compatibility.png">升级必看</VersionTitle>
+
+白板数据中心（`region`）原有的英国伦敦数据中心（ `gb-lon`）已废弃，现已替换为欧洲法兰克福数据中心（`eu`），服务区覆盖欧洲。如果需要使用该数据中心，请在升级到该版本后更新代码，并在控制台-互动白板服务配置中启用该数据中心。
+
+该版本于 2023 年 8 月 31 日发布。
+
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
+
+该版本修复了在 Windows 平台上使用白板 Web 应用时，`shift` 按键判定有误，导致铅笔工具切换为画直线后无法恢复。
+
+</VersionSection>
 
 
 <VersionSection version="2.16.37 版">
