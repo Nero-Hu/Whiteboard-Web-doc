@@ -1571,7 +1571,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 调整视角，以保证完整显示视觉矩形。
      *
-     * @param rectangle 视觉矩形的参数设置，详见 [Rectangle](/api-ref/whiteboard/web/enums/cursornames.html#rectangle)。
+     * @param rectangle 视觉矩形的参数设置，详见 [Rectangle](/api-ref/whiteboard/javascript/enums/cursornames.html#rectangle)。
      */
     moveCameraToContain(rectangle: Rectangle & Readonly<{
         animationMode?: AnimationMode;
@@ -3255,7 +3255,7 @@ export declare type GlobalState = {
  *
  * 支持的图片或动态 PPT 格式包括：
  * - PNG、JPG/JPEG、WEBP 格式的图片，或由 PPT、PPTX、DOC、DOCX、PDF 格式的文件转换成 PNG、JPG/JPEG、WEBP 格式的图片。
- * - 使用 [文档转换功能](/doc/whiteboard/web/whiteboard-sdk/advanced-features/convert-files)转换过的 PPTX 文件。
+ * - 使用 [文档转换功能](/doc/whiteboard/javascript/whiteboard-sdk/advanced-features/convert-files)转换过的 PPTX 文件。
  *
  * **Note**
  * - 一个场景只能插入一张图片或动态 PPT 页。
@@ -3735,7 +3735,7 @@ export declare type ConstructRoomParams = {
  *   - 该属性与 {@link WhiteWebSdkConfiguration} 中的 `region` 作用相同，二者只需要设置其中一个。如果同时设置，该属性会覆盖 `WhiteWebSdkConfiguration` 中的 `region`。
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/web/overview/concepts#token)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
  * - **userPayload?**: *{[key: string]: any;}*
  *
  *   自定义用户信息。该属性可以是任意类型的数据结构。
@@ -3888,7 +3888,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *    - 如果同时传入该属性和 `beginTimestamp` 和 `duration`，则表明回放该房间在对应时间范围内的所有录像片段。
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/web/overview/concepts#token)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
  * - **beginTimestamp?**: *number*
  *
  *   白板回放的起始时间（单位为毫秒的 Unix 时间戳）。
@@ -3933,7 +3933,7 @@ export declare type PlayableCheckingParams = {
      */
     room: string;
     /**
-     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/web/overview/concepts#token)。
+     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
      */
     roomToken: string;
     /**
