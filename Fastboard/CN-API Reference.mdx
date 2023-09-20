@@ -84,11 +84,11 @@ public class FastRoomOptions {
 
 `FastRoomOptions` 类包含以下属性：
 
-- `appId`：String。互动白板项目的 AppIdentifier。详见[获取互动白板项目的安全密钥](/doc/whiteboard/android/fastboard-sdk/get-started/enable-service#获取互动白板项目的安全密钥)。
+- `appId`：String。互动白板项目的 AppIdentifier。详见[获取互动白板项目的安全密钥](/doc/whiteboard/javascript/whiteboard-sdk/get-started/enable-service#获取互动白板项目的安全密钥)。
 - `uuid`：String。房间的 UUID，即房间的唯一标识符。详见[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)请求成功后响应包体中 `uuid` 参数的值。
 - `token`：String。房间的 Room Token，用于加入房间时的用户鉴权。可以通过以下方式获取：
   - 调用[生成 Room Token](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-tokens-rooms-uuid)。
-  - 在 app 服务端用代码生成，详见[在 app 服务端生成 Token](/doc/whiteboard/android/fastboard-sdk/basic-features/generate-token#在-app-服务端生成-token)。
+  - 在 app 服务端用代码生成，详见[在 app 服务端生成 Token](/doc/whiteboard/javascript/whiteboard-sdk/basic-features/generate-token#在-app-服务端生成-token)。
 - `uid`：String。用户的 UID，即用户的唯一标识符，字符串格式，不能超过 1024 字节。请确保同一房间内每个用户的 uid 唯一。
 - `writable`：boolean。用户是否以互动模式加入白板房间：
   - `true`：以互动模式加入白板房间，即具有读写权限。
@@ -433,8 +433,8 @@ public class FastInsertDocParams {
 - `taskUUID`：String。文档转换任务的 Task UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 uuid 参数的值。
 - `taskToken`：String。文档转换任务的 Task Token，必须和[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)时传入的 Task Token 一致。
 - `converterType`: 枚举。文档转换服务的版本，取值如下：
-  - `Projector`: 新版。详见[新版文档转换服务](/doc/whiteboard/android/fastboard-sdk/advanced-features/convert-files)。
-  - `WhiteboardConverter`: 旧版（默认值）。详见[旧版文档转换服务](/doc/whiteboard/android/fastboard-sdk/advanced-features/convert-files-old)。
+  - `Projector`: 新版。详见[新版文档转换服务](/doc/whiteboard/javascript/whiteboard-sdk/advanced-features/convert-files)。
+  - `WhiteboardConverter`: 旧版（默认值）。详见[旧版文档转换服务](/doc/whiteboard/javascript/whiteboard-sdk/advanced-features/convert-files-old)。
 - `fileType`：String。文档类型：
   - `pdf`：静态文档。
   - `pptx`：动态文档。
