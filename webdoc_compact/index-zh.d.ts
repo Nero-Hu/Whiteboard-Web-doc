@@ -3205,7 +3205,7 @@ export declare enum ScreenType {
  */
 export declare type WhiteWebSdkConfiguration = {
     /**
-     * 白板项目的唯一标识。详见[获取互动白板项目的安全密钥](https://docs.agora.io/cn/whiteboard/enable_whiteboard?platform=Android#获取互动白板项目的安全密钥)。
+     * 白板项目的唯一标识。详见[获取互动白板项目的安全密钥](/doc/whiteboard/javascript/whiteboard-sdk/get-started/enable-service#获取互动白板项目的安全密钥)。
      */
     appIdentifier: string;
     /**

@@ -1571,7 +1571,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 调整视角，以保证完整显示视觉矩形。
      *
-     * @param rectangle 视觉矩形的参数设置，详见 [Rectangle](https://docs.agora.io/cn/whiteboard/API%20Reference/whiteboard_web/globals.html#rectangle)。
+     * @param rectangle 视觉矩形的参数设置，详见 [Rectangle](/api-ref/whiteboard/javascript/enums/cursornames.html#rectangle)。
      */
     moveCameraToContain(rectangle: Rectangle & Readonly<{
         animationMode?: AnimationMode;
@@ -1905,7 +1905,7 @@ export declare interface Room extends Displayer {
     readonly calibrationTimestamp: number;
 
     /**
-     * 房间的业务状态，详见[《房间业务状态管理》](https://docs.agora.io/cn/whiteboard/room_state_management?platform=Web)。
+     * 房间的业务状态，详见[管理房间业务状态](/doc/whiteboard/javascript/whiteboard-sdk/basic-features/manage-room-status)。
      */
     readonly state: RoomState;
 
@@ -3255,7 +3255,7 @@ export declare type GlobalState = {
  *
  * 支持的图片或动态 PPT 格式包括：
  * - PNG、JPG/JPEG、WEBP 格式的图片，或由 PPT、PPTX、DOC、DOCX、PDF 格式的文件转换成 PNG、JPG/JPEG、WEBP 格式的图片。
- * - 使用 [Agora 互动文档转换功能](https://docs.agora.io/cn/whiteboard/file_conversion_overview?platform=RESTful)转换过的 PPTX 文件。
+ * - 使用 [文档转换功能](/doc/whiteboard/javascript/whiteboard-sdk/advanced-features/convert-files)转换过的 PPTX 文件。
  *
  * **Note**
  * - 一个场景只能插入一张图片或动态 PPT 页。
@@ -3265,7 +3265,7 @@ export declare type PptDescription = {
     /**
      * 图片或动态 PPT 页的地址，支持的格式如下：
      * - 图片：URL 地址，可以是你自己生成的 URL 地址，也可以是通过文档转换功能生成的 URL 地址，例如，`"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/staticConvert/2fdxxxxx67e/1.jpeg"`。
-     * - 动态 PPT 页：通过文档转换功能生成的 URI 地址，例如，`"pptx://cover.herewhite.com/dynamicConvert/6a212c90fa5311ea8b9c074232aaccd4/1.slide"`，即[动态文档转换任务的查询结果](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#查询转换任务的进度（get）)中 `conversionFileUrl` 字段的值。
+     * - 动态 PPT 页：通过文档转换功能生成的 URI 地址，例如，`"pptx://cover.herewhite.com/dynamicConvert/6a212c90fa5311ea8b9c074232aaccd4/1.slide"`。
      */
     src: string;
     /**
@@ -3277,7 +3277,7 @@ export declare type PptDescription = {
      */
     height: number;
     /**
-     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[文档转换任务的查询结果](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#查询转换任务的进度（get）)中的 `preview` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
+     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[文档转换任务的查询结果](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)中的 `previews` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
      */
     previewURL?: string;
 };
@@ -3471,7 +3471,7 @@ export declare enum ScreenType {
  */
 export declare type WhiteWebSdkConfiguration = {
     /**
-     * 白板项目的唯一标识。详见[获取互动白板项目的安全密钥](https://docs.agora.io/cn/whiteboard/enable_whiteboard?platform=Android#获取互动白板项目的安全密钥)。
+     * 白板项目的唯一标识。详见[获取互动白板项目的安全密钥](/doc/whiteboard/javascript/whiteboard-sdk/get-started/enable-service#获取互动白板项目的安全密钥)。
      */
     appIdentifier: string;
     /**
@@ -3487,7 +3487,7 @@ export declare type WhiteWebSdkConfiguration = {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](https://docs.agora.io/cn/whiteboard/whiteboard_room_management?platform=RESTful)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     region?: string;
     /**
@@ -3735,7 +3735,7 @@ export declare type ConstructRoomParams = {
  *   - 该属性与 {@link WhiteWebSdkConfiguration} 中的 `region` 作用相同，二者只需要设置其中一个。如果同时设置，该属性会覆盖 `WhiteWebSdkConfiguration` 中的 `region`。
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](https://docs.agora.io/cn/whiteboard/whiteboard_token_overview?platform=Android)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
  * - **userPayload?**: *{[key: string]: any;}*
  *
  *   自定义用户信息。该属性可以是任意类型的数据结构。
@@ -3888,7 +3888,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *    - 如果同时传入该属性和 `beginTimestamp` 和 `duration`，则表明回放该房间在对应时间范围内的所有录像片段。
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](https://docs.agora.io/cn/whiteboard/whiteboard_token_overview?platform=Android)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
  * - **beginTimestamp?**: *number*
  *
  *   白板回放的起始时间（单位为毫秒的 Unix 时间戳）。
@@ -3933,7 +3933,7 @@ export declare type PlayableCheckingParams = {
      */
     room: string;
     /**
-     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](https://docs.agora.io/cn/whiteboard/whiteboard_token_overview?platform=Android)。
+     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
      */
     roomToken: string;
     /**
@@ -3975,7 +3975,7 @@ export declare class WhiteWebSdk {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](https://docs.agora.io/cn/whiteboard/whiteboard_room_management?platform=RESTful)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     readonly region: string;
 
@@ -4161,7 +4161,7 @@ export declare enum Scope {
 
 
 /**
- * 调用[查询转换任务的进度](https://docs.agora.io/cn/whiteboard/whiteboard_file_conversion?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)接口时，服务端返回的 HTTP 响应内容。
+ * 调用[查询转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
  */
 export declare type ConversionResponse = {
     /**
