@@ -223,6 +223,31 @@ setTextColor(textColor: Color): void
 
 - `textColor`：字体颜色，为 RGB 格式，例如 `[0, 0, 255]` 表示蓝色。详见 <a href="#color"><code>Color</code></a>。
 
+<h3 className="anchor index-api-toggledottedline" id="toggledottedline">toggleDottedLine</h3>
+
+```typescript
+toggleDottedLine(force?: boolean)
+```
+
+将铅笔工具切换为画虚线。
+
+**参数**
+
+- `force`：Boolean。（可选）是否切换为虚线：
+  - `true`：（默认）切换为画虚线。
+  - `false`：切换为画实线。
+
+<h3 className="anchor index-api-setpencilerasersize" id="setpencilerasersize">setPencilEraserSize</h3>
+
+```typescript
+setPencilEraserSize(size: number)
+```
+设置铅笔橡皮工具的尺寸。
+
+**参数**
+
+- `size`：Number。铅笔橡皮的尺寸(px)。
+
 <H3 className="anchor index-api-settextsize" id="settextsize">setTextSize</H3>
 
 ```typescript
@@ -239,7 +264,7 @@ setTextSize(textSize: number): void
 <H3 className="anchor index-api-insertimage" id="insertimage">insertImage</H3>
 
 ```typescript
-insertImage(url: string): Promise<void>
+async insertImage(url: string, crossOrigin?: boolean | string)
 ```
 
 插入图片。
@@ -249,6 +274,9 @@ insertImage(url: string): Promise<void>
 **参数**
 
 - `url`：String。图片的 URL 地址。请确保 app 客户端能够访问该 URL，否则图片无法正常展示。
+- `crossOrigin`: Boolean。是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) ：
+  - `true`：（默认）启用 CORS。
+  - `false`：禁用 CORS。
 
 <H3 className="anchor index-api-insertmedia" id="insertmedia">insertMedia</H3>
 
@@ -404,6 +432,18 @@ removePage(index?): Promise<boolean>
 `true`：调用成功。
 
 `false`：调用失败。
+
+<h3 className="anchor index-api-jumppage" id="jumppage">jumpPage</h3>
+
+```typescript
+jumpPage(index: number)
+```
+
+跳转至指定页码的白板页。
+
+**参数**
+
+- `index`：Number。期望跳转的白板页页码。不得传入超过当前白板页数量的值。
 
 <h3 className="anchor index-api-destroy" id="destroy">destroy</h3>
 
