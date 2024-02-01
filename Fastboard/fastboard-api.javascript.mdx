@@ -231,10 +231,12 @@ toggleDottedLine(force?: boolean)
 
 将铅笔工具切换为画虚线。
 
+不传入 `force` 直接调用该方法时，铅笔工具将在画实线和画虚线之间切换。
+
 **参数**
 
 - `force`：Boolean。（可选）是否切换为虚线：
-  - `true`：（默认）切换为画虚线。
+  - `true`：切换为画虚线。
   - `false`：切换为画实线。
 
 <h3 className="anchor index-api-setpencilerasersize" id="setpencilerasersize">setPencilEraserSize</h3>
@@ -246,7 +248,10 @@ setPencilEraserSize(size: number)
 
 **参数**
 
-- `size`：Number。铅笔橡皮的尺寸(px)。
+- `size`：Number。铅笔橡皮的尺寸，支持传入以下值：
+  - `1`：小号。
+  - `2`：中号。
+  - `3`：大号。
 
 <H3 className="anchor index-api-settextsize" id="settextsize">setTextSize</H3>
 
