@@ -11,7 +11,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 <VersionSection version="0.3.10 版">
 
-该版本于 2024 年 2 月 X 日发布。
+该版本于 2024 年 2 月 4 日发布。
 
 <VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
 
@@ -19,16 +19,19 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 该版本为以下白板教具添加了新特性：
 
-- 铅笔工具：新增 `toggleDottedLine` 方法，用于将铅笔工具切换为画虚线。
-- 铅笔橡皮工具：新增 `setPencilEraserSize` 方法，用于修改铅笔橡皮的大小。
-
+- 铅笔工具：新增 [`toggleDottedLine`](/api-ref/whiteboard/javascript/fastboard-api#toggledottedline) 方法，用于切换铅笔工具的画线样式。
+- 铅笔橡皮工具：新增 [`setPencilEraserSize`](/api-ref/whiteboard/javascript/fastboard-api#setpencilerasersize) 方法，用于修改铅笔橡皮的大小。
 
 <VersionTitle icon="/img/icons/version-improve.png">改进</VersionTitle>
 
 该版本进行了如下改进：
 
-- `insertImage` 方法新增参数 `crossOrigin`，用于设置是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) 。
-- 新增 `jumpPage` 方法，用于跳转至指定白板页。相比之前修改 `FastboardApp` 的 `sceneIndex` 属性的方式更加便捷。
+- [`insertImage`](/api-ref/whiteboard/javascript/fastboard-api#insertimage) 方法新增参数 `crossOrigin`，用于设置是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) 。
+- 新增 [`jumpPage`](/api-ref/whiteboard/javascript/fastboard-api#jumppage) 方法，用于跳转至指定白板页。相比之前修改 `FastboardApp` 的 `sceneIndex` 属性的方式更加便捷。
+
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
+
+该版本修复了重新连接白板房间后偶现 `FastobardApp.camera` 控件显示的白板画布缩放比例无法随实际情况变化的问题。
 
 <VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
 
@@ -38,10 +41,6 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `setPencilEraserSize`
 - `insertImage` 新增参数 `crossOrigin` 
 - `jumpPage`
-
-<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
-
-该版本修复了重新连接白板房间后偶现 `FastobardApp.camera` 控件显示的白板画布缩放比例无法随实际情况变化的问题。
 
 </VersionSection>
 
