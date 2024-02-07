@@ -276,11 +276,6 @@ This method can insert and display the specified network image on the current wh
   - `true`: (Default) Enable CORS.
   - `false`: Disable CORS.
 
-
-**Parameters**
-
-
-
 ### insertMedia
 
 ```typescript
