@@ -7,6 +7,60 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+## 2.16.48 版
+
+该版本于 2024 年 3 月 XX 日发布。
+
+#### 新增特性
+
+**回放录像剪辑**
+
+`ReplayRoomParams` 新增了以下属性以实现剪辑并播放白板回放录像：
+
+- `crops`：设置剪辑回放录像的时间起点和终点。
+- `alignmentThreshold`：设置回放时间轴对齐阈值。
+- `alignmentInterval`：回放时间轴对齐时长。
+
+**白板绘制性能优化策略**
+
+`joinRoom` 方法新增 `optimizeOptions` 参数，用于设置白板绘制的性能优化策略。性能优化的方式包括以下两种：
+- 调整白板绘制帧率：绘制帧率越低，性能消耗越少。
+- 使用浮动画布：书写场景下，根据绘制位置生成一个大小约为 256 x 256 px 的浮动画布，后续绘制不超过该画布的范围时，同步绘制笔迹的范围会限定在这个浮动画布中，而不是同步整个画布，从而降低性能消耗。
+
+#### 优化
+
+该版本进行了以下优化：
+
+- `ImageInformation` 新增 `crossOrigin` 属性，用于设置是否以跨域方式加载图片，默认开启。
+- `room` 类新增 `syncMode` 属性，设为 `true` 则同步会更频繁，但会略微影响动画流畅度。
+- 新增选中图形元素（矩形工具、圆形工具等绘制出的图形）时弹出浮动条。
+- 新增 `clearUndoHistory` 方法用于清空可撤回的操作历史记录。
+- 设置 `cursorAdapter: false` 可隐藏内置光标 (激光笔、橡皮擦等)。
+- 文本元素采用固定行高，避免各端显示差异。
+
+#### 问题修复
+
+- 画虚线时偶现显示错误。
+- 触摸设备上擦除文字工具时陷入异常，不能擦除。
+- 进入房间时偶现白屏但不报错。
+- 复制粘贴出来的的文本元素无法被选中。
+
+#### API 变更
+
+**新增**
+
+- `clearUndoHistory`
+- `ReplayRoomParams` 新增了以下属性：
+  - `crops`
+  - `alignmentThreshold`
+  - `alignmentInterval`
+- `joinRoom` 新增 `optimizeOptions` 参数
+- `OptimizeOptions`
+- `ImageInformation` 新增 `crossOrigin` 属性
+- `room` 新增 `syncMode` 属性
+
+
+
 <VersionSection version="2.16.43 版">
 
 该版本于 2023 年 8 月 31 日发布。
