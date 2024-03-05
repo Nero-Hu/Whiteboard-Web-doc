@@ -125,8 +125,8 @@ export declare interface OptimizeOptions {
 
     /**
      * 是否使用单个画布：
-     *  - `true`：使用单个画布。
-     *  - `false`：使用双画布交替绘制。
+     *  - `true`：使用单个画布，应用浮动画布优化策略。
+     *  - `false`：（默认）使用双画布交替绘制。
      * 
      * 白板默认使用两个画布交替绘制以避免在部分设备上绘制时可能出现的画面闪烁现象，使用单个画布绘制可以避免重绘，降低性能消耗。
      */
@@ -134,6 +134,8 @@ export declare interface OptimizeOptions {
 
     /**
      * 浮动画布生成的位置和绘制点的对应关系，默认为绘制点位于浮动画布的左上角。详见 {@link OriginCoordType OriginCoordType}。
+     * 
+     * 仅在 `useSinglerCanvas` 为 `true` 时生效。
      */
     useTopFloatOriginCoord: OriginCoordType;
 
