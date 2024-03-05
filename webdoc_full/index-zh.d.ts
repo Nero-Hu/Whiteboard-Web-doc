@@ -119,14 +119,16 @@ export declare type Level = "debug" | "info" | "warn" | "error";
  */
 export declare interface OptimizeOptions {
     /**
-     * 设置白板绘制帧率。详见 {@link LowTaskAnimationInterval LowTaskAnimationInterval}。
+     * 设置白板绘制的刷新间隔。详见 {@link LowTaskAnimationInterval LowTaskAnimationInterval}。
      */
     useLowTaskAnimation: LowTaskAnimationInterval;
 
     /**
      * 是否使用单个画布：
      *  - `true`：使用单个画布。
-     *  - `false`：不使用单个画布。
+     *  - `false`：使用双画布交替绘制。
+     * 
+     * 白板默认使用两个画布交替绘制以避免在部分设备上绘制时可能出现的画面闪烁现象，使用单个画布绘制可以避免重绘，降低性能消耗。
      */
     useSinglerCanvas: boolean;
 
@@ -241,34 +243,36 @@ export declare type CNodeProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 /**
- * 白板绘制的帧率。绘制帧率越低，性能消耗越低。
+ * 调整白板绘制的刷新间隔 (ms)。
+ * 
+ * 刷新间隔越低，笔迹显示越流畅，性能开销越大；刷新间隔越高，笔迹越卡，性能消耗越少。
  * 
  * @since  2.16.48
  * 
  */
 export declare enum LowTaskAnimationInterval {
     /**
-     * 默认为 60 FPS。
+     * 默认为对其到 60 FPS 的刷新间隔。
      */
     Default = 0,
     /**
-     * 超低帧率。
+     * 超低刷新间隔。
      */
     Xs = 20,
     /**
-     * 低帧率。
+     * 低刷新间隔。
      */
     Sm = 40,
     /**
-     * 中等帧率。
+     * 中等刷新间隔。
      */
     Md = 60,
     /**
-     * 高帧率。
+     * 高刷新间隔。
      */
     Lg = 80,
     /**
-     * 超高帧率。
+     * 超高刷新间隔。
      */
     Xl = 120,
 }
