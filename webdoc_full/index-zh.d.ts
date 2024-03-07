@@ -247,7 +247,7 @@ export declare type CNodeProps = HTMLAttributes<HTMLDivElement> & {
 /**
  * 调整白板绘制的刷新间隔 (ms)。
  * 
- * 刷新间隔越低，笔迹显示越流畅，性能开销越大；刷新间隔越高，笔迹越卡，性能消耗越少。
+ * 刷新间隔越低，笔迹显示越流畅，性能消耗越大；刷新间隔越高，笔迹越卡，性能消耗越少。
  * 
  * @since  2.16.48
  * 
@@ -2474,8 +2474,8 @@ export declare interface Room extends Displayer {
      * @since  2.16.48
      * 
      * @param includeRedo 是否同时清空重做的记录：
-     * - true：（默认）同时清空重做记录。
-     * - false：不同时清空重做记录。
+     * - `true`：（默认）同时清空重做记录。
+     * - `false`：不同时清空重做记录。
      */
     clearUndoHistory(includeRedo?: boolean): void;
 
@@ -4063,13 +4063,13 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  * 
  *   @since  2.16.48
  *
- *   回放时间轴对齐阈值, 超过此阈值会对齐回放播放器时间, 单位 ms, 默认值为 600ms。 
+ *   回放时间轴对齐阈值, 超过此阈值会对齐回放播放器时间, 单位 ms, 默认值为 600 ms。 
  * 
  * - **alignmentInterval?**: *number*
  * 
  *   @since  2.16.48
  *
- *   回放时间轴对齐时长, 即在此值时长内将回放时间通过倍速播放对齐到外部时间戳, 单位 ms, 默认值为 3000ms。
+ *   回放时间轴对齐时长, 即在此段时间内，将回放时间通过倍速播放对齐到外部时间戳, 单位 ms, 默认值为 3000 ms。
 */
 export declare type ReplayRoomParams = ConstructRoomParams & {
     region?: string;
