@@ -7,13 +7,13 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
-## 2.16.48 版
+<VersionSection version="2.16.48 版">
 
 该版本于 2024 年 3 月 XX 日发布。
 
-#### 新增特性
+<VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
 
-**回放录像剪辑**
+<ListTitle>回放录像剪辑</ListTitle>
 
 `ReplayRoomParams` 新增了以下属性以实现剪辑并播放白板回放录像：
 
@@ -21,14 +21,14 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `alignmentThreshold`：设置回放时间轴对齐阈值。
 - `alignmentInterval`：回放时间轴对齐时长。
 
-**白板绘制性能优化策略**
+<ListTitle>白板绘制性能优化策略</ListTitle>
 
 `joinRoom` 方法新增 `optimizeOptions` 参数，用于设置白板绘制的性能优化策略。性能优化的方式包括以下三种：
 - 调整白板绘制的刷新间隔：刷新间隔越低，笔迹显示越流畅，性能消耗越大；刷新间隔越高，笔迹越卡，性能消耗越少。
 - 使用单画布绘制：白板默认使用两个画布交替绘制以避免在部分设备上绘制时可能出现的画面闪烁现象，使用单个画布绘制可以避免重绘，降低性能消耗。
 - 使用浮动画布：书写场景下，启用单画布绘制后，会根据绘制位置生成一个大小约为 256 x 256 px 的浮动画布，后续绘制不超过该画布的范围时，同步笔迹的范围会限定在这个浮动画布中，从而降低性能消耗。
 
-#### 优化
+<VersionTitle icon="/img/icons/version-improve.png">优化</VersionTitle>
 
 该版本进行了以下优化：
 
@@ -39,16 +39,16 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - 设置 `cursorAdapter: false` 可隐藏内置光标 (激光笔、橡皮擦等)。
 - 文本元素采用固定行高，避免各端显示差异。
 
-#### 问题修复
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
 
 - 画虚线时偶现显示错误。
 - 触摸设备上擦除文字工具时陷入异常，不能擦除。
 - 进入房间时偶现白屏但不报错。
 - 复制粘贴出来的的文本元素无法被选中。
 
-#### API 变更
+<VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
 
-**新增**
+<ListTitle>新增</ListTitle>
 
 - `clearUndoHistory`
 - `ReplayRoomParams` 新增了以下属性：
@@ -62,6 +62,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `ImageInformation` 新增 `crossOrigin` 属性
 - `room` 新增 `syncMode` 属性
 
+</VersionSection>
 
 
 <VersionSection version="2.16.43 版">
