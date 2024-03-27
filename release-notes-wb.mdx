@@ -41,6 +41,13 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `DisplayerCallbacks` 新增 `onBackgroundError` 回调，用于报告背景图加载失败。
 - `RoomCallbacks` 新增 `onObjectsLimit` 回调，用于报告白板中的元素数量超过限制。当到达限制时前端会抛出警告和事件，超出限制时无法再添加元素，房间状态会被强制回退，且后端会强制踢出用户。
 
+#### 问题修复
+
+该版本修复了如下问题：
+
+- 退出房间时没有销毁某些监听器导致内存泄漏。
+- 只读用户按 Esc 键时产生异常报错。
+
 #### API 变更
 
 - `MemberState` 新增以下属性：
