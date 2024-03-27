@@ -7,6 +7,56 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+## 2.16.49 版
+
+该版本于 2024 年 3 月 29 日发布。
+
+#### 新增特性
+
+**填充封闭图形元素**
+
+`MemberState` 新增 `fillColor` 属性，用于设置圆形、矩形等封闭图形元素的填充色。
+
+**自动切换选择工具**
+
+`MemberState` 新增以下属性，用于设置是否在使用对应白板工具后自动切换为选择工具：
+
+- `textCompleteToSelector`：使用文字工具打完字后自动切到选择工具。
+- `rectangleCompleteToSelector`：画完矩形后自动切到选择工具。
+- `ellipseCompleteToSelector`：画完圆形后自动切到选择工具。
+- `straightCompleteToSelector`：画完直线后自动切到选择工具。
+- `arrowCompleteToSelector`：画完箭头后自动切到选择工具。
+- `shapeCompleteToSelector`：画完三角、气泡等图形后后自动切到选择工具。
+
+**异步截图**
+
+新增 `screenshotToCanvasAsync` 方法，用于等待目标场景的图片加载完成后生成屏幕快照，写入指定的渲染上下文中。该功能目前处于实验阶段，如果你在使用中遇到了问题，请[联系技术支持](https://ticket.shengwang.cn/)。
+
+#### 优化
+
+该版本进行了以下优化：
+
+- `MemberState` 新增 `textSizeOverride` 属性，用于设置文本工具的默认字体大小。如果不设置，则默认采用上次创建文本元素时使用的字体大小。
+- 新增属性 `room.useNativeClipboard`，用于设置是否使用原生剪贴板。启用后，快捷键里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
+- `DisplayerCallbacks` 新增 `onBackgroundError` 回调，用于报告背景图加载失败。
+- `RoomCallbacks` 新增 `onObjectsLimit` 回调，用于报告白板中的元素数量超过限制。当到达限制时前端会抛出警告和事件，超出限制时无法再添加元素，房间状态会被强制回退，且后端会强制踢出用户。
+
+#### API 变更
+
+- `MemberState` 新增以下属性：
+  - `fillColor`
+  - `textSizeOverride`
+  - `textCompleteToSelector`
+  - `rectangleCompleteToSelector`
+  - `ellipseCompleteToSelector`
+  - `straightCompleteToSelector`
+  - `arrowCompleteToSelector`
+  - `shapeCompleteToSelector`
+- `DisplayerCallbacks` 新增 `onBackgroundError`
+- `screenshotToCanvasAsync`
+- `Room` 新增 `useNativeClipboard` 属性
+- `RoomCallbacks` 新增 `onObjectsLimit`
+
 <VersionSection version="2.16.48 版">
 
 该版本于 2024 年 3 月 XX 日发布。
