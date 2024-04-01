@@ -7,17 +7,17 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
-## 2.16.49 版
+<VersionSection version="2.16.49 版">
 
-该版本于 2024 年 3 月 29 日发布。
+该版本于 2024 年 4 月 2 日发布。
 
-#### 新增特性
+<VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
 
-**填充封闭图形元素**
+<ListTitle>填充封闭图形元素</ListTitle>
 
 `MemberState` 新增 `fillColor` 属性，用于设置圆形、矩形等封闭图形元素的填充色。
 
-**自动切换选择工具**
+<ListTitle>自动切换选择工具</ListTitle>
 
 `MemberState` 新增以下属性，用于设置是否在使用对应白板工具后自动切换为选择工具：
 
@@ -28,11 +28,11 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `arrowCompleteToSelector`：画完箭头后自动切到选择工具。
 - `shapeCompleteToSelector`：画完三角、气泡等图形后后自动切到选择工具。
 
-**异步截图**
+<ListTitle>异步截图</ListTitle>
 
 新增 `screenshotToCanvasAsync` 方法，用于在目标场景中的图片加载完成后生成屏幕快照并写入指定的渲染上下文中。该功能目前处于实验阶段，如果你在使用中遇到了问题，请[联系技术支持](https://ticket.shengwang.cn/)。
 
-#### 优化
+<VersionTitle icon="/img/icons/version-improve.png">优化</VersionTitle>
 
 该版本进行了以下优化：
 
@@ -41,14 +41,14 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `DisplayerCallbacks` 新增 `onBackgroundError` 回调，用于报告背景图加载失败。
 - `RoomCallbacks` 新增 `onObjectsLimit` 回调，用于报告白板中的元素数量超过限制，当到达限制时前端会抛出警告和事件。
 
-#### 问题修复
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
 
 该版本修复了以下问题：
 
 - 退出房间时没有销毁某些监听器导致内存泄漏。
 - 只读用户按 Esc 键时产生异常报错。
 
-#### API 变更
+<VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
 
 - `MemberState` 新增以下属性：
   - `fillColor`
@@ -63,6 +63,8 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 - `screenshotToCanvasAsync`
 - `Room` 新增 `useNativeClipboard` 属性
 - `RoomCallbacks` 新增 `onObjectsLimit`
+
+</VersionSection>
 
 <VersionSection version="2.16.48 版">
 
