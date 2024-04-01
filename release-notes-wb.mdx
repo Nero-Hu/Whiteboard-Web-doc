@@ -37,7 +37,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 该版本进行了以下优化：
 
 - `MemberState` 新增 `textSizeOverride` 属性，用于设置文本工具的默认字体大小。如果不设置，则默认采用上次创建文本元素时使用的字体大小。
-- 新增属性 `room.useNativeClipboard`，用于设置是否使用原生剪贴板。启用后，快捷键里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
+- 新增属性 `room.useNativeClipboard`，用于设置是否使用原生剪贴板。启用后，白板快捷键，即 `HotKeys` 中的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
 - `DisplayerCallbacks` 新增 `onBackgroundError` 回调，用于报告背景图加载失败。
 - `RoomCallbacks` 新增 `onObjectsLimit` 回调，用于报告白板中的元素数量超过限制，当到达限制时前端会抛出警告和事件。
 
