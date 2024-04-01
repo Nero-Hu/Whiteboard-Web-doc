@@ -1773,7 +1773,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 生成屏幕快照，并写入指定的 CanvasRenderingContext2D 对象中。
      * @param context CanvasRenderingContext2D 对象。
-     * @param scenePath 场景的路径。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
      * @param width 屏幕快照的宽度。
      * @param height 屏幕快照的高度。
      * @param camera 视角的描述。
@@ -1782,17 +1782,18 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      screenshotToCanvas(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): void;
 
     /**
-     * 等待目标场景的图片加载完成后生成屏幕快照，写入指定的 CanvasRenderingContext2D 对象中。
+     * 等待目标场景的图片加载完成后生成屏幕快照，写入指定的 `CanvasRenderingContext2D` 对象中。
      * 
      * @note 
      *  - 该功能处于实验阶段。
-     *  - 如果部分图片永远无法加载完成，这个函数永远不会返回，你需要自行处理超时逻辑。
+     *  - 如果目标场景的图片无法完成加载，则该函数无法返回屏幕快照，你需要自行处理超时逻辑。
+     *  - 如果你希望生成的屏幕快照不包含图片，请使用 {@link screenshotToCanvas}。
      * 
      * @param context CanvasRenderingContext2D 对象。
-     * @param scenePath 场景的路径。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
      * @param width 屏幕快照的宽度。
      * @param height 屏幕快照的高度。
-     * @param camera 视角的描述。
+     * @param camera 视角的描述。详见 {@link Camera Camera}。
      * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
      */
     screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
@@ -2113,10 +2114,10 @@ export declare interface Room extends Displayer {
     /**
      * 是否使用原生剪贴板：
      * 
-     * - `true`：使用原生剪贴板。快捷键里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
+     * - `true`：使用原生剪贴板。白板快捷键，即 {@link Hotkeys HotKeys} 里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
      * - `false`：（默认）不使用原生剪贴板。
      * 
-     * @note 此功能需要浏览器支持以及用户授予剪贴板权限，如果失败，将自动回退到虚拟剪贴板实现。
+     * @note 此功能需要浏览器支持以及用户授予剪贴板权限，否则将自动回退到虚拟剪贴板实现。
      */
     useNativeClipboard: boolean;
 
@@ -2668,7 +2669,7 @@ export declare enum RoomErrorLevel {
  *   @param limit `limit` 白板中的元素数量限制。
  *   @param soft `soft` 是否为软限制：
  *      - `true`：软限制。当白板中的元素数量超过限制时，SDK 会发出警告，但仍可以插入白板元素。
- *      - `false`：硬限制。当白板中的元素数量超过限制时，SDK 会发出警告，此时无法再添加元素且房间状态会被强制回退。
+ *      - `false`：硬限制。当白板中的元素数量超过限制时，SDK 会发出警告，本次添加元素操作无效，房间状态会被强制回退至操作前，且后端会将进行本次操作的用户踢出频道。
  * - **onKickedWithReason**: *(reason: string)=>void*
  *
  *    用户被服务器移出房间回调。
@@ -3149,7 +3150,7 @@ export declare type MemberState = {
      */
     textCanSelectText?: boolean;
     /**
-     * 设置图形元素的填充色。只有圆、矩形等封闭图形可以有填充色。
+     * 设置图形元素的填充色。仅适用于圆、矩形等封闭图形。
      */
     fillColor?: Color;
     /**
@@ -3157,45 +3158,45 @@ export declare type MemberState = {
      */
     textSizeOverride?: number;
     /**
-     * 是否开启使用文字工具打完字后自动切到选择工具：
+     * 是否在使用文字工具打完字后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     textCompleteToSelector?: boolean;
     /**
-     * 是否开启画完矩形后自动切到选择工具：
+     * 是否在画完矩形后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     rectangleCompleteToSelector?: boolean;
     /**
-     * 是否开启画完圆形后自动切到选择工具：
+     * 是否在画完圆形后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     ellipseCompleteToSelector?: boolean;
     /**
-     * 是否开启画完直线后自动切到选择工具：
+     * 是否在画完直线后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     straightCompleteToSelector?: boolean;
     /**
-     * 是否开启画完箭头后自动切到选择工具：
+     * 是否在画完箭头后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     arrowCompleteToSelector?: boolean;
     /**
-     * 是否开启画完三角、气泡等图形后自动切到选择工具：
+     * 是否在画完三角、气泡等图形后自动切到选择工具：
      *
-     * - `true`：开启。
-     * - `false`：（默认）不开启。
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
      */
     shapeCompleteToSelector?: boolean;
 };
