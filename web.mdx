@@ -33,7 +33,7 @@ The `joinRoom` method adds the `optimizeOptions` parameter to set the performanc
 - Using single canvas drawing: By default, the whiteboard uses two canvases alternately to avoid flickering on some devices during drawing. Using a single canvas drawing can eliminate redraws and reduce performance consumption.
 - Using floating canvas: When writing on the whiteboard, after enabling single canvas drawing, a floating canvas with a size of approximately 256 x 256 px is generated based on the drawing position. When subsequent drawings are within the range of this floating canvas, the synchronization of strokes is limited to this floating canvas, reducing performance consumption.
 
-#### Optimization
+#### Improvements
 
 This version includes the following optimizations:
 
@@ -70,17 +70,17 @@ This version fixes the following issues:
     - `straightCompleteToSelector`
     - `arrowCompleteToSelector`
     - `shapeCompleteToSelector`
-- The `DisplayerCallbacks` adds `onBackgroundError`.
+- The `DisplayerCallbacks` adds `onBackgroundError`
 - `screenshotToCanvasAsync`
-- The `Room` adds the `useNativeClipboard` property.
-- The `RoomCallbacks` adds `onObjectsLimit`.
+- The `Room` adds the `useNativeClipboard` property
+- The `RoomCallbacks` adds `onObjectsLimit`
 - `clearUndoHistory`
-- The `joinRoom` adds the `optimizeOptions` parameter.
+- The `joinRoom` adds the `optimizeOptions` parameter
 - `OptimizeOptions`
 - `LowTaskAnimationInterval`
 - `OriginCoordType`
-- The `ImageInformation` adds the `crossOrigin` property.
-- The `room` adds the `syncMode` property.
+- The `ImageInformation` adds the `crossOrigin` property
+- The `room` adds the `syncMode` property
 
 ## v2.16.43
 

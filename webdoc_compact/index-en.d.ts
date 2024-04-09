@@ -118,6 +118,36 @@ export declare type ReconnectionOptions = {
 export declare type Level = "debug" | "info" | "warn" | "error";
 
 /**
+ * Whiteboard drawing performance optimization settings.
+ *
+ * @since 2.16.48
+ *
+ */
+export declare interface OptimizeOptions {
+    /**
+     * Sets the refresh interval for whiteboard drawing. See {@link LowTaskAnimationInterval LowTaskAnimationInterval}.
+     */
+    useLowTaskAnimation: LowTaskAnimationInterval;
+
+    /**
+     * Whether to use a single canvas:
+     *  - `true`: Use a single canvas and apply floating canvas optimization strategy.
+     *  - `false`: (Default) Use two canvases for alternating drawing.
+     *
+     * By default, the whiteboard uses two canvases for alternating drawing to avoid flickering on some devices during drawing. Using a single canvas for drawing can avoid redrawing and reduce performance consumption.
+     */
+    useSinglerCanvas: boolean;
+
+    /**
+     * The correspondence between the position of the drawing point and the position of the floating canvas. The default is that the drawing point is located at the upper left corner of the floating canvas. See {@link OriginCoordType OriginCoordType}.
+     *
+     * Only effective when `useSinglerCanvas` is `true`.
+     */
+    useTopFloatOriginCoord: OriginCoordType;
+
+}
+
+/**
  * The device type.
  */
 export declare enum DeviceType {
@@ -217,6 +247,93 @@ export declare type CNodeProps = HTMLAttributes<HTMLDivElement> & {
     fixedMode?: boolean;
     onRef?: (element: HTMLDivElement | null)=>void;
 };
+
+/**
+ * Adjusts the refresh interval (in ms) for whiteboard drawing.
+ *
+ * The lower the refresh interval, the smoother the stroke display, but the higher the performance consumption.
+ * The higher the refresh interval, the more laggy the stroke, but the lower the performance consumption.
+ *
+ * @since 2.16.48
+ *
+ */
+export declare enum LowTaskAnimationInterval {
+    /**
+     * The default refresh interval aligned to 60 FPS.
+     */
+    Default = 0,
+    /**
+     * Ultra-low refresh interval.
+     */
+    Xs = 20,
+    /**
+     * Low refresh interval.
+     */
+    Sm = 40,
+    /**
+     * Medium refresh interval.
+     */
+    Md = 60,
+    /**
+     * High refresh interval.
+     */
+    Lg = 80,
+    /**
+     * Ultra-high refresh interval.
+     */
+    Xl = 120,
+}
+
+/**
+ * The correspondence between the position of the drawing point and the position of the floating canvas.
+ *
+ * @since 2.16.48
+ *
+ * Generates a floating canvas with a size of approximately 256 x 256 px based on the drawing position.
+ * When subsequent drawing does not exceed the range of this canvas, the synchronized drawing range will be limited to this floating canvas instead of the entire canvas, reducing performance consumption.
+ */
+export declare enum OriginCoordType {
+    /**
+     * The drawing point is located at the top left corner of the floating canvas.
+     */
+    Default = 0,
+    /**
+     * The drawing point is located at the top left corner of the floating canvas.
+     */
+    LeftTop = 7,
+    /**
+     * The drawing point is located at the bottom left corner of the floating canvas.
+     */
+    LeftBottom = 1,
+    /**
+     * The drawing point is located at the top right corner of the floating canvas.
+     */
+    RightTop = 9,
+    /**
+     * The drawing point is located at the bottom right corner of the floating canvas.
+     */
+    RightBottom = 3,
+    /**
+     * The drawing point is located at the left center of the floating canvas.
+     */
+    LeftCenter = 4,
+    /**
+     * The drawing point is located at the right center of the floating canvas.
+     */
+    RightCenter = 6,
+    /**
+     * The drawing point is located at the top center of the floating canvas.
+     */
+    TopCenter = 8,
+    /**
+     * The drawing point is located at the bottom center of the floating canvas.
+     */
+    BottomCenter = 2,
+    /**
+     * The drawing point is located at the center of the floating canvas.
+     */
+    Center = 5,
+}
 
 /**
  * Custom fonts.
@@ -356,7 +473,7 @@ export declare interface CursorMember {
 }
 
 /**
- * Sets the cursor adaptor.
+ * Sets the cursor adapter.
  */
 export declare interface CursorAdapter {
     /**
@@ -1669,9 +1786,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      *
      * @param  scenePath The path of the specified scene.
      * @param  div The div for the preview.
-     * @param  width The width of the preview. This paramter is optional since v2.3.8.
+     * @param  width The width of the preview. This parameter is optional since v2.3.8.
      * If you do not set this parameter, it is set to the width of the div for the preview.
-     * @param  height The height of the preview. This paramter is optional since v2.3.8.
+     * @param  height The height of the preview. This parameter is optional since v2.3.8.
      * If you do not set this parameter, it is set to the height of the div for the preview.
      */
     scenePreview(scenePath: string, div: HTMLElement, width: number | undefined, height: number | undefined): void;
@@ -1679,7 +1796,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * Generates the screenshot of the specified scene.
      *
-     * @param scenePath The path of the scene.
+     * @param scenePath The path of the scene. You can get the current `scenePath` via `room.state.sceneState.scenePath`.
      * @param width The width of the screenshot.
      * @param height The height of the screenshot.
      * @returns The URL address of the screenshot.
@@ -1697,9 +1814,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      *
      * @param scenePath The path of the specified scene.
      * @param div The div for the snapshot.
-     * @param width The width of the snapshot. This paramter is optional since v2.3.8.
+     * @param width The width of the snapshot. This parameter is optional since v2.3.8.
      * If you do not set this parameter, it is set to the width of the div for the snapshot.
-     * @param height The height of the snapshot. This paramter is optional since v2.3.8.
+     * @param height The height of the snapshot. This parameter is optional since v2.3.8.
      * If you do not set this parameter, it is set to the height of the div for the snapshot.
      */
     fillSceneSnapshot(scenePath: string, div: HTMLElement, width: number, height: number): void;
@@ -1707,14 +1824,30 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * Generates the snapshot and writes it into the specified CanvasRenderingContext2D object. 
      * @param context The CanvasRenderingContext2D object.
-     * @param scenePath The path of the scene.
+     * @param scenePath The path of the scene. You can get the current `scenePath` via `room.state.sceneState.scenePath`.
      * @param width The width of the snapshot.
      * @param height The height of the snapshot.
-     * @param camera The description of the view angle. See Camera.
-     * @param ratio The device pixel ratio. This paramter is optional. 
-     * If you do not set this parameter, the default value is 1.
+     * @param camera The description of the view angle. See {@link Camera Camera}.
+     * @param ratio The device pixel ratio. This parameter is optional. If you do not set this parameter, the default value is 1.
      */
      screenshotToCanvas(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): void;
+
+    /**
+     * Generates a screen snapshot and writes it into the specified `CanvasRenderingContext2D` object after the images in the target scene have finished loading.
+     * 
+     * @note 
+     *  - This feature is under experimental stage.
+     *  - If the images in the target scene fail to load, this function cannot return a screen snapshot. You need to handle the timeout logic yourself.
+     *  - If you want to generate a screen snapshot without including images, use {@link screenshotToCanvas}.
+     * 
+     * @param context The CanvasRenderingContext2D object.
+     * @param scenePath The path of the scene. You can get the current `scenePath` via `room.state.sceneState.scenePath`.
+     * @param width The width of the snapshot.
+     * @param height The height of the snapshot.
+     * @param camera The description of the view angle. See {@link Camera Camera}.
+     * @param ratio The device pixel ratio. This parameter is optional. If you do not set this parameter, the default value is 1.
+     */
+    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
 
     /**
      * Adds a listener for a customized event.
@@ -1891,6 +2024,11 @@ export declare type DisplayerCallbacks = {
     (renderDuration: number)=>void;
 
     /**
+     * Reports the failure of loading background image.
+     */
+    onBackgroundError: (url: string)=>void;
+
+    /**
      * @ignore
      * Reports the progress of loading the source file when converting it to web pages.
      *
@@ -2039,6 +2177,16 @@ export declare interface Room extends Displayer {
    * video streams are synchronized.
    */
   timeDelay: number;
+
+  /**
+    * Whether to use the native clipboard:
+    * 
+    * - `true`: Use the native clipboard. The whiteboard shortcuts, such as copy and paste in {@link Hotkeys HotKeys}, will be disabled and replaced with the native `copy` and `paste` events.
+    * - `false`: (Default) Do not use the native clipboard.
+    * 
+    * @note This feature requires browser support and user permission to access the clipboard, otherwise it will automatically fallback to a virtual clipboard implementation.
+    */
+    useNativeClipboard: boolean;
 
   /**
    * Sets whether a user is in interactive mode in the room.
@@ -2465,6 +2613,17 @@ export declare interface Room extends Displayer {
   redo(): number;
 
   /**
+   * Clears the undo history, setting the number of undo steps `canUndoSteps` to 0 immediately.
+   *
+   * @since 2.16.48
+   *
+   * @param includeRedo Whether to clear the redo history as well:
+   * - `true`: (default) Clear the redo history as well.
+   * - `false`: Do not clear the redo history.
+   */
+  clearUndoHistory(includeRedo?: boolean): void;
+
+  /**
    * Deletes the selected content.
    */
   delete(): void;
@@ -2623,6 +2782,14 @@ export declare enum RoomErrorLevel {
  *
  *    Occurs when the SDK is disconnected from the server.
  *    @param error `error` The error message.
+ * 
+ * - **onObjectsLimit**: *(limit: number, soft: boolean)=>void*
+ * 
+ *    Occurs when the number of elements in the whiteboard exceeds the limit.
+ *    @param limit `limit` The limit of the number of elements in the whiteboard.
+ *    @param soft `soft` Whether it is a soft limit:
+ *      - `true`: Soft limit. When the number of elements in the whiteboard exceeds the limit, the SDK will issue a warning, but the whiteboard elements can still be inserted.
+ *      - `false`: Hard limit. When the number of elements in the whiteboard exceeds the limit, the SDK will issue a warning, the current element addition operation is invalid, the room state will be rolled back to before the operation, and the backend will kick the user who performs the operation out of the channel.
  *
  * - **onKickedWithReason**: *(reason: string)=>void*
  *
@@ -2673,6 +2840,8 @@ export declare type RoomCallbacks = DisplayerCallbacks & {
     onRoomStateChanged: (modifyState: Partial<RoomState>)=>void;
 
     onDisconnectWithError: (error: Error)=>void;
+
+    onObjectsLimit: (limit: number, soft: boolean)=>void;
 
     onKickedWithReason: (reason: string)=>void;
 
@@ -3129,6 +3298,56 @@ export declare type MemberState = {
      * - `false`: (Default) Do not allow directly selecting and editing whiteboard text.
      */
      textCanSelectText?: boolean;
+    /**
+     * Sets the fill color of the graphic element. Only applicable to closed shapes such as circles and rectangles.
+     */
+    fillColor?: Color;
+    /**
+     * Sets the default font size for the text tool. If not set, the default is to use `textSize`, which is the last set text size.
+     */
+    textSizeOverride?: number;
+    /**
+     * Whether to automatically switch to the selection tool after typing with the text tool:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    textCompleteToSelector?: boolean;
+    /**
+     * Whether to automatically switch to the selection tool after drawing a rectangle:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    rectangleCompleteToSelector?: boolean;
+    /**
+     * Whether to automatically switch to the selection tool after drawing a circle:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    ellipseCompleteToSelector?: boolean;
+    /**
+     * Whether to automatically switch to the selection tool after drawing a straight line:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    straightCompleteToSelector?: boolean;
+    /**
+     * Whether to automatically switch to the selection tool after drawing an arrow:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    arrowCompleteToSelector?: boolean;
+    /**
+     * Whether to automatically switch to the selection tool after drawing a triangle, speech balloon, or other shapes:
+     *
+     * - `true`: Automatically switch.
+     * - `false`: (Default) Do not automatically switch.
+     */
+    shapeCompleteToSelector?: boolean;
 };
 
 /**
@@ -3488,6 +3707,15 @@ export declare type ImageInformation = {
      * - `false`: The image can be resized disproportionately.
      */
     uniformScale?: boolean;
+    /**
+     * Whether to load images in cross-origin mode.
+     *
+     * @since  2.16.48
+     *
+     * - `true`: (default) Load images in cross-origin mode.
+     * - `false`: Do not load images in cross-origin mode.
+     */
+    crossOrigin?: boolean | string;
 };
 
 /**
@@ -3858,9 +4086,10 @@ export declare type WhiteWebSdkConfiguration = {
  */
 export declare type ConstructRoomParams = {
     /**
-     * Sets the cursor adaptor.
+     * Sets the cursor adapter.
+     * Set to `false` to no longer display internal preset cursors (laser pen, eraser, etc.).
      */
-    cursorAdapter?: CursorAdapter;
+    cursorAdapter?: CursorAdapter | false;
     /**
      * Whether to disable the auto-resize function:
      * - `true`: Disable the auto-resize function. In this case, you need to call
@@ -4041,9 +4270,16 @@ export declare type ConstructRoomParams = {
  *   | Ctrl + V or Command + V | Paste                    |
  *
  *   To disable the default hotkeys, set this property as `{}`.
+ * 
  * - **rejectWhenReadonlyErrorLevel?**: *RoomErrorLevel*
  *
  *   The response of the SDK when a user without write permission attempts to write.
+ * 
+ * - **optimizeOptions?**: **OptimizeOptions**
+ * 
+ *      @since 2.16.48
+ * 
+ *      Whiteboard drawing performance optimization options. See {@link OptimizeOptions OptimizeOptions}。
  *
  */
 export declare type JoinRoomParams = ConstructRoomParams & {
@@ -4081,6 +4317,8 @@ export declare type JoinRoomParams = ConstructRoomParams & {
     hotKeys?: Partial<HotKeys>;
 
     rejectWhenReadonlyErrorLevel?: RoomErrorLevel;
+
+    optimizeOptions?: OptimizeOptions;
 };
 
 /**
@@ -4100,43 +4338,62 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *   | `eu` | Frankfurt, Europe        | Europe                                   |
  *   | `cn-hz`  | Hangzhou, China               | Areas not covered by other data centers  |
  *
- *   **Note**
- *   - If you do not set this property, the SDK uses the `region` set in {@link WhiteWebSdkConfiguration}.
- *   - If you neither set the data center when initialing the `WhiteWebSdk`
- * object nor when creating the `Player` object, the SDK reports an error message.
+ *      **Note**
+ *      - If you do not set this property, the SDK uses the `region` set in {@link WhiteWebSdkConfiguration}.
+ *      - If you neither set the data center when initialing the `WhiteWebSdk` object nor when creating the `Player` object, the SDK reports an error message.
+ * 
  * - **slice?**: *string*
  *
  *   The unique identifier (UUID) of the slice in the playback, which you can
  * get from `room.slice` during the recording.
  *
- * **Note**
- * - This property must be passed in together with `room`.
- * - Passing in this property indicates that only a specific segment is played,
- * so passing in `beginTimestamp` and `duration` is forbidden.
+ *      **Note**
+ *      - This property must be passed in together with `room`.
+ *      - Passing in this property indicates that only a specific segment is played, so passing in `beginTimestamp` and `duration` is forbidden.
+ * 
  * - **room**: *string*
  *
  *    Room UUID, the unique identifier of a room. This property is returned
  * after the room is created successfully.
- *    - If you pass in only this property (without `beginTimestamp` and `duration`),
- * the SDK replays all the recordings of the room.
- *    - If you pass in this property together with `beginTimestamp` and `duration`,
- * the SDK replays the recordings within the specified time range.
+ *    - If you pass in only this property (without `beginTimestamp` and `duration`), the SDK replays all the recordings of the room.
+ *    - If you pass in this property together with `beginTimestamp` and `duration`, the SDK replays the recordings within the specified time range.
+ * 
  * - **roomToken**: *string*
  *
  *   The Room Token for user authentication. See [Token overview](https://docs.agora.io/en/whiteboard/whiteboard_token_overview?platform=Android).
+ * 
  * - **beginTimestamp?**: *number*
  *
  *   The Unix timestamp (ms) representing the starting UTC time of the playback.
  *
- *   This property must be passed in together with `room` and `duration` and
- * not together with `slice`.
+ *   This property must be passed in together with `room` and `duration` and not together with `slice`.
+ * 
  * - **duration?**: *number*
  *
  *   The playback duration (ms).
  *
- *   This property must be passed in together with `room` and `beginTimestamp` and
- * not together with `slice`.
- */
+ *   This property must be passed in together with `room` and `beginTimestamp` and not together with `slice`.
+ * 
+ * - **crops?**: *Array*
+ *   
+ *   @since  2.16.48
+ *
+ *   The cropping intervals for playback recording, including the following properties:
+ *      - `from`: number. The starting timestamp of the cropping interval.
+ *      - `to`: number. The ending timestamp of the cropping interval.
+ * 
+ * - **alignmentThreshold?**: *number*
+ * 
+ *   @since  2.16.48
+ *
+ *   The alignment threshold of the playback timeline. If the difference between the playback time and the external timestamp exceeds this threshold, the playback time will be aligned, in milliseconds. The default value is 600 ms.
+ * 
+ * - **alignmentInterval?**: *number*
+ * 
+ *   @since  2.16.48
+ *
+ *   The alignment duration of the playback timeline. Within this duration, the playback time will be aligned to the external timestamp by playing at a faster speed, in milliseconds. The default value is 3000 ms.
+ */ 
 export declare type ReplayRoomParams = ConstructRoomParams & {
 
     region?: string;
@@ -4150,6 +4407,15 @@ export declare type ReplayRoomParams = ConstructRoomParams & {
     beginTimestamp?: number;
 
     duration?: number;
+
+    crops?: Array<{
+        from: number;
+        to: number;
+    }>;
+
+    alignmentThreshold?: number;
+
+    alignmentInterval?: number;
 };
 
 /**
