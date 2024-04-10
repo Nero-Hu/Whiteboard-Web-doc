@@ -134,7 +134,7 @@ export declare interface OptimizeOptions {
      *  - `true`: Use a single canvas and apply floating canvas optimization strategy.
      *  - `false`: (Default) Use two canvases for alternating drawing.
      *
-     * By default, the whiteboard uses two canvases for alternating drawing to avoid flickering on some devices during drawing. Using a single canvas for drawing can avoid redrawing and reduce performance consumption.
+     * By default, the whiteboard uses two canvases for alternating drawing to prevent flickering on some devices during drawing. Using a single canvas for drawing can prevent redrawing and reduce performance consumption.
      */
     useSinglerCanvas: boolean;
 
@@ -314,11 +314,11 @@ export declare enum OriginCoordType {
      */
     RightBottom = 3,
     /**
-     * The drawing point is located at the left center of the floating canvas.
+     * The drawing point is located to the left from the center of the floating canvas.
      */
     LeftCenter = 4,
     /**
-     * The drawing point is located at the right center of the floating canvas.
+     * The drawing point is located to the right from the center of the floating canvas.
      */
     RightCenter = 6,
     /**
@@ -2184,7 +2184,7 @@ export declare interface Room extends Displayer {
     * - `true`: Use the native clipboard. The whiteboard shortcuts, such as copy and paste in {@link Hotkeys HotKeys}, will be disabled and replaced with the native `copy` and `paste` events.
     * - `false`: (Default) Do not use the native clipboard.
     * 
-    * @note This feature requires browser support and user permission to access the clipboard, otherwise it will automatically fallback to a virtual clipboard implementation.
+    * @note This feature requires browser support and user permission to access the clipboard, otherwise it will automatically fall back to a virtual clipboard implementation.
     */
     useNativeClipboard: boolean;
 
