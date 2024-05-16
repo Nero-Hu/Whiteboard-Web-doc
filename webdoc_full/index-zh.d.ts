@@ -1773,13 +1773,30 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 生成屏幕快照，并写入指定的 CanvasRenderingContext2D 对象中。
      * @param context CanvasRenderingContext2D 对象。
-     * @param scenePath 场景的路径。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
      * @param width 屏幕快照的宽度。
      * @param height 屏幕快照的高度。
      * @param camera 视角的描述。
      * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
      */
      screenshotToCanvas(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): void;
+
+    /**
+     * 等待目标场景的图片加载完成后生成屏幕快照，写入指定的 `CanvasRenderingContext2D` 对象中。
+     * 
+     * @note 
+     *  - 该功能处于实验阶段。
+     *  - 如果目标场景的图片无法完成加载，则该函数无法返回屏幕快照，你需要自行处理超时逻辑。
+     *  - 如果你希望生成的屏幕快照不包含图片，请使用 {@link screenshotToCanvas}。
+     * 
+     * @param context CanvasRenderingContext2D 对象。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
+     * @param width 屏幕快照的宽度。
+     * @param height 屏幕快照的高度。
+     * @param camera 视角的描述。详见 {@link Camera Camera}。
+     * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
+     */
+    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
 
      /**
      * 注册自定义事件监听。
@@ -1952,6 +1969,11 @@ export declare type DisplayerCallbacks = {
     (renderDuration: number)=>void;
 
     /**
+     * 加载背景图片失败回调。 
+     */
+    onBackgroundError: (url: string)=>void;
+
+    /**
      * @ignore
      * PPT 文件转网页时，预加载 PPT 文件的进度回调。
      *
@@ -2088,6 +2110,16 @@ export declare interface Room extends Displayer {
      * 在音视频传输延时较大的场景中，如使用 CDN 推送音视频流时，你可以使用该参数延迟显示接收到的远端白板内容，以确保白板内容与音视频同步。
      */
     timeDelay: number;
+
+    /**
+     * 是否使用原生剪贴板：
+     * 
+     * - `true`：使用原生剪贴板。白板快捷键，即 {@link Hotkeys HotKeys} 里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
+     * - `false`：（默认）不使用原生剪贴板。
+     * 
+     * @note 此功能需要浏览器支持以及用户授予剪贴板权限，否则将自动回退到虚拟剪贴板实现。
+     */
+    useNativeClipboard: boolean;
 
     /**
      * 设置用户在房间中是否为互动模式。
@@ -2631,6 +2663,13 @@ export declare enum RoomErrorLevel {
  *    白板 SDK 与白板服务器连接中断回调。
  *    @param error `error` 错误信息。
  *
+ * - **onObjectsLimit**: *limit: number, soft: boolean)=>void*
+ * 
+ *    白板中的元素数量超过限制回调。
+ *   @param limit `limit` 白板中的元素数量限制。
+ *   @param soft `soft` 是否为软限制：
+ *      - `true`：软限制。当白板中的元素数量超过限制时，SDK 会发出警告，但仍可以插入白板元素。
+ *      - `false`：硬限制。当白板中的元素数量超过限制时，SDK 会发出警告，本次添加元素操作无效，房间状态会被强制回退至操作前，且后端会将进行本次操作的用户踢出频道。
  * - **onKickedWithReason**: *(reason: string)=>void*
  *
  *    用户被服务器移出房间回调。
@@ -2678,6 +2717,8 @@ export declare type RoomCallbacks = DisplayerCallbacks & {
     onRoomStateChanged: (modifyState: Partial<RoomState>)=>void;
 
     onDisconnectWithError: (error: Error)=>void;
+
+    onObjectsLimit: (limit: number, soft: boolean)=>void;
 
     onKickedWithReason: (reason: string)=>void;
 
@@ -3108,6 +3149,56 @@ export declare type MemberState = {
      * - `false`：（默认）不允许直接选择并编辑文字。 
      */
     textCanSelectText?: boolean;
+    /**
+     * 设置图形元素的填充色。仅适用于圆、矩形等封闭图形。
+     */
+    fillColor?: Color;
+    /**
+     * 设置文本工具的默认字体大小。如果不设置则默认使用 `textSize`，即上一次设置的文字大小。
+     */
+    textSizeOverride?: number;
+    /**
+     * 是否在使用文字工具打完字后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    textCompleteToSelector?: boolean;
+    /**
+     * 是否在画完矩形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    rectangleCompleteToSelector?: boolean;
+    /**
+     * 是否在画完圆形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    ellipseCompleteToSelector?: boolean;
+    /**
+     * 是否在画完直线后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    straightCompleteToSelector?: boolean;
+    /**
+     * 是否在画完箭头后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    arrowCompleteToSelector?: boolean;
+    /**
+     * 是否在画完三角、气泡等图形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    shapeCompleteToSelector?: boolean;
 };
 
 /**
