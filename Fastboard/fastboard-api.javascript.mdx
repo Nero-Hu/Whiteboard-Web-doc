@@ -422,7 +422,7 @@ GeoGebra 是基于 [GeoGebra](https://www.geogebra.org/) 开发的数学计算�
 
 <H3 className="anchor index-api-removepage" id="removepage">removePage</H3>
 
-```typescript
+```typescriptf
 removePage(index?): Promise<boolean>
 ```
 
@@ -759,8 +759,8 @@ export interface InsertDocsDynamic {
 `InsertDocsDynamic` 接口包含以下属性：
 
 - `fileType`: String。文档类型，取值为 `"pptx"`，表示动态文档。
-- `scenePath`: String。白板场景路径，建议填 `"/pptx/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
-- `taskId`: String。文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
+- `scenePath`: String。白板场景路径，建议填 `"/pptx/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
+- `taskId`: String。文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
 - `title`: （可选）String。窗口标题
 - `url`: String。转换后文档的存储路径，例如，`"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert“`。
 
@@ -780,13 +780,13 @@ export interface InsertDocsStatic {
 `InsertDocsStatic` 接口包含以下属性：
 
 - `fileType`：String。文档类型，取值为 `"pdf"`，表示静态文档。
-- `scenePath`: String。白板场景路径，建议填 `"/pdf/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
+- `scenePath`: String。白板场景路径，建议填 `"/pdf/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
 - `scenes`: SceneDefinition[]。白板场景内容，即待展示的文档。由多个 object 组成，每个 object 表示一页文件，必须包含如下参数：
   - `name`：String。场景名字。
   - `ppt`：PptDescription。PPT 描述，包含以下属性：
     - `width`：Number。文件的宽度，单位为像素。
     - `height`：Number。文件的高度，单位为像素。
-    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid) 返回的响应包体中 `images` 字段下 `url` 的值。
+    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)返回的响应包体中 `images` 字段下 `url` 的值。
 - `title`: （可选）String。窗口标题。
 
 

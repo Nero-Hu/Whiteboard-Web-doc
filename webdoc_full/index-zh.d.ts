@@ -112,6 +112,37 @@ export declare type ReconnectionOptions = {
 export declare type Level = "debug" | "info" | "warn" | "error";
 
 /**
+ * 白板绘制性能优化设置。
+ * 
+ * @since  2.16.48
+ * 
+ */
+export declare interface OptimizeOptions {
+    /**
+     * 设置白板绘制的刷新间隔。详见 {@link LowTaskAnimationInterval LowTaskAnimationInterval}。
+     */
+    useLowTaskAnimation: LowTaskAnimationInterval;
+
+    /**
+     * 是否使用单个画布：
+     *  - `true`：使用单个画布，应用浮动画布优化策略。
+     *  - `false`：（默认）使用双画布交替绘制。
+     * 
+     * 白板默认使用两个画布交替绘制以避免在部分设备上绘制时可能出现的画面闪烁现象，使用单个画布绘制可以避免重绘，降低性能消耗。
+     */
+    useSinglerCanvas: boolean;
+
+    /**
+     * 浮动画布生成的位置和绘制点的对应关系，默认为绘制点位于浮动画布的左上角。详见 {@link OriginCoordType OriginCoordType}。
+     * 
+     * 仅在 `useSinglerCanvas` 为 `true` 时生效。
+     */
+    useTopFloatOriginCoord: OriginCoordType;
+
+}
+
+
+/**
  * 设备类型。
  */
 export declare enum DeviceType {
@@ -212,6 +243,91 @@ export declare type CNodeProps = HTMLAttributes<HTMLDivElement> & {
     fixedMode?: boolean;
     onRef?: (element: HTMLDivElement | null)=>void;
 };
+
+/**
+ * 调整白板绘制的刷新间隔 (ms)。
+ * 
+ * 刷新间隔越低，笔迹显示越流畅，性能消耗越大；刷新间隔越高，笔迹越卡，性能消耗越少。
+ * 
+ * @since  2.16.48
+ * 
+ */
+export declare enum LowTaskAnimationInterval {
+    /**
+     * 默认为对其到 60 FPS 的刷新间隔。
+     */
+    Default = 0,
+    /**
+     * 超低刷新间隔。
+     */
+    Xs = 20,
+    /**
+     * 低刷新间隔。
+     */
+    Sm = 40,
+    /**
+     * 中等刷新间隔。
+     */
+    Md = 60,
+    /**
+     * 高刷新间隔。
+     */
+    Lg = 80,
+    /**
+     * 超高刷新间隔。
+     */
+    Xl = 120,
+}
+
+/**
+ * 浮动画布生成的位置和绘制点的对应关系。
+ * 
+ * @since  2.16.48
+ * 
+ * 根据绘制位置生成一个大小约为 256 x 256 px 的浮动画布，后续绘制不超过该画布的范围时，同步绘制笔迹的范围会限定在这个浮动画布中，而不是同步整个画布，从而降低性能消耗。
+ */
+export declare enum OriginCoordType {
+    /**
+     * 默认为绘制点位于浮动画布的左上角。
+     */
+    Default = 0,
+    /**
+     * 绘制点位于浮动画布的左上角。
+     */
+    LeftTop = 7,
+    /**
+     * 绘制点位于浮动画布的左下角。
+     */
+    LeftBottom = 1,
+    /**
+     * 绘制点位于浮动画布的右上角。
+     */
+    RightTop = 9,
+    /**
+     * 绘制点位于浮动画布的右下角。
+     */
+    RightBottom = 3,
+    /**
+     * 绘制点位于浮动画布的左侧居中。
+     */
+    LeftCenter = 4,
+    /**
+     * 绘制点位于浮动画布的右侧居中。
+     */
+    RightCenter = 6,
+    /**
+     * 绘制点位于浮动画布的顶部中间。
+     */
+    TopCenter = 8,
+    /**
+     * 绘制点位于浮动画布的底部中间。
+     */
+    BottomCenter = 2,
+    /**
+     * 绘制点位于浮动画布的中心点。
+     */
+    Center = 5,
+}
 
 /**
  * 自定义字体。
@@ -1657,13 +1773,30 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
     /**
      * 生成屏幕快照，并写入指定的 CanvasRenderingContext2D 对象中。
      * @param context CanvasRenderingContext2D 对象。
-     * @param scenePath 场景的路径。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
      * @param width 屏幕快照的宽度。
      * @param height 屏幕快照的高度。
      * @param camera 视角的描述。
      * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
      */
      screenshotToCanvas(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): void;
+
+    /**
+     * 等待目标场景的图片加载完成后生成屏幕快照，写入指定的 `CanvasRenderingContext2D` 对象中。
+     * 
+     * @note 
+     *  - 该功能处于实验阶段。
+     *  - 如果目标场景的图片无法完成加载，则该函数无法返回屏幕快照，你需要自行处理超时逻辑。
+     *  - 如果你希望生成的屏幕快照不包含图片，请使用 {@link screenshotToCanvas}。
+     * 
+     * @param context CanvasRenderingContext2D 对象。
+     * @param scenePath 场景的路径。你可以通过 `room.state.sceneState.scenePath` 获取当前场景。
+     * @param width 屏幕快照的宽度。
+     * @param height 屏幕快照的高度。
+     * @param camera 视角的描述。详见 {@link Camera Camera}。
+     * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
+     */
+    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
 
      /**
      * 注册自定义事件监听。
@@ -1836,6 +1969,11 @@ export declare type DisplayerCallbacks = {
     (renderDuration: number)=>void;
 
     /**
+     * 加载背景图片失败回调。 
+     */
+    onBackgroundError: (url: string)=>void;
+
+    /**
      * @ignore
      * PPT 文件转网页时，预加载 PPT 文件的进度回调。
      *
@@ -1972,6 +2110,16 @@ export declare interface Room extends Displayer {
      * 在音视频传输延时较大的场景中，如使用 CDN 推送音视频流时，你可以使用该参数延迟显示接收到的远端白板内容，以确保白板内容与音视频同步。
      */
     timeDelay: number;
+
+    /**
+     * 是否使用原生剪贴板：
+     * 
+     * - `true`：使用原生剪贴板。白板快捷键，即 {@link Hotkeys HotKeys} 里的复制和粘贴将失效，改为使用原生的 `copy` 和 `paste` 事件。
+     * - `false`：（默认）不使用原生剪贴板。
+     * 
+     * @note 此功能需要浏览器支持以及用户授予剪贴板权限，否则将自动回退到虚拟剪贴板实现。
+     */
+    useNativeClipboard: boolean;
 
     /**
      * 设置用户在房间中是否为互动模式。
@@ -2353,6 +2501,17 @@ export declare interface Room extends Displayer {
     redo(): number;
 
     /**
+     * 清空可撤回的操作历史记录, 令可撤回次数 `canUndoSteps` 立刻等于 0。
+     *
+     * @since  2.16.48
+     * 
+     * @param includeRedo 是否同时清空重做的记录：
+     * - `true`：（默认）同时清空重做记录。
+     * - `false`：不同时清空重做记录。
+     */
+    clearUndoHistory(includeRedo?: boolean): void;
+
+    /**
      * 删除选中的内容。
      */
     delete(): void;
@@ -2504,6 +2663,13 @@ export declare enum RoomErrorLevel {
  *    白板 SDK 与白板服务器连接中断回调。
  *    @param error `error` 错误信息。
  *
+ * - **onObjectsLimit**: *limit: number, soft: boolean)=>void*
+ * 
+ *    白板中的元素数量超过限制回调。
+ *   @param limit `limit` 白板中的元素数量限制。
+ *   @param soft `soft` 是否为软限制：
+ *      - `true`：软限制。当白板中的元素数量超过限制时，SDK 会发出警告，但仍可以插入白板元素。
+ *      - `false`：硬限制。当白板中的元素数量超过限制时，SDK 会发出警告，本次添加元素操作无效，房间状态会被强制回退至操作前，且后端会将进行本次操作的用户踢出频道。
  * - **onKickedWithReason**: *(reason: string)=>void*
  *
  *    用户被服务器移出房间回调。
@@ -2551,6 +2717,8 @@ export declare type RoomCallbacks = DisplayerCallbacks & {
     onRoomStateChanged: (modifyState: Partial<RoomState>)=>void;
 
     onDisconnectWithError: (error: Error)=>void;
+
+    onObjectsLimit: (limit: number, soft: boolean)=>void;
 
     onKickedWithReason: (reason: string)=>void;
 
@@ -2981,6 +3149,56 @@ export declare type MemberState = {
      * - `false`：（默认）不允许直接选择并编辑文字。 
      */
     textCanSelectText?: boolean;
+    /**
+     * 设置图形元素的填充色。仅适用于圆、矩形等封闭图形。
+     */
+    fillColor?: Color;
+    /**
+     * 设置文本工具的默认字体大小。如果不设置则默认使用 `textSize`，即上一次设置的文字大小。
+     */
+    textSizeOverride?: number;
+    /**
+     * 是否在使用文字工具打完字后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    textCompleteToSelector?: boolean;
+    /**
+     * 是否在画完矩形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    rectangleCompleteToSelector?: boolean;
+    /**
+     * 是否在画完圆形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    ellipseCompleteToSelector?: boolean;
+    /**
+     * 是否在画完直线后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    straightCompleteToSelector?: boolean;
+    /**
+     * 是否在画完箭头后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    arrowCompleteToSelector?: boolean;
+    /**
+     * 是否在画完三角、气泡等图形后自动切到选择工具：
+     *
+     * - `true`：自动切换。
+     * - `false`：（默认）不自动切换。
+     */
+    shapeCompleteToSelector?: boolean;
 };
 
 /**
@@ -3321,6 +3539,15 @@ export declare type ImageInformation = {
      * - `false`: 可以非等比缩放。
      */
     uniformScale?: boolean;
+    /**
+     * 是否以跨域方式加载图片。
+     *
+     * @since  2.16.48
+     *
+     * - `true`: （默认）以跨域方式加载图片。
+     * - `false`: 不以跨域方式加载图片。
+     */
+    crossOrigin?: boolean | string;
 };
 
 /**
@@ -3666,8 +3893,9 @@ export declare type WhiteWebSdkConfiguration = {
 export declare type ConstructRoomParams = {
     /**
      * 设置鼠标的光标适配器，详见 [《鼠标光标适配器》](https://developer.netless.link/javascript-zh/home/cursor-adapter)。
+     * 设置为 `false` 将不再显示内部预设光标 (激光笔、橡皮擦等)。
      */
-    cursorAdapter?: CursorAdapter;
+    cursorAdapter?: CursorAdapter | false;
     /**
      * 是否关闭自动适配尺寸功能。
      * - `true`：关闭自动适配尺寸功能。关闭后，如果视角的尺寸发生改变，必须主动调用 `refreshViewSize` 来保证适配。
@@ -3830,10 +4058,18 @@ export declare type ConstructRoomParams = {
  *    | Ctrl + V 或 Command + V | 粘贴                    |
  *
  *    如果你想关闭快捷键功能，可以将该属性的其值设为 `{}`。
+ * 
  * - **rejectWhenReadonlyErrorLevel?**: *RoomErrorLevel*
  *
  *    没有可写权限的用户进行写操作时，SDK 的应对方式。
  *
+ * - **optimizeOptions?**: **OptimizeOptions**
+ * 
+ *    @since  2.16.48
+ * 
+ *    白板绘制性能优化选项。详见 {@link OptimizeOptions OptimizeOptions}。
+ * 
+ *      
  */
 export declare type JoinRoomParams = ConstructRoomParams & {
     uuid: string;
@@ -3854,6 +4090,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
     floatBar?: boolean | Partial<FloatBarOptions>;
     hotKeys?: Partial<HotKeys>;
     rejectWhenReadonlyErrorLevel?: RoomErrorLevel;
+    optimizeOptions?: OptimizeOptions;
 };
 
 /**
@@ -3871,35 +4108,60 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  *     | `eu` | 欧洲（法兰克福） | 欧洲                           |
  *     | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
  *
- *   **Note**
- *   - 如果你不设置该属性，SDK 会使用 {@link WhiteWebSdkConfiguration} 中 `region` 的值。
- *   - 如果在初始化 `WhiteWebSdk` 对象和创建 `Player` 对象时都没有设置数据中心，SDK 会报错。
+ *      **Note**
+ *      - 如果你不设置该属性，SDK 会使用 {@link WhiteWebSdkConfiguration} 中 `region` 的值。
+ *      - 如果在初始化 `WhiteWebSdk` 对象和创建 `Player` 对象时都没有设置数据中心，SDK 会报错。
+ * 
  * - **slice?**: *string*
  *
  *   回放的录像片段的 UUID。你可以在房间录制的时候从 `room.slice` 获取。
  *
- * **Note**
- * - 该属性需要和 `room` 同时传入。
- * - 传入该属性表明只回放特定片段，因此禁止再传入 `beginTimestamp` 和 `duration`。
+ *      **Note**
+ *      - 该属性需要和 `room` 同时传入。
+ *      - 传入该属性表明只回放特定片段，因此禁止再传入 `beginTimestamp` 和 `duration`。
+ * 
  * - **room**: *string*
  *
  *    回放房间的 UUID，即房间的唯一标识符。成功创建房间后会返回该值。
  *    - 如果只传该属性，不传 `beginTimestamp` 和 `duration`，则表明回放该房间的所有录像片段。
  *    - 如果同时传入该属性和 `beginTimestamp` 和 `duration`，则表明回放该房间在对应时间范围内的所有录像片段。
+ * 
  * - **roomToken**: *string*
  *
  *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
+ * 
  * - **beginTimestamp?**: *number*
  *
  *   白板回放的起始时间（单位为毫秒的 Unix 时间戳）。
  *
  *   该属性必须和 `room`、`duration` 一起使用，而且使用时禁止传入 `slice`。
+ * 
  * - **duration?**: *number*
  *
  *   白板回放的时长（毫秒）。
  *
  *   该属性必须和 `room`、`beginTimestamp` 一起使用，而且使用时禁止传入 `slice`。
- */
+ * 
+ * - **crops?**: *Array*
+ *   
+ *   @since  2.16.48
+ *
+ *   回放录像裁剪区间，包含以下属性：
+ *      - `from`: number。裁剪区间起点时间戳。
+ *      - `to`: number。裁剪区间终点时间戳。
+ * 
+ * - **alignmentThreshold?**: *number*
+ * 
+ *   @since  2.16.48
+ *
+ *   回放时间轴对齐阈值, 超过此阈值会对齐回放播放器时间, 单位 ms, 默认值为 600 ms。 
+ * 
+ * - **alignmentInterval?**: *number*
+ * 
+ *   @since  2.16.48
+ *
+ *   回放时间轴对齐时长, 即在此段时间内，将回放时间通过倍速播放对齐到外部时间戳, 单位 ms, 默认值为 3000 ms。
+*/
 export declare type ReplayRoomParams = ConstructRoomParams & {
     region?: string;
     slice?: string;
@@ -3907,7 +4169,12 @@ export declare type ReplayRoomParams = ConstructRoomParams & {
     roomToken: string;
     beginTimestamp?: number;
     duration?: number;
-};
+    crops?: Array<{
+        from: number;
+        to: number;
+    }>;
+    alignmentThreshold?: number;
+    alignmentInterval?: number;};
 
 /**
  * 检查白板房间是否可以回放的参数配置。
