@@ -7,6 +7,50 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+## 2.16.51 版
+
+该版本于 2024 年 5 月 20 日发布。
+
+#### 新增特性
+
+**备选 API 域名**
+
+该版本新增了以下备选 API 域名，提升连通性：
+
+- `api.whiteboard.sd-rtn.com`
+- `api.baiban.shengwang.cn`
+- `api.whiteboard.rtelink.com`
+- `api.netless.link`
+- `api.whiteboard.agora.io`
+
+#### 优化
+
+**WebSocket 传输体验优化**
+
+该版本优化了 WebSocket 重连算法。新增 `onConnection` 事件，表示 WebSocket 已连接，正在下载快照。
+
+该版本还进行了以下优化：
+
+- 支持预检测网关主机。
+- 改进了图形有填充色时，判断光标是否命中图形的算法，优化了图形选取体验。
+- `screenshotToCanvasAsync` 方法新增 `timeout` 参数，用于设置图片加载超时时间。图片加载超过该时间后，SDK 会直接进行下一步绘制操作，而不会等待图片加载完成。
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性 ，用于实现按住 `command` + 滚轮缩放。
+
+#### 问题修复
+
+该版本修复了如下问题：
+
+- 连接 WebSocket 超过 2 秒时出现的控制台报错。
+- 修复浮动条“透明”色的样式。
+
+#### API 变更
+
+**新增**
+
+- `onConnection`
+- `screenshotToCanvasAsync` 新增 `timeout` 参数
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性
+
 <VersionSection version="2.16.49 版">
 
 该版本于 2024 年 4 月 2 日发布。

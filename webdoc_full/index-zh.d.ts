@@ -1795,8 +1795,10 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param height 屏幕快照的高度。
      * @param camera 视角的描述。详见 {@link Camera Camera}。
      * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
+     * @param timeout 超时时间，单位毫秒，默认为永远等待。超时后，不会等待图片加载完成，直接进行下一步绘制操作。
+     *                只能设为大于 `0` 的数，否则等于不设超时。
      */
-    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
+    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number, timeout?: number): Promise<void>;
 
      /**
      * 注册自定义事件监听。
@@ -2646,6 +2648,11 @@ export declare enum RoomErrorLevel {
 
 /**
  * `RoomCallbacks` 包含白板房间的事件回调。该类型继承 {@link DisplayerCallbacks} 并增加以下成员：
+ * 
+ * - **onConnection**: *(duration: number)=>void*
+ * 
+ *    房间连接成功回调，报告已经建立 WebSocket 连接，将要进入初始化阶段。
+ *    @param duration `duration` 建立连接的时间，单位是毫秒。
  *
  * - **onPhaseChanged**: *(phase: RoomPhase)=>void*
  *
@@ -2712,6 +2719,9 @@ export declare enum RoomErrorLevel {
  *    键盘松开事件回调。
  */
 export declare type RoomCallbacks = DisplayerCallbacks & {
+    
+    onConnection: (duration: number)=>void;
+
     onPhaseChanged: (phase: RoomPhase)=>void;
 
     onRoomStateChanged: (modifyState: Partial<RoomState>)=>void;
@@ -3933,6 +3943,20 @@ export declare type ConstructRoomParams = {
      * 该属性不影响自己的高亮框显示。
      */
     disableOthersSelectingBox?: boolean;
+    /**
+     * 是否允许按住 `command` 键并滑动鼠标滚轮来放大或缩小白板。
+     * 
+     * @since 2.16.51
+     *
+     * - `true`：允许按住 `command` 键并滚动来放大缩小白板。
+     * - `false`：(默认)不允许按住 `command` 键并滚动来放大缩小白板。
+     *
+     * @note
+     * - 该属性仅使用于 macOS 系统。
+     * - 该属性不影响 `control` 滚轮的放大缩小行为。
+     * 
+     */
+    commandWheelToZoom?: boolean;
 };
 
 /**
