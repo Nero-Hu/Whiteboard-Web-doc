@@ -15,7 +15,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 <ListTitle>备选 API 域名</ListTitle>
 
-为提升 API 调用的连通性，该版本新增了以下备选 API 域名，SDK 初始化时将自动选择：
+为保障 API 调用的连通性，该版本新增了以下备选 API 域名，SDK 初始化时将自动选择：
 
 - `api.whiteboard.sd-rtn.com`
 - `api.baiban.shengwang.cn`
@@ -36,7 +36,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 - 改进了图形存在填充色时，判断光标是否命中图形的算法，优化了图形选取体验。
 - `screenshotToCanvasAsync` 方法新增 `timeout` 参数，用于设置图片加载超时时间。图片加载超过该时间后，SDK 会直接进行下一步绘制操作，而不会等待图片加载完成。
-- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性 ，用于实现按住 `command` 键 + 滚动鼠标滚轮以缩放白板。
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性，用于 macOS 设备上实现按住 `command` 键 + 滚动鼠标滚轮缩放白板。
 - 优化了浮动条中“透明”填充色的按钮样式。
 
 <VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>

@@ -1795,8 +1795,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param height 屏幕快照的高度。
      * @param camera 视角的描述。详见 {@link Camera Camera}。
      * @param ratio 设备像素比。该参数为可选参数，如果不填，则默认值为 1。
-     * @param timeout 超时时间，单位毫秒，默认为永远等待。超时后，不会等待图片加载完成，直接进行下一步绘制操作。
-     *                只能设为大于 `0` 的数，否则等于不设超时。
+     * @param timeout 图片加载的超时时间 (ms)，默认为永不超时，只能设为大于 `0` 的数。图片的加载时间超过该值后，SDK 会直接进行下一步绘制操作，而不会等待图片加载完成。
      */
     screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number, timeout?: number): Promise<void>;
 
