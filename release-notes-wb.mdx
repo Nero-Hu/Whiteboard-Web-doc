@@ -15,7 +15,7 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 **备选 API 域名**
 
-该版本新增了以下备选 API 域名，提升连通性：
+为提升 API 调用的连通性，该版本新增了以下备选 API 域名，SDK 初始化时将自动选择：
 
 - `api.whiteboard.sd-rtn.com`
 - `api.baiban.shengwang.cn`
@@ -27,21 +27,21 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 **WebSocket 传输体验优化**
 
-该版本优化了 WebSocket 重连算法。新增 `onConnection` 事件，表示 WebSocket 已连接，正在下载快照。
+针对白板加入房间较慢的问题，该版本进行了以下优化：
+
+- 优化了 WebSocket 重连算法，提升了重连速度。
+- 新增 `onConnection` 事件，报告 WebSocket 已连接，正在下载当前方间的白板快照数据，恢复房间状态中。你可以通过该回调事件提示用户白板方间加载中。
 
 该版本还进行了以下优化：
 
-- 支持预检测网关主机。
-- 改进了图形有填充色时，判断光标是否命中图形的算法，优化了图形选取体验。
+- 改进了图形存在填充色时，判断光标是否命中图形的算法，优化了图形选取体验。
 - `screenshotToCanvasAsync` 方法新增 `timeout` 参数，用于设置图片加载超时时间。图片加载超过该时间后，SDK 会直接进行下一步绘制操作，而不会等待图片加载完成。
-- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性 ，用于实现按住 `command` + 滚轮缩放。
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性 ，用于实现按住 `command` 键 + 滚动鼠标滚轮以缩放白板。
+- 优化了浮动条中“透明”填充色的按钮样式。
 
 #### 问题修复
 
-该版本修复了如下问题：
-
-- 连接 WebSocket 超过 2 秒时出现的控制台报错。
-- 修复浮动条“透明”色的样式。
+该版本修复了连接 WebSocket 超过 2 秒时，控制台出现的报错：`AkkoSocket can't emit when phase is connecting`。
 
 #### API 变更
 
