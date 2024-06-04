@@ -1846,8 +1846,9 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param height The height of the snapshot.
      * @param camera The description of the view angle. See {@link Camera Camera}.
      * @param ratio The device pixel ratio. This parameter is optional. If you do not set this parameter, the default value is 1.
+     * @param timeout The timeout time (ms) for image loading. The default is never to timeout and can only be set to a number greater than `0`. If the image loading time exceeds this value, the SDK proceeds to the next drawing operation without waiting for the image to load complete.
      */
-    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number): Promise<void>;
+    screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number, timeout?: number): Promise<void>;
 
     /**
      * Adds a listener for a customized event.
@@ -2765,6 +2766,11 @@ export declare enum RoomErrorLevel {
 /**
  * `RoomCallbacks` contains callbacks for live Interactive Whiteboard rooms.
  *  This type inherits {@link DisplayerCallbacks} and adds the following members:
+ * 
+ * - **onConnection**: *(duration: number)=>void*
+ * 
+ *    Occurs when the room is connected, reporting that the WebSocket connection is established and ready to start initialization.
+ *    @param duration `duration` The time (ms) for establishing the connection to the room. 
  *
  * - **onPhaseChanged**: *(phase: RoomPhase)=>void*
  *
@@ -2774,8 +2780,7 @@ export declare enum RoomErrorLevel {
  *
  *    Occurs when the room state changes.
  *
- *    This callback reports only the room state fields that have changed and
- * returns `null` for the room state fields that have not changed.
+ *    This callback reports only the room state fields that have changed and returns `null` for the room state fields that have not changed.
  *    @param modifyState `modifyState` The room state that has changed. See {@link RoomState}.
  *
  * - **onDisconnectWithError**: *(error: Error)=>void*
@@ -2835,6 +2840,9 @@ export declare enum RoomErrorLevel {
  *    Occurs when a key is released.
  */
 export declare type RoomCallbacks = DisplayerCallbacks & {
+    
+    onConnection: (duration: number)=>void;
+
     onPhaseChanged: (phase: RoomPhase)=>void;
 
     onRoomStateChanged: (modifyState: Partial<RoomState>)=>void;
@@ -4134,7 +4142,20 @@ export declare type ConstructRoomParams = {
      * This property does not affect the highlighted box of the local user.
      */
     disableOthersSelectingBox?: boolean;
-};
+    /**
+     * Whether to allow zooming the whiteboard by holding down the `command` key and scrolling the mouse wheel.
+     *
+     * @since 2.16.51
+     *
+     * - `true`: Allows zooming the whiteboard by holding down the `command` key and scrolling.
+     * - `false` (default): Disallows zooming the whiteboard by holding down the `command` key and scrolling.
+     *
+     * @note
+     * - This property is only available on macOS systems.
+     * - This property does not affect the zoom behavior of the `control` wheel.
+     *
+     */
+    commandWheelToZoom?: boolean;};
 
 /**
  * Configurations for a {@link Room} object, which are used to join a live
