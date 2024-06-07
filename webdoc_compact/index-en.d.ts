@@ -1846,7 +1846,7 @@ export declare interface Displayer<CALLBACKS extends DisplayerCallbacks = Displa
      * @param height The height of the snapshot.
      * @param camera The description of the view angle. See {@link Camera Camera}.
      * @param ratio The device pixel ratio. This parameter is optional. If you do not set this parameter, the default value is 1.
-     * @param timeout The timeout time (ms) for image loading. The default is never to timeout and can only be set to a number greater than `0`. If the image loading time exceeds this value, the SDK proceeds to the next drawing operation without waiting for the image to load complete.
+     * @param timeout The timeout time (ms) for image loading. The default is never to time out and can only be set to a number greater than `0`. If the image loading time exceeds this value, the SDK proceeds to the next drawing operation without waiting for the image to complete loading.
      */
     screenshotToCanvasAsync(context: CanvasRenderingContext2D, scenePath: string, width: number, height: number, camera: Camera, ratio?: number, timeout?: number): Promise<void>;
 
