@@ -339,27 +339,27 @@ export declare type UserFonts = {
     [font: string]: string;
 };
 
-/**
- * 预览 PPT 文件。
- *
- * 该方法会创建一个独立于白板的新页面，用于预览 PPT 文件。
- *
- * @since 2.13.2
- *
- * @param conversionResponse 轮询 PPT 转换进度的响应内容。详见 {@link ConversionResponse}。
- * @param container 空的 HTML 元素容器。
- * @param config 预览页面的配置。详见 {@link PreviewConfig}。
- * @param preload 是否提前请求下一页 PPT 的资源：
- * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
- * - false：不提前请求下一页 PPT 的资源。
- * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。
- * @param logger PPT 预览的日志。预留参数，暂不支持。
- * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
- * @param events 事件。
- *
- * @returns EventEmitter 对象。
- */
-export declare function previewPPT(conversionResponse: ConversionResponse, container: HTMLDivElement, config?: PreviewConfig, preload?: boolean, userFonts?: UserFonts, logger?: Logger, pptPrams?: PptParams, events?: EventEmitter): EventEmitter;
+// /**
+//  * 预览 PPT 文件。
+//  *
+//  * 该方法会创建一个独立于白板的新页面，用于预览 PPT 文件。
+//  *
+//  * @since 2.13.2
+//  *
+//  * @param conversionResponse 轮询 PPT 转换进度的响应内容。详见 {@link ConversionResponse}。
+//  * @param container 空的 HTML 元素容器。
+//  * @param config 预览页面的配置。详见 {@link PreviewConfig}。
+//  * @param preload 是否提前请求下一页 PPT 的资源：
+//  * - true：提前请求下一页 PPT 的资源。如果提前请求，响应内容会通过浏览器的缓存进行存储。
+//  * - false：不提前请求下一页 PPT 的资源。
+//  * @param userFonts 用户传入的自定义字体。详见 {@link UserFonts}。
+//  * @param logger PPT 预览的日志。预留参数，暂不支持。
+//  * @param pptPrams PPT 预览的其他参数。详见 {@link PptParams}。
+//  * @param events 事件。
+//  *
+//  * @returns EventEmitter 对象。
+//  */
+// export declare function previewPPT(conversionResponse: ConversionResponse, container: HTMLDivElement, config?: PreviewConfig, preload?: boolean, userFonts?: UserFonts, logger?: Logger, pptPrams?: PptParams, events?: EventEmitter): EventEmitter;
 
 /**
  * 光标。
@@ -4450,41 +4450,41 @@ export declare enum Scope {
 }
 
 
-/**
- * 调用[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
- */
-export declare type ConversionResponse = {
-    /**
-     * 转换任务的 UUID，即转换任务的唯一识别符。
-     */
-    uuid: string;
-    /**
-    * 转换任务的类型。
-    */
-    type: ConversionType;
-    /**
-    * 转换任务的状态。
-    */
-    status: Status;
-    /**
-    * 转换失败的原因。
-    */
-    failedReason?: string;
-    /**
-    * 转换任务的进度详情。
-    */
-    progress: Progress;
-};
+// /**
+//  * 调用[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
+//  */
+// export declare type ConversionResponse = {
+//     /**
+//      * 转换任务的 UUID，即转换任务的唯一识别符。
+//      */
+//     uuid: string;
+//     /**
+//     * 转换任务的类型。
+//     */
+//     type: ConversionType;
+//     /**
+//     * 转换任务的状态。
+//     */
+//     status: Status;
+//     /**
+//     * 转换失败的原因。
+//     */
+//     failedReason?: string;
+//     /**
+//     * 转换任务的进度详情。
+//     */
+//     progress: Progress;
+// };
 
-/**
- * PPT 预览页面的配置。
- */
- export declare type PreviewConfig = {
-    /**
-     * 给预览页面的菜单栏添加界面文字。详见 {@link International}。
-     */
-    international?: International;
- };
+// /**
+//  * PPT 预览页面的配置。
+//  */
+//  export declare type PreviewConfig = {
+//     /**
+//      * 给预览页面的菜单栏添加界面文字。详见 {@link International}。
+//      */
+//     international?: International;
+//  };
 
 /**
  * @ignore
@@ -4499,32 +4499,32 @@ export declare type Logger<C = {
     withContext: <T extends Object>(context: Partial<C> & T)=>Logger<C & T>;
 };
 
-/**
- * 动态 PPT 文件的参数设置。
- */
- export declare type PptParams = {
-    /** @ignore */
-    scheme?: string;
-    /**
-     * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
-     */
-    rtcClient?: RTCClient;
-    /**
-     * 是否开启服务端排版功能。
-     *
-     * @since 2.12.0
-     *
-     * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
-     *
-     * **Note**
-     *
-     * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
-     *
-     * - `true`：（默认）开启。
-     * - `false`：关闭。
-     */
-    useServerWrap?: boolean;
-};
+// /**
+//  * 动态 PPT 文件的参数设置。
+//  */
+//  export declare type PptParams = {
+//     /** @ignore */
+//     scheme?: string;
+//     /**
+//      * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
+//      */
+//     rtcClient?: RTCClient;
+//     /**
+//      * 是否开启服务端排版功能。
+//      *
+//      * @since 2.12.0
+//      *
+//      * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
+//      *
+//      * **Note**
+//      *
+//      * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
+//      *
+//      * - `true`：（默认）开启。
+//      * - `false`：关闭。
+//      */
+//     useServerWrap?: boolean;
+// };
 
 /**
  * 自定义用户信息。
@@ -5106,11 +5106,11 @@ export declare type ConvertedFile = {
     width: number;
 };
 
-/**
- * @ignore
- */
- export declare type EventEmitter = {
-};
+// /**
+//  * @ignore
+//  */
+//  export declare type EventEmitter = {
+// };
 
 /** 文档转换任务当前的步骤。 */
 export declare enum CurrentStep {
