@@ -1140,248 +1140,248 @@ export declare type HotKeyEvent = {
  */
 export declare type HotKeyChecker = (event: HotKeyEvent, kind: KeyboardKind)=>boolean;
 
-/**
- * 创建 `PPTTask` 对象。
- *
- * 在 app 服务端发起文档转换任务后，app 客户端可以调用该方法，并传入从 app 服务端获取的 Task Token 和 Task UUD，创建 `PPTTask` 对象。你可以从 `PPTTask` 对象的回调中获取转换任务的进度和转换结果。
- *
- * @param params `PPTTask` 对象的参数。
- * @returns 创建的 `PPTTask` 对象。
- */
-export declare function createPPTTask(params: PPTTaskParams): PPTTask;
+// /**
+//  * 创建 `PPTTask` 对象。
+//  *
+//  * 在 app 服务端发起文档转换任务后，app 客户端可以调用该方法，并传入从 app 服务端获取的 Task Token 和 Task UUD，创建 `PPTTask` 对象。你可以从 `PPTTask` 对象的回调中获取转换任务的进度和转换结果。
+//  *
+//  * @param params `PPTTask` 对象的参数。
+//  * @returns 创建的 `PPTTask` 对象。
+//  */
+// export declare function createPPTTask(params: PPTTaskParams): PPTTask;
 
-/**
- * 文档转换生成的图片或动态 PPT 页的描述。
- */
-export declare type PPT = {
-    /**
-     * 文档转换任务的 UUID，即转换任务的唯一识别符。
-     */
-    uuid: string;
-    /**
-     * 文档转换任务的类型。
-     */
-    kind: PPTKind;
-    /**
-     * 图片或动态 PPT 页的宽。
-     */
-    width: number;
-    /**
-     * 图片或动态 PPT 页的高。
-     */
-    height: number;
-    /**
-     * 图片或动态 PPT 页的场景列表。
-     */
-    scenes: ReadonlyArray<SceneDefinition>;
-};
+// /**
+//  * 文档转换生成的图片或动态 PPT 页的描述。
+//  */
+// export declare type PPT = {
+//     /**
+//      * 文档转换任务的 UUID，即转换任务的唯一识别符。
+//      */
+//     uuid: string;
+//     /**
+//      * 文档转换任务的类型。
+//      */
+//     kind: PPTKind;
+//     /**
+//      * 图片或动态 PPT 页的宽。
+//      */
+//     width: number;
+//     /**
+//      * 图片或动态 PPT 页的高。
+//      */
+//     height: number;
+//     /**
+//      * 图片或动态 PPT 页的场景列表。
+//      */
+//     scenes: ReadonlyArray<SceneDefinition>;
+// };
 
-/**
- * `PPTTask` 接口，描述文档转换任务的属性。
- */
-export declare interface PPTTask {
-    /**
-     * 文档转换任务的 UUID，即转换任务的唯一识别符。
-     */
-    readonly uuid: string;
+// /**
+//  * `PPTTask` 接口，描述文档转换任务的属性。
+//  */
+// export declare interface PPTTask {
+//     /**
+//      * 文档转换任务的 UUID，即转换任务的唯一识别符。
+//      */
+//     readonly uuid: string;
 
-    /**
-     * 文档转换任务的类型。
-     */
-    readonly kind: PPTKind;
+//     /**
+//      * 文档转换任务的类型。
+//      */
+//     readonly kind: PPTKind;
 
-    /**
-     * 文档转换任务的回调。
-     */
-    readonly callbacks: Callbacks<PPTTaskCallbacks>;
+//     /**
+//      * 文档转换任务的回调。
+//      */
+//     readonly callbacks: Callbacks<PPTTaskCallbacks>;
 
-    /**
-     * 设置自动轮询，获取文档转换任务的实时状态。当转换任务状态为成功或失败时，自动轮询停止。
-     * @returns 如果方法调用成功，会返回转换生成的图片或动态 PPT 页的描述。
-     */
-    checkUtilGet(): Promise<PPT>;
+//     /**
+//      * 设置自动轮询，获取文档转换任务的实时状态。当转换任务状态为成功或失败时，自动轮询停止。
+//      * @returns 如果方法调用成功，会返回转换生成的图片或动态 PPT 页的描述。
+//      */
+//     checkUtilGet(): Promise<PPT>;
 
-}
+// }
 
-/**
- * 文档转换任务的类型。
- */
-export declare enum PPTKind {
-    /**
-     * 动态文档转换，即把 PPTX 文件转换为网页。
-     */
-    Dynamic = "dynamic",
-    /**
-     * 静态文档转换，即把 PPT、PPTX、Word、PDF 等格式的文件转换成静态图。
-     */
-    Static = "static",
-}
+// /**
+//  * 文档转换任务的类型。
+//  */
+// export declare enum PPTKind {
+//     /**
+//      * 动态文档转换，即把 PPTX 文件转换为网页。
+//      */
+//     Dynamic = "dynamic",
+//     /**
+//      * 静态文档转换，即把 PPT、PPTX、Word、PDF 等格式的文件转换成静态图。
+//      */
+//     Static = "static",
+// }
 
-/**
- * 文档转换任务的状态。
- */
-export declare enum PPTTaskStatus {
-    /**
-     * 等待转换。
-     */
-    Waiting = "Waiting",
-    /**
-     * 正在转换。
-     */
-    Converting = "Converting",
-}
+// /**
+//  * 文档转换任务的状态。
+//  */
+// export declare enum PPTTaskStatus {
+//     /**
+//      * 等待转换。
+//      */
+//     Waiting = "Waiting",
+//     /**
+//      * 正在转换。
+//      */
+//     Converting = "Converting",
+// }
 
-/**
- * 文档转换任务当前的步骤。
- *
- * @since 2.10.3
- */
-export declare enum PPTTaskStep {
-    /**
-     * 提取资源。
-     */
-    Extracting = "Extracting",
-    /**
-     * 打包。
-     */
-    Packaging = "Packaging",
-    /**
-     * 生成预览图。
-     */
-    GeneratingPreview = "GeneratingPreview",
-    /**
-     * 媒体文件转换。
-     */
-    MediaTranscode = "MediaTranscode",
-}
+// /**
+//  * 文档转换任务当前的步骤。
+//  *
+//  * @since 2.10.3
+//  */
+// export declare enum PPTTaskStep {
+//     /**
+//      * 提取资源。
+//      */
+//     Extracting = "Extracting",
+//     /**
+//      * 打包。
+//      */
+//     Packaging = "Packaging",
+//     /**
+//      * 生成预览图。
+//      */
+//     GeneratingPreview = "GeneratingPreview",
+//     /**
+//      * 媒体文件转换。
+//      */
+//     MediaTranscode = "MediaTranscode",
+// }
 
-/**
- * 文档转换任务的进度详情。
- */
-export declare type PPTTaskProgress = {
-    /**
-     * 转换任务的状态。
-     */
-    status: PPTTaskStatus;
-    /**
-     * 转换任务当前的步骤。
-     *
-     * @since 2.10.3
-     */
-    currentStep?: PPTTaskStep;
-    /**
-     * 待转换的总页数。
-     */
-    totalPageSize: number;
-    /**
-     * 已转换的页数。
-     */
-    convertedPageSize: number;
-    /**
-     * 转换进度（百分比）。
-     */
-    convertedPercentage: number;
-};
+// /**
+//  * 文档转换任务的进度详情。
+//  */
+// export declare type PPTTaskProgress = {
+//     /**
+//      * 转换任务的状态。
+//      */
+//     status: PPTTaskStatus;
+//     /**
+//      * 转换任务当前的步骤。
+//      *
+//      * @since 2.10.3
+//      */
+//     currentStep?: PPTTaskStep;
+//     /**
+//      * 待转换的总页数。
+//      */
+//     totalPageSize: number;
+//     /**
+//      * 已转换的页数。
+//      */
+//     convertedPageSize: number;
+//     /**
+//      * 转换进度（百分比）。
+//      */
+//     convertedPercentage: number;
+// };
 
-/**
- * `PPTTask` 对象的参数。
- */
-export declare type PPTTaskParams = {
-    /**
-     * 转换任务的 UUID，即转换任务的唯一识别符。
-     */
-    uuid: string;
-    /**
-     * 处理该转换任务的数据中心。支持传入以下值：
-     *
-     * | `region` | 数据中心 | 服务区                         |
-     * | -------- | -------- | ------------------------------ |
-     * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
-     * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
-     * | `in-mum` | 印度孟买 | 印度                           |
-     * | `eu` | 欧洲（法兰克福） | 欧洲                           |
-     * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
-     */
-    region?: string;
-    /**
-     * 转换任务的类型。
-     */
-    kind: PPTKind;
-    /**
-     * 转换任务的 Task Token，用于文件转换任务的鉴权。
-     */
-    taskToken: string;
-    /**
-     * 轮询转换任务状态的时间间隔（毫秒）。
-     */
-    checkProgressInterval?: number;
-    /**
-     * 轮询的超时时间（毫秒）。
-     */
-    checkProgressTimeout?: number;
-    /**
-     * 转换任务的回调函数。
-     */
-    callbacks?: PPTTaskCallbacks;
-};
+// /**
+//  * `PPTTask` 对象的参数。
+//  */
+// export declare type PPTTaskParams = {
+//     /**
+//      * 转换任务的 UUID，即转换任务的唯一识别符。
+//      */
+//     uuid: string;
+//     /**
+//      * 处理该转换任务的数据中心。支持传入以下值：
+//      *
+//      * | `region` | 数据中心 | 服务区                         |
+//      * | -------- | -------- | ------------------------------ |
+//      * | `us-sv`  | 美国硅谷 | 北美洲、南美洲                 |
+//      * | `sg`     | 新加坡   | 新加坡、东亚、东南亚           |
+//      * | `in-mum` | 印度孟买 | 印度                           |
+//      * | `eu` | 欧洲（法兰克福） | 欧洲                           |
+//      * | `cn-hz`  | 中国杭州 | 其他数据中心服务区未覆盖的地区 |
+//      */
+//     region?: string;
+//     /**
+//      * 转换任务的类型。
+//      */
+//     kind: PPTKind;
+//     /**
+//      * 转换任务的 Task Token，用于文件转换任务的鉴权。
+//      */
+//     taskToken: string;
+//     /**
+//      * 轮询转换任务状态的时间间隔（毫秒）。
+//      */
+//     checkProgressInterval?: number;
+//     /**
+//      * 轮询的超时时间（毫秒）。
+//      */
+//     checkProgressTimeout?: number;
+//     /**
+//      * 转换任务的回调函数。
+//      */
+//     callbacks?: PPTTaskCallbacks;
+// };
 
-/**
- * 文档转换任务的回调。
- */
-export declare type PPTTaskCallbacks = {
-    onProgressUpdated:
-    /**
-     * 转换进度更新回调。
-     * @param progress 进度详情。
-     */
-    (progress: PPTTaskProgress)=>void;
-    onTaskSuccess:
-    /**
-     * 转换任务成功回调。
-     * @param result 该转换任务生成的图片或动态 PPT。详见 {@link PPT}。
-     */
-    (result: PPT)=>void;
-    onTaskFail:
-    /**
-     * 转换任务失败回调。
-     * @param error 发生的错误。
-     */
-    (error: Error)=>void;
-};
+// /**
+//  * 文档转换任务的回调。
+//  */
+// export declare type PPTTaskCallbacks = {
+//     onProgressUpdated:
+//     /**
+//      * 转换进度更新回调。
+//      * @param progress 进度详情。
+//      */
+//     (progress: PPTTaskProgress)=>void;
+//     onTaskSuccess:
+//     /**
+//      * 转换任务成功回调。
+//      * @param result 该转换任务生成的图片或动态 PPT。详见 {@link PPT}。
+//      */
+//     (result: PPT)=>void;
+//     onTaskFail:
+//     /**
+//      * 转换任务失败回调。
+//      * @param error 发生的错误。
+//      */
+//     (error: Error)=>void;
+// };
 
-/**
- * @ignore
- * @deprecated
- */
-export declare interface LegacyPPTConverter {
-    convert(params: LegacyPPTConvertParams): Promise<LegacyPPT>;
+// /**
+//  * @ignore
+//  * @deprecated
+//  */
+// export declare interface LegacyPPTConverter {
+//     convert(params: LegacyPPTConvertParams): Promise<LegacyPPT>;
 
-}
+// }
 
-/**
- * @ignore
- * @deprecated
- */
-export declare type LegacyPPT = {
-    uuid: string;
-    kind: PPTKind;
-    width: number;
-    height: number;
-    slideURLs: ReadonlyArray<string>;
-    scenes: ReadonlyArray<SceneDefinition>;
-};
+// /**
+//  * @ignore
+//  * @deprecated
+//  */
+// export declare type LegacyPPT = {
+//     uuid: string;
+//     kind: PPTKind;
+//     width: number;
+//     height: number;
+//     slideURLs: ReadonlyArray<string>;
+//     scenes: ReadonlyArray<SceneDefinition>;
+// };
 
-/**
- * @ignore
- * @deprecated
- */
-export declare type LegacyPPTConvertParams = {
-    url: string;
-    kind: PPTKind;
-    onProgressUpdated?: (progress: number)=>void;
-    checkProgressInterval?: number;
-    checkProgressTimeout?: number;
-};
+// /**
+//  * @ignore
+//  * @deprecated
+//  */
+// export declare type LegacyPPTConvertParams = {
+//     url: string;
+//     kind: PPTKind;
+//     onProgressUpdated?: (progress: number)=>void;
+//     checkProgressInterval?: number;
+//     checkProgressTimeout?: number;
+// };
 
 /**
  * 按指定的比例缩放视角边界。
@@ -3504,7 +3504,7 @@ export declare type PptDescription = {
      */
     height: number;
     /**
-     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[文档转换任务的查询结果](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)中的 `previews` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
+     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)中的 `previews` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
      */
     previewURL?: string;
 };
@@ -3723,7 +3723,7 @@ export declare type WhiteWebSdkConfiguration = {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     region?: string;
     /**
@@ -4265,7 +4265,7 @@ export declare class WhiteWebSdk {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     readonly region: string;
 
@@ -4357,11 +4357,11 @@ export declare class WhiteWebSdk {
      */
     replayRoom(params: ReplayRoomParams, callbacks?: Partial<PlayerCallbacks>): Promise<Player>;
 
-    /**
-     * @ignore
-     * @deprecated 已废弃。
-     */
-    pptConverter(roomToken: string): LegacyPPTConverter;
+    // /**
+    //  * @ignore
+    //  * @deprecated 已废弃。
+    //  */
+    // pptConverter(roomToken: string): LegacyPPTConverter;
 
 
     private static netState: any;
@@ -4451,7 +4451,7 @@ export declare enum Scope {
 
 
 /**
- * 调用[查询转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
+ * 调用[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
  */
 export declare type ConversionResponse = {
     /**
