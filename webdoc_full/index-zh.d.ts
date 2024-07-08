@@ -3851,11 +3851,11 @@ export declare type WhiteWebSdkConfiguration = {
      * ```
      */
     wrappedComponents?: WrappedComponents;
-    /**
-     *
-     * 动态 PPT 专用参数。详见 {@link PptParams}。
-     */
-    pptParams?: PptParams;
+    // /**
+    //  *
+    //  * 动态 PPT 专用参数。详见 {@link PptParams}。
+    //  */
+    // pptParams?: PptParams;
     urlInterrupter?:
     /**
      * 将白板中图片等资源的 URL 拦截并替换。
@@ -4398,7 +4398,7 @@ export declare class WhiteWebSdk {
 
     private urlInterrupter: any;
 
-    private pptParams: any;
+    // private pptParams: any;
 
     private standardizeUserPayload: any;
 
@@ -4476,15 +4476,15 @@ export declare enum Scope {
 //     progress: Progress;
 // };
 
-// /**
-//  * PPT 预览页面的配置。
-//  */
-//  export declare type PreviewConfig = {
-//     /**
-//      * 给预览页面的菜单栏添加界面文字。详见 {@link International}。
-//      */
-//     international?: International;
-//  };
+/**
+ * PPT 预览页面的配置。
+ */
+ export declare type PreviewConfig = {
+    /**
+     * 给预览页面的菜单栏添加界面文字。详见 {@link International}。
+     */
+    international?: International;
+ };
 
 /**
  * @ignore
@@ -4499,32 +4499,32 @@ export declare type Logger<C = {
     withContext: <T extends Object>(context: Partial<C> & T)=>Logger<C & T>;
 };
 
-/**
- * 动态 PPT 文件的参数设置。
- */
- export declare type PptParams = {
-    /** @ignore */
-    scheme?: string;
-    /**
-     * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
-     */
-    rtcClient?: RTCClient;
-    /**
-     * 是否开启服务端排版功能。
-     *
-     * @since 2.12.0
-     *
-     * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
-     *
-     * **Note**
-     *
-     * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
-     *
-     * - `true`：（默认）开启。
-     * - `false`：关闭。
-     */
-    useServerWrap?: boolean;
-};
+// /**
+//  * 动态 PPT 文件的参数设置。
+//  */
+//  export declare type PptParams = {
+//     /** @ignore */
+//     scheme?: string;
+//     /**
+//      * Agora RTC SDK 的 `AgoraRTCClient` 类，详见 {@link RTCClient}。
+//      */
+//     rtcClient?: RTCClient;
+//     /**
+//      * 是否开启服务端排版功能。
+//      *
+//      * @since 2.12.0
+//      *
+//      * 自 2021 年 2 月 10 日起，对于将 PPTX 文件转换为 HTML 网页的动态转换任务，Agora 互动白板服务端支持对 PPTX 文件进行排版，以确保 PPTX 文件的文本在各个平台上的呈现保持一致。
+//      *
+//      * **Note**
+//      *
+//      * 自 2.12.18 版本起，`useServerWrap` 的默认值由关闭改为开启。
+//      *
+//      * - `true`：（默认）开启。
+//      * - `false`：关闭。
+//      */
+//     useServerWrap?: boolean;
+// };
 
 /**
  * 自定义用户信息。
@@ -5106,11 +5106,11 @@ export declare type ConvertedFile = {
     width: number;
 };
 
-// /**
-//  * @ignore
-//  */
-//  export declare type EventEmitter = {
-// };
+/**
+ * @ignore
+ */
+ export declare type EventEmitter = {
+};
 
 /** 文档转换任务当前的步骤。 */
 export declare enum CurrentStep {
