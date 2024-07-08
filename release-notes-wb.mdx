@@ -7,6 +7,52 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+<VersionSection version="2.16.51 版">
+
+该版本于 2024 年 5 月 21 日发布。
+
+<VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
+
+<ListTitle>备选 API 域名</ListTitle>
+
+为保障 API 调用的连通性，该版本新增了以下备选 API 域名，SDK 初始化时将自动选择：
+
+- `api.whiteboard.sd-rtn.com`
+- `api.baiban.shengwang.cn`
+- `api.whiteboard.rtelink.com`
+- `api.netless.link`
+- `api.whiteboard.agora.io`
+
+<VersionTitle icon="/img/icons/version-improve.png">优化</VersionTitle>
+
+<ListTitle>WebSocket 传输体验优化</ListTitle>
+
+针对白板加入房间较慢的问题，该版本进行了以下优化：
+
+- 优化了 WebSocket 重连算法，提升了重连速度。
+- 新增 `onConnection` 事件，报告 WebSocket 已连接，正在下载当前房间的白板快照数据，恢复房间状态中。你可以通过该回调事件提示用户白板房间加载中。
+
+该版本还进行了以下优化：
+
+- 改进了图形存在填充色时，判断光标是否命中图形的算法，优化了图形选取体验。
+- `screenshotToCanvasAsync` 方法新增 `timeout` 参数，用于设置图片加载超时时间。图片加载超过该时间后，SDK 会直接进行下一步绘制操作，而不会等待图片加载完成。
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性，用于 macOS 设备上实现按住 `command` 键 + 滚动鼠标滚轮缩放白板。
+- 优化了浮动条中“透明”填充色的按钮样式。
+
+<VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
+
+该版本修复了连接 WebSocket 超过 2 秒时，控制台出现的报错：`AkkoSocket can't emit when phase is connecting`。
+
+<VersionTitle icon="/img/icons/version-api.png">API 变更</VersionTitle>
+
+<ListTitle>新增</ListTitle>
+
+- `onConnection`
+- `screenshotToCanvasAsync` 新增 `timeout` 参数
+- `ConstructRoomParams` 新增 `commandWheelToZoom` 属性
+
+</VersionSection>
+
 <VersionSection version="2.16.49 版">
 
 该版本于 2024 年 4 月 2 日发布。
