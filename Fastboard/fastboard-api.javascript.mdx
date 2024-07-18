@@ -67,7 +67,7 @@ export function dispatchDocsEvent(
 
 向指定文档发送事件。
 
-该方法仅适用于使用 [`insertDocs`](#insertdocs1) 的三个重载方法插入的文档。
+该方法仅适用于使用 [`insertDocs`](#insertdocs1) 的两个重载方法插入的文档。
 
 **参数**
 
@@ -229,13 +229,13 @@ setTextColor(textColor: Color): void
 toggleDottedLine(force?: boolean)
 ```
 
-将铅笔工具切换为画虚线。
+切换铅笔工具的画线样式。
 
-不传入 `force` 直接调用该方法时，铅笔工具将在画实线和画虚线之间切换。
+不传入 `force` 直接调用该方法时，铅笔工具将在画实线和画虚线之间切换。例如，如果当前铅笔工具为画实线，调用 `toggleDottedLine()` 将切换铅笔工具为画虚线；当前为画虚线，调用 `toggleDottedLine()` 将切换为画实线。
 
 **参数**
 
-- `force`：Boolean。（可选）是否切换为虚线：
+- `force`：Boolean。（可选）切换绘制线条的样式：
   - `true`：切换为画虚线。
   - `false`：切换为画实线。
 
@@ -249,7 +249,7 @@ setPencilEraserSize(size: number)
 **参数**
 
 - `size`：Number。铅笔橡皮的尺寸，支持传入以下值：
-  - `1`：小号。
+  - `1`：（默认）小号。
   - `2`：中号。
   - `3`：大号。
 
@@ -274,11 +274,11 @@ async insertImage(url: string, crossOrigin?: boolean | string)
 
 插入图片。
 
-该方法可以将指定的网络图片插入并展示到当前白板页面上。
+该方法可以将指定的网络图片插入并展示到当前白板页面上，插入的图片默认置于当前视图的中心。
 
 **参数**
 
-- `url`：String。图片的 URL 地址。请确保 app 客户端能够访问该 URL，否则图片无法正常展示。
+- `url`：String。图片的 URL 地址。请确保 App 客户端能够访问该 URL，否则图片无法正常展示。
 - `crossOrigin`: Boolean。是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) ：
   - `true`：（默认）启用 CORS。
   - `false`：禁用 CORS。
@@ -300,26 +300,7 @@ insertMedia(title: string, src: string): Promise<string | undefined>
 
 方法调用成功时，返回插入音视频的标识符。
 
-<H3 className="anchor index-api-insertdocs" id="insertdocs1">insertDocs [1/3]</H3>
-
-```typescript
-insertDocs(title: string, status: ConversionResponse): Promise<string | undefined>;
-```
-
-在白板子窗口中插入并展示文档。该方法适用于[旧版文档转换服务](/doc/whiteboard/javascript/fastboard-sdk/advanced-features/convert-files-old)。
-
-成功发起文档转换任务并调用[查询文档转换任务进度（旧版）](https://docportal.shengwang.cn/cn/whiteboard/whiteboard_file_conversion_old?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)获取文档转换结果后，可以调用该方法并传入获取的文档转换结果，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
-
-**参数**
-
-- `title`：子窗口标题。
-- `response`：[查询文档转换任务进度（旧版）](https://docportal.shengwang.cn/cn/whiteboard/whiteboard_file_conversion_old?platform=RESTful#%E6%9F%A5%E8%AF%A2%E8%BD%AC%E6%8D%A2%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%9B%E5%BA%A6%EF%BC%88get%EF%BC%89)请求成功时返回的响应包体。
-
-**返回**
-
-方法调用成功时，返回插入文档的标识符。
-
-<H3 className="anchor index-api-insertdocs" id="insertdocs2">insertDocs [2/3]</H3>
+<H3 className="anchor index-api-insertdocs" id="insertdocs1">insertDocs [1/2]</H3>
 
 ```typescript
 insertDocs(title: string, response: ProjectorResponse): Promise<string | undefined>;
@@ -328,18 +309,18 @@ insertDocs(title: string, response: ProjectorResponse): Promise<string | undefin
 
 在白板子窗口中插入并展示文档。该方法适用于[新版文档转换服务](/doc/whiteboard/javascript/fastboard-sdk/advanced-features/convert-files)。
 
-成功发起文档转换任务并调用[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)获取文档转换结果后，可以调用该方法并传入获取的文档转换结果，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
+成功发起文档转换任务并调用[查询文档转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)获取文档转换结果后，可以调用该方法并传入获取的文档转换结果，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
 
 **参数**
 
 - `title`：子窗口标题。
-- `response`：[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)请求成功时返回的响应包体。
+- `response`：[查询文档转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)请求成功时返回的响应包体。
 
 **返回**
 
 方法调用成功时，返回插入文档的标识符。
 
-<H3 className="anchor index-api-insertdocs" id="insertdocs3">insertDocs [3/3]</H3>
+<H3 className="anchor index-api-insertdocs" id="insertdocs2">insertDocs [2/2]</H3>
 
 ```typescript
 insertDocs(params: InsertDocsParams): Promise<string | undefined>;
@@ -347,11 +328,11 @@ insertDocs(params: InsertDocsParams): Promise<string | undefined>;
 
 在白板子窗口中插入并展示文档。
 
-成功[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)后， 可以调用该方法，传入转换后文档的相关参数，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
+成功[发起文档转换任务](/doc/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)后， 可以调用该方法，传入转换后文档的相关参数，SDK 会自动创建子窗口，插入并分页展示转换后的文档。
 
 
 <Admonition type="info" title="信息">
- 对比 `insertDocs [1/3]` 和 `insertDocs [2/3]`，`insertDocs [3/3]` 需要手动传入少量参数，而不是直接传入[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)的响应包体。
+ 对比 `insertDocs [1/2]`，`insertDocs [2/2]` 需要手动传入少量参数，而不是直接传入[查询文档转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)的响应包体。
 </Admonition>
 
 
@@ -422,7 +403,7 @@ GeoGebra 是基于 [GeoGebra](https://www.geogebra.org/) 开发的数学计算�
 
 <H3 className="anchor index-api-removepage" id="removepage">removePage</H3>
 
-```typescriptf
+```typescript
 removePage(index?): Promise<boolean>
 ```
 
@@ -668,7 +649,7 @@ hand = "hand"
 
 - `sdkConfig`: （必需）Object。`WhiteWebSdk` 实例的配置，必须传入以下参数：
   - `appIdentifier`：String。互动白板项目的 AppIdentifier。详见[获取互动白板项目的安全密钥](/doc/whiteboard/android/fastboard-sdk/get-started/enable-service#获取互动白板项目的安全密钥)。
-  - `region`：String。数据中心，必须与[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致。取值如下：
+  - `region`：String。数据中心，必须与[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致。取值如下：
     - `cn-hz`：中国杭州，服务区覆盖其他数据中心未覆盖的地区。
     - `us-sv`：美国硅谷，服务区覆盖北美洲、南美洲。
     - `sg`：新加坡，服务区覆盖新加坡、东亚、东南亚。
@@ -676,9 +657,9 @@ hand = "hand"
     - `eu`：欧洲（法兰克福），服务区覆盖欧洲。
 - `joinRoom`: Object。（必需）加入房间的参数设置，必须传入以下参数：
   - `uid`: String。用户的 UID，即用户的唯一标识符，字符串格式，不能超过 1024 字节。请确保同一房间内每个用户的 `uid` 唯一。
-  - `uuid`: String。房间的 UUID，即房间的唯一标识符。详见[创建房间](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-rooms)请求成功后响应包体中 `uuid` 参数的值。
+  - `uuid`: String。房间的 UUID，即房间的唯一标识符。详见[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)请求成功后响应包体中 `uuid` 参数的值。
   - `roomToken`: String 型。房间的 Room Token，用于加入房间时的用户鉴权。可以通过以下方式获取：
-    - 调用[生成 Room Token ](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-tokens-rooms-uuid)。
+    - 调用[生成 Room Token ](/doc/whiteboard/restful/restful-wb/operations/post-v5-tokens-rooms-uuid)。
     - 在 app 服务端用代码生成，详见[在 app 服务端生成 Token](/doc/whiteboard/javascript/fastboard-sdk/basic-features/generate-token#在-app-服务端生成-token)。
 - `managerConfig`: （可选）Object。[WindowManager](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount) 配置选项。
 - `netlessApps`：（可选）Object。官方内置或自定义的 Fastboard 插件，详见[注册和使用 Fastboard 插件](https://github.com/netless-io/fastboard/blob/main/README-zh.md#%E6%B3%A8%E5%86%8C%E4%B8%8E%E4%BD%BF%E7%94%A8-apps)。
@@ -759,8 +740,8 @@ export interface InsertDocsDynamic {
 `InsertDocsDynamic` 接口包含以下属性：
 
 - `fileType`: String。文档类型，取值为 `"pptx"`，表示动态文档。
-- `scenePath`: String。白板场景路径，建议填 `"/pptx/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
-- `taskId`: String。文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
+- `scenePath`: String。白板场景路径，建议填 `"/pptx/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/doc/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
+- `taskId`: String。文档转换任务的 UUID，即[发起文档转换任务](/doc/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
 - `title`: （可选）String。窗口标题
 - `url`: String。转换后文档的存储路径，例如，`"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert“`。
 
@@ -780,13 +761,13 @@ export interface InsertDocsStatic {
 `InsertDocsStatic` 接口包含以下属性：
 
 - `fileType`：String。文档类型，取值为 `"pdf"`，表示静态文档。
-- `scenePath`: String。白板场景路径，建议填 `"/pdf/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/api-ref/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks)请求成功时响应包体中 `uuid` 参数的值。
+- `scenePath`: String。白板场景路径，建议填 `"/pdf/uuid"`，其中 `uuid` 为文档转换任务的 UUID，即[发起文档转换任务](/doc/whiteboard/restful/restful-wb/operations/post-v5-projector-tasks) 请求成功时响应包体中 `uuid` 参数的值。
 - `scenes`: SceneDefinition[]。白板场景内容，即待展示的文档。由多个 object 组成，每个 object 表示一页文件，必须包含如下参数：
   - `name`：String。场景名字。
   - `ppt`：PptDescription。PPT 描述，包含以下属性：
     - `width`：Number。文件的宽度，单位为像素。
     - `height`：Number。文件的高度，单位为像素。
-    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/api-ref/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)返回的响应包体中 `images` 字段下 `url` 的值。
+    - `src`：String。该页文件的 URL 地址，即[查询文档转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid) 返回的响应包体中 `images` 字段下 `url` 的值。
 - `title`: （可选）String。窗口标题。
 
 
