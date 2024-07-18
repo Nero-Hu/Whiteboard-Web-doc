@@ -645,6 +645,19 @@ hand = "hand"
 
 <H3 className="anchor index-api-fastboardoptions" id="fastboardoptions">FastboardOptions</H3> 
 
+```typescript
+export interface FastboardOptions {
+  sdkConfig: Omit<WhiteWebSdkConfiguration, "useMobXState"> & {
+    region: NonNullable<WhiteWebSdkConfiguration["region"]>;
+  };
+  joinRoom: Omit<JoinRoomParams, "useMultiViews" | "disableNewPencil" | "disableMagixEventDispatchLimit"> & {
+    callbacks?: Partial<Omit<RoomCallbacks, "onCanRedoStepsUpdate" | "onCanUndoStepsUpdate">>;
+  };
+  managerConfig?: Omit<MountParams, "room">;
+  netlessApps?: NetlessApp[];
+}
+```
+
 `FastboardOptions` 接口包含以下属性：
 
 - `sdkConfig`: （必需）Object。`WhiteWebSdk` 实例的配置，必须传入以下参数：
@@ -661,6 +674,7 @@ hand = "hand"
   - `roomToken`: String 型。房间的 Room Token，用于加入房间时的用户鉴权。可以通过以下方式获取：
     - 调用[生成 Room Token ](/doc/whiteboard/restful/restful-wb/operations/post-v5-tokens-rooms-uuid)。
     - 在 app 服务端用代码生成，详见[在 app 服务端生成 Token](/doc/whiteboard/javascript/fastboard-sdk/basic-features/generate-token#在-app-服务端生成-token)。
+  - `callbacks`：（可选）白板房间的事件回调，详见 [`RoomCallbacks`](/api-ref/whiteboard/javascript/globals#roomcallbacks)。
 - `managerConfig`: （可选）Object。[WindowManager](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount) 配置选项。
 - `netlessApps`：（可选）Object。官方内置或自定义的 Fastboard 插件，详见[注册和使用 Fastboard 插件](https://github.com/netless-io/fastboard/blob/main/README-zh.md#%E6%B3%A8%E5%86%8C%E4%B8%8E%E4%BD%BF%E7%94%A8-apps)。
 
