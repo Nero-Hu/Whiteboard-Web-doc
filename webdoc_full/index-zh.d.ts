@@ -2656,7 +2656,7 @@ export declare enum RoomErrorLevel {
  * - **onPhaseChanged**: *(phase: RoomPhase)=>void*
  *
  *    房间连接状态发生变化的回调。
- *    @param phase `phase` 房间的连接状态，详见 {@link RoomPhase}。
+ *    @param phase `phase` 房间的连接状态，详见 {@link RoomPhase}。你可以阅读[管理房间连接状态](/doc/whiteboard/javascript/whiteboard-sdk/basic-features/manage-room-phase)了解更多信息。
  * - **onRoomStateChanged**: *(modifyState: Partial<RoomState>)=>void*
  *
  *    房间状态属性发生变化回调。
