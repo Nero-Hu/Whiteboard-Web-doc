@@ -3504,7 +3504,7 @@ export declare type PptDescription = {
      */
     height: number;
     /**
-     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)中的 `previews` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
+     * 图片或动态 PPT 预览图的 URL 地址。动态 PPT 预览图的 URL 地址可以从[查询转换任务进度](/doc/whiteboard/restful/whiteboard-sdk/restful-wb/operations/get-v5-projector-tasks-uuid)中的 `previews` 字段获取，例如，"https://docs-test-xxx.oss-cn-hangzhou.aliyuncs.com/dynamicConvert/2fdxxxxx67e/preview/1.png"。
      */
     previewURL?: string;
 };
@@ -3723,7 +3723,7 @@ export declare type WhiteWebSdkConfiguration = {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/whiteboard-sdk/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     region?: string;
     /**
@@ -4265,7 +4265,7 @@ export declare class WhiteWebSdk {
      *
      * **Note**
      *
-     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
+     * 该方法设置的数据中心必须与[创建房间](/doc/whiteboard/restful/whiteboard-sdk/restful-wb/operations/post-v5-rooms)时设置的数据中心一致；否则，SDK 将无法连接到房间。
      */
     readonly region: string;
 
@@ -4451,7 +4451,7 @@ export declare enum Scope {
 
 
 // /**
-//  * 调用[查询转换任务进度](/doc/whiteboard/restful/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
+//  * 调用[查询转换任务进度](/doc/whiteboard/restful/whiteboard-sdk/restful-wb/operations/get-v5-projector-tasks-uuid)接口时，服务端返回的 HTTP 响应内容。
 //  */
 // export declare type ConversionResponse = {
 //     /**
