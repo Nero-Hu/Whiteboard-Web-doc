@@ -3986,7 +3986,7 @@ export declare type ConstructRoomParams = {
  *   - 该属性与 {@link WhiteWebSdkConfiguration} 中的 `region` 作用相同，二者只需要设置其中一个。如果同时设置，该属性会覆盖 `WhiteWebSdkConfiguration` 中的 `region`。
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/whiteboard-sdk/overview/concepts#token)。
  * - **userPayload?**: *{[key: string]: any;}*
  *
  *   自定义用户信息。该属性可以是任意类型的数据结构。
@@ -4151,7 +4151,7 @@ export declare type JoinRoomParams = ConstructRoomParams & {
  * 
  * - **roomToken**: *string*
  *
- *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
+ *   房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/whiteboard-sdk/overview/concepts#token)。
  * 
  * - **beginTimestamp?**: *number*
  *
@@ -4223,7 +4223,7 @@ export declare type PlayableCheckingParams = {
      */
     room: string;
     /**
-     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/overview/concepts#token)。
+     * 房间的 Room Token，用于加入房间时的用户鉴权。详见[互动白板 Token 概述](/doc/whiteboard/javascript/whiteboard-sdk/overview/concepts#token)。
      */
     roomToken: string;
     /**
