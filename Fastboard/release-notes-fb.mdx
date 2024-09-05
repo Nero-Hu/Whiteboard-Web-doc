@@ -7,8 +7,6 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网 Fastboard SDK for Web 的发版说明。
 
-声网 Fastboard SDK 是为帮助开发人员快速构建白板应用推出的新一代白板 SDK。Fastboard SDK 基于互动白板 SDK （`white-web-sdk`）开发，对复杂的 API 进行封装，简化了接口调用逻辑，并提供核心功能的实现和默认 UI；此外，Fastboard SDK 还集成窗口管理器（[Window Manager](https://github.com/netless-io/window-manager)）和插件中心（[Netless App](https://github.com/netless-io/netless-app)），方便开发者快速添加插件，轻松扩展白板应用的功能。使用 Fastboard SDK，你无需深入学习互动白板复杂的概念，只需几行代码即可加入白板房间，并立即使用丰富的工具体验实时互动协作。
-
 <VersionSection version="0.3.10 版">
 
 该版本于 2024 年 2 月 4 日发布。
@@ -19,15 +17,16 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 该版本为以下白板教具添加了新特性：
 
-- 铅笔工具：新增 [`toggleDottedLine`](/api-ref/whiteboard/javascript/fastboard-api#toggledottedline) 方法，用于切换铅笔工具的画线样式。
-- 铅笔橡皮工具：新增 [`setPencilEraserSize`](/api-ref/whiteboard/javascript/fastboard-api#setpencilerasersize) 方法，用于修改铅笔橡皮的大小。
+- 铅笔工具：新增 [`toggleDottedLine`](/api-ref/fastboard/javascript/fastboard-api#toggledottedline) 方法，用于切换铅笔工具的画线样式。
+- 铅笔橡皮工具：新增 [`setPencilEraserSize`](/api-ref/fastboard/javascript/fastboard-api#setpencilerasersize) 方法，用于修改铅笔橡皮的大小。
+
 
 <VersionTitle icon="/img/icons/version-improve.png">改进</VersionTitle>
 
 该版本进行了如下改进：
 
-- [`insertImage`](/api-ref/whiteboard/javascript/fastboard-api#insertimage) 方法新增参数 `crossOrigin`，用于设置是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) 。
-- 新增 [`jumpPage`](/api-ref/whiteboard/javascript/fastboard-api#jumppage) 方法，用于跳转至指定白板页。相比之前修改 `FastboardApp` 的 `sceneIndex` 属性的方式更加便捷。
+- [`insertImage`](/api-ref/fastboard/javascript/fastboard-api#insertimage) 方法新增参数 `crossOrigin`，用于设置是否对插入的图片启用跨域资源共享 (CORS, Cross-Origin Resource Sharing) 。
+- 新增 [`jumpPage`](/api-ref/fastboard/javascript/fastboard-api#jumppage) 方法，用于跳转至指定白板页。相比之前修改 `FastboardApp` 的 `sceneIndex` 属性的方式更加便捷。
 
 <VersionTitle icon="/img/icons/version-bugfix.png">问题修复</VersionTitle>
 
@@ -48,12 +47,11 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 该版本于 2023 年 8 月 17 日发布。
 
-
 <VersionTitle icon="/img/icons/version-feature.png">新增特性</VersionTitle>
 
 <ListTitle>快速插入文档</ListTitle>
 
-新增 `insertDocs [2/3]` 方法，用于快速插入[新版文档转换服务](./advanced-features/convert-files)转换后的 PDF/PPTX 文档。
+新增 `insertDocs [1/2]` 方法，用于快速插入[新版文档转换服务](./advanced-features/convert-files)转换后的 PDF/PPTX 文档。
 
 <ListTitle>操作 PDF/PPTX 文档</ListTitle>
 
@@ -67,9 +65,9 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 <ListTitle>新增</ListTitle>
 
-- [`insertDocs [2/3]`](/api-ref/whiteboard/javascript/fastboard-api#insertdocs2)
-- [`dispatchDocsEvent`](/api-ref/whiteboard/javascript/fastboard-api#dispatchdocsevent)
-- [`DocsEventOptions`](/api-ref/whiteboard/javascript/fastboard-api#docseventoptions)
+- [`insertDocs [1/2]`](/api-ref/fastboard/javascript/fastboard-api#insertdocs1)
+- [`dispatchDocsEvent`](/api-ref/fastboard/javascript/fastboard-api#dispatchdocsevent)
+- [`DocsEventOptions`](/api-ref/fastboard/javascript/fastboard-api#docseventoptions)
 
 </VersionSection>
 
