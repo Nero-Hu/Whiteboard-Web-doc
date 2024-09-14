@@ -7,6 +7,39 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网 Fastboard SDK for Web 的发版说明。
 
+<VersionSection version="0.3.16 版">
+
+该版本于 2024 年 9 月 x 日发布。
+
+#### 新增特性
+
+**获取房间是否可操作**
+
+新增 `canOperate` 方法，用于获取房间是否处于可操作状态，即获取当前房间是否处于互动模式 (`writable`) 且房间连接状态为已连接 (`connected`)。
+
+
+#### 改进
+
+该版本进行了如下改进：
+
+- 多窗口模式下，插入的小窗应用支持拖动窗口右上角以调整窗口大小。
+- 支持在调用 `destroy` 销毁状态后访问状态的值 (`state.value`)。
+- `insertDocs` 方法支持传入带 `prefix` 字段的静态转换的响应包体。
+
+#### 问题修复
+
+该版本修复了如下问题：
+
+- 使用 `insertDocs` 插入静态转换后的文档无法返回 `appId`。
+- 当 `FatboardUIConfig` 更新为 `{ toolbar: undefined }` 时出错。
+- 监听部分状态（例如 `camera.value`）时返回的不是最新值。
+- 房间连接状态 (`room.phase`) 为未连接时，部分组件失效。
+
+#### API 变更
+
+**新增**
+- `canOperate`
+
 <VersionSection version="0.3.10 版">
 
 该版本于 2024 年 2 月 4 日发布。

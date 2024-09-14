@@ -124,6 +124,19 @@ mount(app: FastboardApp, div: HTMLDivElement, options?: MountProps): {
 
 该类中的方法必须在成功调用 `createFastboard` 创建 `FastboardApp` 对象后调用。
 
+<H3 className="anchor index-api-canoperate" id="canoperate">canOperate</H3>
+
+```typescript
+get canOperate(): boolean {
+    return this.room.isWritable && this.room.phase === "connected";
+  }
+```
+
+获取房间是否可操作。
+
+即获取当前房间是否处于互动模式 (`writable`) 且房间连接状态为已连接 (`connected`)。
+
+
 <H3 className="anchor index-api-undo" id="undo">undo</H3>
 
 ```typescript
