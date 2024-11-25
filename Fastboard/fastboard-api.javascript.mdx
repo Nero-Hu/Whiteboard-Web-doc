@@ -668,6 +668,7 @@ export interface FastboardOptions {
   };
   managerConfig?: Omit<MountParams, "room">;
   netlessApps?: NetlessApp[];
+  enableAppliancePlugin?: AppliancePluginOptions;
 }
 ```
 
@@ -690,6 +691,7 @@ export interface FastboardOptions {
   - `callbacks`：（可选）白板房间的事件回调，详见 [`RoomCallbacks`](/api-ref/whiteboard/javascript/globals#roomcallbacks)。
 - `managerConfig`: （可选）Object。[WindowManager](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount) 配置选项。
 - `netlessApps`：（可选）Object。官方内置或自定义的 Fastboard 插件，详见[注册和使用 Fastboard 插件](https://github.com/netless-io/fastboard/blob/main/README-zh.md#%E6%B3%A8%E5%86%8C%E4%B8%8E%E4%BD%BF%E7%94%A8-apps)。
+- `enableAppliancePlugin`: （可选）启用 `appliance-plugin` 插件，详见 [`AppliancePluginOptions`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md)。
 
 
 <H3 className="anchor index-api-fastboardprops" id="fastboardprops">FastboardProps</H3>
@@ -760,6 +762,7 @@ export interface ToolbarConfig {
   items?: ToolbarItem[];
   collapsed?: boolean;
   apps?: { enable?: boolean };
+  colors?: Color[];
 }
 ```
 
@@ -782,6 +785,7 @@ export interface ToolbarConfig {
   - `enable`：（可选）是否在工具条上展示插件中心按钮：
     - `true`：（默认）展示。
     - `false`：不展示。
+- `colors`：（可选）Color[]。UI 组件的颜色，详见 [`Color`](#color)。
 
 <a name="docdynamic"></a>
 <H3 className="anchor index-api-insertdocsdynamic" id="insertdocsdynamic">InsertDocsDynamic</H3>

@@ -3,9 +3,64 @@ title: 发版说明
 ---
 
 import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/VersionSection.tsx'
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 
 本文提供声网 Fastboard SDK for Web 的发版说明。
+
+## 0.3.22 版
+
+该版本于 2024 年 11 月 xx 日发布。
+
+#### 新增特性
+
+**全打包方式引用**
+
+自该版本起，Fastboard SDK 新增全打包文件 `@netless/fastboard/full` 和 `@netless/fastboard-react/full`，用于解决内外依赖冲突问题。使用全打包方式引用时，无需再安装 `@netless/window-manager` 和 `white-web-sdk` 等依赖。
+
+<Admonition type="caution" title="注意">
+使用全打包方式引用时，你需要在项目中移除 `@netless/window-manager`、`white-web-sdk` 和 `jspdf` 依赖。
+</Admonition>
+
+<Tabs groupId="preq">
+  <TabItem value="javascript" label="JavaScript 中引用">
+```javascript
+// 全打包方式引用
+import { createFastboard, createUI } from "@netless/fastboard/full";
+
+// 分包引用
+import { createFastboard, createUI } from "@netless/fastboard";
+```
+  </TabItem>
+  <TabItem value="react" label="React 中引用">
+```jsx
+// 全打包方式引用
+import { useFastboard, Fastboard } from "@netless/fastboard-react/full";
+// 分包引用
+import { useFastboard, Fastboard } from "@netless/fastboard-react";
+```
+  </TabItem>
+</Tabs>
+
+更多全打包方式和分包方式引用的信息，详见 [Fastboard 安装与使用](https://github.com/netless-io/fastboard/blob/main/README-zh.md#install)。
+
+**高性能白板绘制工具**
+
+该版本新增 `appliance-plugin` 插件，实现了一套高性能的白板绘制工具，且支持在多窗口模式下使用。安装 `@netless/appliance-plugin` 后，你可以通过 `FastboardOptions.enableAppliancePlugin` 或 `managerConfig.supportAppliancePlugin` 配置项启用该插件。详见[`appliance-plugin`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md)。
+
+#### 改进
+
+**自定义 UI 组件颜色**
+
+`ToolbarConfig` 接口新增 `colors` 属性，用于设置 UI 组件的颜色。
+
+#### API 变更
+
+**新增**
+
+- `FastboardOptions.enableAppliancePlugin`
+- `ToolbarConfig.colors`
 
 <VersionSection version="0.3.16 版">
 
