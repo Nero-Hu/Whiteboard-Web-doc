@@ -49,11 +49,15 @@ import { useFastboard, Fastboard } from "@netless/fastboard-react";
 
 该版本新增 `appliance-plugin` 插件，实现了一套高性能的白板绘制工具，且支持在多窗口模式下使用。安装 `@netless/appliance-plugin` 后，你可以通过 `FastboardOptions.enableAppliancePlugin` 或 `managerConfig.supportAppliancePlugin` 配置项启用该插件。详见[`appliance-plugin`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md)。
 
+<Admonition type="caution" title="注意">
+`@netless/appliance-plugin` 为必需外部依赖，不包含在全打包文件中，需要单独安装。
+</Admonition>
+
 #### 改进
 
 **自定义 UI 组件颜色**
 
-`ToolbarConfig` 接口新增 `colors` 属性，用于设置 UI 组件的颜色。
+`ToolbarConfig` 接口新增 `colors` 属性，用于设置 UI 组件的颜色。自该版本起，默认情况下，工具条 (toolbar) 和悬浮条 (floatbar) 的颜色保持一致，应用统一的颜色集合。你也可以通过 [`joinRoomParams.floatbarOptions.colors`](/api-ref/whiteboard/javascript/globals#floatbaroptions) 或 [`ToolbarConfig.colors`](/api-ref/fastboard/javascript/fastboard-api#toolbarconfig) 分别设置两者的颜色集合。
 
 #### API 变更
 
