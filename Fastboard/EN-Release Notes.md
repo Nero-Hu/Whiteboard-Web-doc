@@ -3,9 +3,7 @@
 
 The <Vg k="FAST_SDK" /> is the latest generation of the whiteboard SDK launched by Agora to help developers quickly build whiteboard applications. It simplifies the APIs of the <Vg k="WHITE_SDK" /> and implements the core functionality with a default user interface (UI). In addition, the <Vg k="FAST_SDK" /> integrates [window-manager](https://github.com/netless-io/window-manager) and extensions from [netless-app](https://github.com/netless-io/netless-app) to allow developers to easily add extensions and thus extend the functionality of their whiteboard applications. With the <Vg k="FAST_SDK" />, you do not need to learn the complex concepts of the interactive whiteboard; you can join a whiteboard room with a few lines of code and instantly use the rich editing tools to start real-time interactive collaboration.
 
-
-
-## v0.3.22
+## v1.0.0
 
 This version was released on November xx, 2024.
 
@@ -25,6 +23,8 @@ More information about full package and partial package reference, see [Fastboar
 
 This version adds the `appliance-plugin` plugin, which implements a high-performance whiteboard drawing tool and supports use in multi-window mode. After installing `@netless/appliance-plugin`, you can enable this plugin by using the `FastboardOptions.enableAppliancePlugin` or `managerConfig.supportAppliancePlugin` configuration item. See [`appliance-plugin`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md).
 
+In addition, when turning on appliance plugin, Fastboard UI adds a `laserPen` tool.
+
 <div class="alert note">
 `@netless/appliance-plugin` is a required external dependency and is not included in the full package. You need to install it separately.
 </div>
@@ -34,6 +34,10 @@ This version adds the `appliance-plugin` plugin, which implements a high-perform
 **Custom UI component color**
 
 The `ToolbarConfig` interface adds the `colors` property, which is used to set the color of the UI components. Starting from this version, the colors of the toolbar and floatbar are consistent by default, and the application uses a unified color set. You can also set the color set of the two by using [`joinRoomParams.floatbarOptions.colors`](/api-ref/whiteboard/javascript/globals#floatbaroptions) and [`ToolbarConfig.colors`](/api-ref/fastboard/javascript/fastboard-api#toolbarconfig).
+
+**Other improvements**
+
+- This version updates @netless/window-manager to v1.0.0.
 
 #### API Changes
 
