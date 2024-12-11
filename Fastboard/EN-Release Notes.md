@@ -17,13 +17,11 @@ Starting from this version, Fastboard SDK adds full package files `@netless/fast
 Using the full package reference, you need to remove the `@netless/window-manager`, `white-web-sdk`, and `jspdf` dependencies from your project.
 </div>
 
-More information about full package and partial package reference, see [Fastboard installation and use](https://github.com/netless-io/fastboard/blob/main/README-zh.md#install).
+More information about full package and partial package reference, see [Fastboard installation and use](https://github.com/netless-io/fastboard/blob/main/README.md#install).
 
 **High-performance whiteboard drawing tool**
 
-This version adds the `appliance-plugin` plugin, which implements a high-performance whiteboard drawing tool and supports use in multi-window mode. After installing `@netless/appliance-plugin`, you can enable this plugin by using the `FastboardOptions.enableAppliancePlugin` or `managerConfig.supportAppliancePlugin` configuration item. See [`appliance-plugin`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md).
-
-In addition, when turning on appliance plugin, Fastboard UI adds a `laserPen` tool.
+This version adds the `appliance-plugin` plugin, which implements a high-performance whiteboard drawing tool and supports use in multi-window mode. After installing `@netless/appliance-plugin`, you can enable this plugin by using the `FastboardOptions.enableAppliancePlugin` or `managerConfig.supportAppliancePlugin` configuration item. In addition, when turning on appliance plugin, Fastboard UI adds a `laserPen` tool. For more information, see [`appliance-plugin`](https://github.com/netless-io/fastboard/blob/main/docs/en/appliance-plugin.md).
 
 <div class="alert note">
 `@netless/appliance-plugin` is a required external dependency and is not included in the full package. You need to install it separately.
