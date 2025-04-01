@@ -20,7 +20,7 @@ The `FastboardApp` instance when the method call succeeds.
 
 ## createUI
 
-```
+```typescript
 createUI(app?: FastboardApp | null, div?: Element): UI;
 ```
 
@@ -37,7 +37,7 @@ The `UI` component. See [`UI`](#ui).
 
 ## createReplayUI
 
-```
+```typescript
 createReplayUI(player?: FastboardPlayer | null, div?: Element): ReplayUI;
 ```
 
@@ -51,6 +51,16 @@ Creates a set of built-in UI components that enables replay mode.
 **Returns**
 
 The `ReplayUI` component. See [`ReplayUI`](#replayui).
+
+### canOperate
+
+```typescript
+get canOperate(): boolean 
+```
+
+Gets whether the room is operable.
+
+Checks if the current room is in interactive mode (`writable`) and the room connection state is connected (`connected`).
 
 ## mount
 
@@ -293,32 +303,15 @@ Inserts and plays audio and video in the whiteboard sub-window.
 
 The identifier of the extension when the method call succeeds.
 
-### insertDocs [1/3]
+### insertDocs [1/2]
 
 ```typescript
-insertDocs(title: string, response: ConversionResponse): Promise<string | undefined>;
+insertDocs(title: string, response: ProjectorResponse): Promise<string | undefined>;
 ```
 
-Inserts and displays a document in the whiteboard sub-window. This methods applies to the [old file conversion service](file-conversion-overview-deprecated).
+Since v0.3.8.
 
-After successfully launching a file conversion task and calling the [Query file conversion progress API](whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task) to get the file conversion result, you can call this method and pass in the obtained file conversion result. After a successful call, the SDK automatically creates a sub-window to insert and display the converted document per page.
-
-**Parameters**
-
-- `title`: The title of the sub-window.
-- `response`: The response body returned when the call of the [Query file conversion progress API](whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task) succeeds.
-
-**Returns**
-
-The identifier of the extension identifier when the method call succeeds.
-
-### insertDocs [2/3]
-
-```typescript
-insertDocs(filename: string, response: ProjectorResponse): Promise<string | undefined>;
-```
-
-Inserts and displays a document in the whiteboard sub-window. This methods applies to the [new file conversion service](../develop/file-conversion-overview).
+Inserts and displays a document in the whiteboard sub-window. This method applies to the [new file conversion service](../develop/file-conversion-overview).
 
 After successfully launching a file conversion task and calling the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task) to get the file conversion result, you can call this method and pass in the obtained file conversion result. After a successful call, the SDK automatically creates a sub-window to insert and display the converted document per page.
 
@@ -329,13 +322,12 @@ After successfully launching a file conversion task and calling the [Query file 
 
 **Returns**
 
-The identifier of the extension identifier when the method call succeeds.
+The identifier of the extension when the method call succeeds.
 
-
-### insertDocs [3/3]
+### insertDocs [2/2]
 
 ```typescript
-insertDocs(params: InsertDocsStatic | InsertDocsDynamic): Promise<string | undefined>;
+insertDocs(params: InsertDocsParams): Promise<string | undefined>;
 ```
 
 Inserts and displays a document in the whiteboard sub-window.
@@ -343,7 +335,7 @@ Inserts and displays a document in the whiteboard sub-window.
 After successfully [launching a file conversion task](/interactive-whiteboard/reference/whiteboard-api/file-conversion#start-file-conversion), you can call this method and pass in the parameters of the converted file. After a successful call, the SDK automatically creates a sub-window to insert and display the converted file per page.
 
 **Note**
- Compared with `insertDocs [1/3]` and `insertDocs [2/3]`, `insertDocs [3/3]` requires passing in parameters manually instead of the response body acquired by calling the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task).
+Compared with `insertDocs [1/2]`, `insertDocs [2/2]` requires passing in parameters manually instead of the response body acquired by calling the [Query file conversion progress API](/interactive-whiteboard/reference/whiteboard-api/file-conversion#query-the-progress-of-a-file-conversion-task).
 
 **Parameters**
 
@@ -548,6 +540,7 @@ This method deletes all buttons in the extension center, but does not delete the
     - Build a token generator at your app server. See [Generate a Token at App Server](/interactive-whiteboard/develop/generate-token-app-server).
 - `managerConfig`: (Optional) Object. Configuration options for [WindowManager](https://github.com/netless-io/window-manager/blob/master/docs/api.md#mount).
 - `netlessApps`: (Optional) Object. Built-in Fastboard official apps or custom Fastboard apps. See [netless-app](https://github.com/netless-io/netless-app) for details about Fastboard official apps, and see [develop-apps](https://github.com/netless-io/window-manager/blob/master/docs/develop-app.md) for information on developing custom Fastboard apps.
+- `enableAppliancePlugin`: (Optional) Enable the `appliance-plugin` plugin. See [`AppliancePluginOptions`](https://github.com/netless-io/fastboard/blob/main/docs/zh/appliance-plugin.md).
 
 ### ReplayUI
 
@@ -651,6 +644,41 @@ Configurations for the whiteboard UI components.
   - `enable`: (Optional) Whether to display the page control on the Whiteboard UI:
     - `true`: (Default) Display.
     - `false`: (Default) Do not display.
+
+### ToolbarConfig
+
+```typescript
+export interface ToolbarConfig {
+  placement?: "left" | "right";
+  items?: ToolbarItem[];
+  collapsed?: boolean;
+  apps?: { enable?: boolean };
+  colors?: Color[];
+}
+```
+
+`ToolbarConfig` contains the following properties:
+- `placement`: (Optional) String. The position of the toolbar:
+  - `left`: (Default) Left side.
+  - `right`: Right side.
+- `items`: (Optional) String[]. The tool buttons displayed on the toolbar. By default, all tools are displayed. The supported values are:
+  - `clicker`: Click tool.
+  - `selector`: Selection tool.
+  - `pencil`: Pencil tool.
+  - `text`: Text tool.
+  - `shapes`: Shape tool.
+  - `eraser`: Eraser tool.
+  - `clear`: Clear tool.
+  - `hand`: Hand tool.
+  - `laserPointer`: Laser pointer tool.
+- `collapsed`: (Optional) Boolean. Whether the toolbar is collapsed:
+  - `true`: Collapsed.
+  - `false`: (Default) Not collapsed.
+- `apps`: (Optional) Object. Extension center:
+  - `enable`: (Optional) Whether to display the extension center button on the toolbar:
+    - `true`: (Default) Display.
+    - `false`: Do not display.
+- `colors`: (Optional) Color[]. The colors of UI components. See [`Color`](#color).
 
 <a name="camera"></a>
 ### Camera
