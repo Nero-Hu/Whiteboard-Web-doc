@@ -7,6 +7,19 @@ import VersionSection, { VersionTitle, ListTitle } from '@app/mdxComponents/Vers
 
 本文提供声网互动白板 Web SDK 的发版说明。
 
+<VersionSection version="2.16.53 版">
+
+该版本于 2025 年 4 月 3 日发布。
+
+<VersionTitle icon="/img/icons/version-improve.png">优化</VersionTitle>
+
+该版本进行了以下优化：
+
+- 基于安全合规考虑，加入白板房间时配置的数据中心地址 (`regions`) 现在按地区区分了国内外节点。
+- 为了避免因上传 `base64` 等格式的图片导致房间内存爆满，该版本起，插入图片的 `src` 路径必须为  `http/https` 开头的 URL 路径。
+
+</VersionSection>
+
 <VersionSection version="2.16.51 版">
 
 该版本于 2024 年 5 月 21 日发布。
